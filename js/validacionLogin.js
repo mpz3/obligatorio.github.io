@@ -1,5 +1,5 @@
-document.querySelector("#btnRegistro").addEventListener("click", registroValidacion);
-document.querySelector("#btnLogin").addEventListener("click", loginValidacion);
+document.querySelector("#btnRegistro").addEventListener("click", registroUI);
+document.querySelector("#btnLogin").addEventListener("click", loginUI);
 document.querySelector("#ingresoDesdeRegistro").addEventListener("click", muestroLogin);
 document.querySelector("#ingresoDesdeLogin").addEventListener("click", muestroRegistro);
 let importadores = new Array();
@@ -29,53 +29,110 @@ function buscarImportador(user, pass) {
     }
     return encontrado;
 }
-function loginValidacion() {
+function loginUI() {
     let user = document.querySelector("#txtloginUser").value;
     let pass = document.querySelector("#txtloginPass").value;
-    if (user === '') document.querySelector("#errorUserLogin").classList.remove("ocultar");
-    if (pass === '') document.querySelector("#errorPassLogin").classList.remove("ocultar");
-    if (buscarImportador(user, pass)) {
+    let error = false;
+    if (user === '') {
+        document.querySelector("#errorUsuarioLogin").classList.remove("ocultar");
+        document.querySelector("#errorUsuarioLogin").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    }else{
+        document.querySelector("#errorUsuarioLogin").classList.add("ocultar");
+    }
+    if (pass === '') {
+        document.querySelector("#errorPassLogin").classList.remove("ocultar");
+        document.querySelector("#errorPassLogin").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    }else{
+        document.querySelector("#errorPassLogin").classList.add("ocultar");
+    }
+    if (!error && buscarImportador(user, pass)) {
         document.querySelector("#contenedor").style.display = "block";
         document.querySelector("#contenedorLogin").style.display = "none";
+    }else{
+        document.querySelector("#errorUsuario").classList.remove("ocultar");
+        document.querySelector("#errorUsuario").innerHTML = `Datos invalidos`;
     }
 }
-function registroValidacion() {
+function validarContrasena(passw) {
+    let i = 0;
+    let mayusEncontrada = false;
+    let minusEncontrada = false;
+    let numEncontrado = false;
+    while (i < passw.length || !mayusEncontrada && !minusEncontrada && !numEncontrado) {
+        if (isNaN(passw.charAt(i))) {
+            if (passw.charAt(i) === passw.charAt(i).toLowerCase()) {
+                minusEncontrada = true;
+            } else if (passw.charAt(i) === passw.charAt(i).toUpperCase()) {
+                mayusEncontrada = true;
+            }
+        } else {
+            numEncontrado = true;
+        }
+        i++;
+    }
+    if (mayusEncontrada && minusEncontrada && numEncontrado) {
+        return true;
+    }
+    return false;
+}
+
+function registroUI() {
     let name = document.querySelector("#txtNombre").value;
     let foto = document.querySelector("#txtFoto").value;
     let usuario = document.querySelector("#txtUser").value;
     let pass = document.querySelector("#txtPass").value;
     let error = false;
-    if (name === '') {
-        error = true
-        document.querySelector("#errorName").classList.remove("ocultar");
-    }
-    if (foto === '') {
+    if (name === "") {
+        document.querySelector("#errorPname").classList.remove("ocultar");
+        document.querySelector("#errorPname").innerHTML = `Campo Obligatorio (*)`;
         error = true;
-        document.querySelector("#errorPerfil").classList.remove("ocultar");
+    } else {
+        document.querySelector("#errorPname").classList.add("ocultar");
     }
-    if (usuario === '') {
+    if (foto === "") {
+        document.querySelector("#errorPfoto").classList.remove("ocultar");
+        document.querySelector("#errorPfoto").innerHTML = `Campo Obligatorio (*)`;
         error = true;
-        document.querySelector("#errorUser").classList.remove("ocultar");
+    } else {
+        document.querySelector("#errorPfoto").classList.add("ocultar");
     }
-    if (pass === '' || pass.length < 5) {
+    if (usuario === "") {
+        document.querySelector("#errorPusuario").classList.remove("ocultar");
+        document.querySelector("#errorPusuario").innerHTML = `Campo Obligatorio (*)`;
         error = true;
-        document.querySelector("#errorPass").classList.remove("ocultar");
+    } else {
+        document.querySelector("#errorPusuario").classList.add("ocultar");
     }
+
+    if (pass === "") {
+        document.querySelector("#errorPpass").classList.remove("ocultar");
+        document.querySelector("#errorPpass").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    } else if (!validarContrasena(pass)) {
+        document.querySelector("#errorPpass").classList.remove("ocultar");
+        document.querySelector("#errorPpass").innerHTML = `(?) Debe de contar con al menos una minuscula, mayuscula y un numero`;
+        error = true;
+    } else {
+        document.querySelector("#errorPpass").classList.add("ocultar");
+    }
+
     if (!error) {
         let i = 0;
-        let encontrado = false;
-        while (!encontrado && i < importadores.length) {
-            if (importadores[i].user.toLowerCase() === usuario.toLowerCase()) {
-                encontrado = true;
+        let userEncontrado = false;
+        while (!userEncontrado && i < importadores.length) {
+            if (importadores[i].user.toLowerCase() === usuario.toLowerCase()) {//valido que no se repita el user con otro
+                userEncontrado = true;
             }
             i++
         }
-        if (!encontrado) {
+        if (!userEncontrado) {
             nuevoRegistro(name, foto, usuario, pass);
             muestroLogin();
         } else {
-            document.querySelector("#errorUser").classList.remove("ocultar");
-            document.querySelector("#errorUser").innerHTML = `Usuario ya en uso`;
+            document.querySelector("#errorPusuario").classList.remove("ocultar");
+            document.querySelector("#errorPusuario").innerHTML = `Usuario ya en uso`;
         }
     }
 }
