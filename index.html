@@ -11,7 +11,7 @@
 
 <body style="background-color: #9e9e9e26;">
   <div id="contenedorLogin">
-    <div id="login" class="ocultar">
+    <div id="login" >
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario">
       <p id="errorUserLogin" class="errorObligatorio ocultar">Campo obligatorio (*)</p>
@@ -24,7 +24,7 @@
       <input id="btnLogin" class="ingresoRegistro" type="button" value="Ingresar">
       <p class="textos">No tienes una cuenta?<br><strong id="ingresoDesdeLogin">Registrate aqui</strong></p>
     </div>
-    <div id="registro">
+    <div id="registro" class="ocultar">
       <h2 class="textos">Regristro</h2>
       <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre">
       <p id="errorName" class="errorObligatorio ocultar">Campo obligatorio (*)</p>
@@ -222,7 +222,8 @@
       <br />
     </div>
   </div>
-  <script type="text/javascript" src="js/codigo.js"> </script>
+  <script type="text/javascript" src="js/class.js"> </script>
+  <script type="text/javascript" src="js/validacionLogin.js"> </script>
 </body>
 
 </html>
