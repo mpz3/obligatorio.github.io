@@ -10,47 +10,47 @@
 </head>
 
 <body style="background-color: #9e9e9e26">
-  <div id="contenedorLogin" class="ocultar">
+  <div id="contenedorLogin" >
     <div id="login">
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
-      <p id="errorUsuarioLogin" class="errorObligatorio ocultar">
+      <p id="errorUsuarioLogin" class="errorObligatorio">
       </p>
       <div class="clear10px"></div>
       <br />
       <input id="txtloginPass" type="password" class="txtInput" placeholder="Ingrese Contraseña" />
-      <p id="errorPassLogin" class="errorObligatorio ocultar">
+      <p id="errorPassLogin" class="errorObligatorio">
       </p>
       <br>
-      <p id="errorUsuario" style="text-align: center;" class="errorObligatorio ocultar"></p>
+      <p id="errorUsuario" style="text-align: center;" class="errorObligatorio"></p>
       <input id="btnLogin" class="ingresoRegistro" type="button" value="Ingresar" />
       <p class="textos">
-        No tienes una cuenta?<br /><strong id="ingresoDesdeLogin">Registrate aqui</strong>
+        No tienes una cuenta?<br /><strong id="pRegistrateAqui">Registrate aqui</strong>
       </p>
     </div>
     <!--login-->
-    <div id="registro" class="ocultar">
+    <div id="registro" style="display:none">
       <h2 class="textos">Regristro</h2>
       <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre" />
-      <p id="errorPname" class="errorObligatorio ocultar">
+      <p id="errorPname" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
       <br />
       <input class="txtInput" id="txtFoto" type="text" placeholder="Foto de perfil" />
-      <p id="errorPfoto" class="errorObligatorio ocultar">
+      <p id="errorPfoto" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
       <br />
       <input class="txtInput" id="txtUser" type="text" placeholder="Ingrese Usuario" />
-      <p id="errorPusuario" class="errorObligatorio ocultar">
+      <p id="errorPusuario" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
       <br />
       <input type="password" id="txtPass" class="txtInput" placeholder="Ingrese Contraseña" />
-      <p id="errorPpass" class="errorObligatorio ocultar">
+      <p id="errorPpass" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
@@ -64,7 +64,7 @@
     <!--registro-->
   </div>
   <!--contenedor login-->
-  <div id="contenedor">
+  <div id="contenedor" style="display:none">
     <div id="cabezal" class="clearfix">
       <ul id="navPrincipal">
         <li>
@@ -110,7 +110,7 @@
         <div id="pBuscarPendientes"></div>
       </div>
     </div>
-    <div id="divEmpresa" class="ocultar" >
+    <div id="divEmpresa"  >
       <h2>Nuevo Viaje</h2>
       <label> Nombre del buque</label>
       <input type="text" /> <br />
