@@ -3,6 +3,7 @@ document.querySelector("#btnLogin").addEventListener("click", loginUI);
 document.querySelector("#ingresoDesdeRegistro").addEventListener("click", muestroLogin);
 document.querySelector("#ingresoDesdeLogin").addEventListener("click", muestroRegistro);
 document.querySelector("#btnIngresarMercaderia").addEventListener("click", btnUIMercaderia);
+document.querySelector("#btnBuscarPendientes").addEventListener("click", buscarPendientesUI);
 let importadores = new Array();
 let solicitudesDeCarga = new Array();
 inicio();
@@ -117,4 +118,8 @@ function btnUIMercaderia() {
     } else {
         document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Ingrese datos validos`;
     }
+}
+function buscarPendientesUI(){
+    let buscar = document.querySelector("#txtBuscarPendientes").value;
+    busquedaSolicitudes(buscar);
 }

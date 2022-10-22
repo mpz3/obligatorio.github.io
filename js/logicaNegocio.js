@@ -43,14 +43,14 @@ function validarContrasena(passw) {
     return false;
 }
 function validarDatosMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa) {
-    if (pdesc === "" || ptipo === "" || ppuerto === "" || pcantContenedores === "" || !isNaN(pcantContenedores) || pidEmpresa === "" || !isNaN(pidEmpresa)) {
+    if (pdesc === "" || ptipo === "" || ppuerto === "" || pcantContenedores === "" || isNaN(pcantContenedores) || pidEmpresa === "" || isNaN(pidEmpresa)) {
         return false;
     }
     return true;
 }
 function ingresarMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa) {
     let nuevaSolicitud = new SolicitudCarga();
-    nuevaSolicitud.id = 4;
+    nuevaSolicitud.id = 4; //todo incrementar id
     nuevaSolicitud.estado = "Pendiente";
     nuevaSolicitud.descripcion = pdesc;
     nuevaSolicitud.tipo = ptipo;
@@ -58,4 +58,15 @@ function ingresarMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa
     nuevaSolicitud.cantidadContenedores = pcantContenedores;
     nuevaSolicitud.idEmpresa = pidEmpresa;
     solicitudesDeCarga.push(nuevaSolicitud);
+}
+
+function busquedaSolicitudes(busqueda) {
+    let tabla = `<table border="1"><tr><th>ID</th><th>Descripcion</th></tr>`;
+    for (let i = 0; i < solicitudesDeCarga.length; i++) {
+        if (solicitudesDeCarga[i].id === Number(busqueda) || solicitudesDeCarga[i].descripcion.toLowerCase() === busqueda.toLowerCase()) {
+            tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].descripcion}</td></tr>`;
+        }
+    }
+    tabla += `</table>`;
+    document.querySelector("#pBuscarPendientes").innerHTML = tabla;
 }
