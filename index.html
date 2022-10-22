@@ -10,7 +10,7 @@
 </head>
 
 <body style="background-color: #9e9e9e26">
-  <div id="contenedorLogin">
+  <div id="contenedorLogin" class="ocultar">
     <div id="login">
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
@@ -28,6 +28,7 @@
         No tienes una cuenta?<br /><strong id="ingresoDesdeLogin">Registrate aqui</strong>
       </p>
     </div>
+    <!--login-->
     <div id="registro" class="ocultar">
       <h2 class="textos">Regristro</h2>
       <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre" />
@@ -60,8 +61,10 @@
         <strong id="ingresoDesdeRegistro">aquí</strong>
       </p>
     </div>
+    <!--registro-->
   </div>
-  <div id="contenedor" style="display: none">
+  <!--contenedor login-->
+  <div id="contenedor">
     <div id="cabezal" class="clearfix">
       <ul id="navPrincipal">
         <li>
@@ -80,8 +83,27 @@
       <div id="aux"><a>Menú alt. 1</a> | <a>Menú alt. 2</a></div>
       <!-- FIN AUX -->
     </div>
-    <!-- FIN CABEZAL -->
-    <div id="divEmpresa">
+    <!--cabezal-->
+    <div id="divImportador" >
+      <div id="divSolicitudDeCarga">
+        <h2>Crear una nueva solicitud de carga</h2>
+        <textarea id="txtDescrip" style="width: 395px;height: 50px;" placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
+        <label>Seleeciona tipo de carga</label>
+        <select id="txtTipoCarga">
+          <option value="">Seleccione</option>
+          <option value="oGeneral">General</option>
+          <option value="oRefrigerado">Refrigerado</option>
+          <option value="oPeligrosa">Carga peligrosa</option>
+        </select><br><br>
+        <label>Ingrese puerto de origen</label><input id="txtPuerto" type="text"><br><br>
+        <label>Ingrese cantidad de contenedores</label><input id="txtCantContenedores" type="text"><br><br>
+        <label>Ingrese id de la empresa</label><input id="txtIdEmpresa" type="text"><br><br>
+        <input id="btnIngresarMercaderia" type="button" value="Ingresar mercaderia"><br><br>
+        <!--generar id autoincremental-->
+        <p id="pIDGeneradoMercaderia"></p>
+      </div>
+    </div>
+    <div id="divEmpresa" class="ocultar" >
       <h2>Nuevo Viaje</h2>
       <label> Nombre del buque</label>
       <input type="text" /> <br />
@@ -235,8 +257,10 @@
       <br />
     </div>
   </div>
-  <script type="text/javascript" src="js/class.js"></script>
-  <script type="text/javascript" src="js/validacionLogin.js"></script>
+  <!--contenedor-->
+  <script type="text/javascript" src="js/objetos.js"></script>
+  <script type="text/javascript" src="js/logicaNegocio.js"></script>
+  <script type="text/javascript" src="js/funciones.js"></script>
 </body>
 
 </html>
