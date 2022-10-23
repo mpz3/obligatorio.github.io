@@ -1,12 +1,3 @@
-function registrateAqui() {
-    document.querySelector("#login").style.display = "none";
-    document.querySelector("#registro").style.display = "block";
-}
-function muestroLogin() {
-    document.querySelector("#login").style.display = "block";
-    document.querySelector("#registro").style.display = "none";
-}
-
 function nuevoRegistro(nombre, foto, usuario, pass) {
     let user = new UsuarioImportador();
     user.nombre = nombre;
@@ -18,7 +9,6 @@ function nuevoRegistro(nombre, foto, usuario, pass) {
 
 function buscarImportador(user, pass) {
     let i = 0;
-    console.log("entroIm");
     let encontrado = false;
     user = user.toLowerCase();
     while (!encontrado && i < importadores.length) {
@@ -27,7 +17,6 @@ function buscarImportador(user, pass) {
         }
         i++
     }
-    console.log("entro" + encontrado);
     return encontrado;
 }
 
@@ -85,7 +74,7 @@ function validarDatosMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmp
 
         if (pidEmpresa === "" || isNaN(pidEmpresa)) document.querySelector("#txtIdEmpresa").style.borderColor = "red";
         else document.querySelector("#txtIdEmpresa").style.borderColor = "black";
-        
+
         return false;
     }
     return true;
@@ -107,10 +96,10 @@ function ingresarMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa
 
 
 function busquedaSolicitudesPendientes(busqueda) {
-    let tabla = `<table border="1"><tr><th>ID</th><th>Descripcion</th></tr>`;
+    let tabla = `<table border="1" style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
     for (let i = 0; i < solicitudesDeCarga.length; i++) {
         if (solicitudesDeCarga[i].id === Number(busqueda) || solicitudesDeCarga[i].descripcion.toLowerCase() === busqueda.toLowerCase()) {
-            tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].descripcion}</td></tr>`;
+            tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].estado}</td><td>${solicitudesDeCarga[i].descripcion}</td><td>${solicitudesDeCarga[i].tipo}</td><td>${solicitudesDeCarga[i].puerto}</td><td>${solicitudesDeCarga[i].cantidadContenedores}</td><td>${solicitudesDeCarga[i].idEmpresa}</td></tr>`;
         }
     }
     tabla += `</table>`;

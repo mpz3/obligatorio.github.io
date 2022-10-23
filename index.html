@@ -36,7 +36,7 @@
       </p>
       <div class="clear10px"></div>
       <br />
-      <label>Subir foto de perfil</label><input class="txtInput" id="txtFoto" type="file" />
+      <label>Subir foto de perfil </label><input class="txtInput" id="txtFoto" type="file" />
       <p id="errorPfoto" class="errorObligatorio">
 
       </p>
@@ -65,82 +65,76 @@
   <div id="contenedor">
     <div id="cabezal" class="clearfix">
       <ul id="navPrincipal">
-        <li>
+        <li id="liNuevaSolicitud">
           <a>Nueva Solicitud</a>
         </li>
-        <li>
+        <li id="liConsultarSolictudes">
           <a>Consultar Solictudes</a>
         </li>
-        <li>
+        <li id="liCancelarSolicitud">
           <a>Cancelar Solicitud</a>
         </li>
-        <li>
+        <li id="liEstadistica">
           <a>Estadistica</a>
         </li>
-        <li>
-          <a>Solicitudes</a>
-        </li>
       </ul>
-      <div id="aux"><a>Menú alt. 1</a> | <a>Menú alt. 2</a></div>
+      <div id="aux"><a>Cerrar Sesion</a></div>
       <!-- FIN AUX -->
     </div>
     <!--cabezal-->
     <div id="divImportador">
       <div id="divSolicitudDeCarga">
         <h2>Crear una nueva solicitud de carga</h2>
-        <textarea id="txtDescrip" style="width: 395px;height: 50px;" placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
-        <label>Seleeciona tipo de carga</label>
+        <textarea id="txtDescrip" style="width: 395px;height: 50px;"
+          placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
+        <label>Seleeciona tipo de carga </label>
         <select id="txtTipoCarga">
           <option value="">Seleccione</option>
-          <option value="oGeneral">General</option>
-          <option value="oRefrigerado">Refrigerado</option>
-          <option value="oPeligrosa">Carga peligrosa</option>
+          <option value="General">General</option>
+          <option value="Refrigerado">Refrigerado</option>
+          <option value="Peligrosa">Carga peligrosa</option>
         </select><br><br>
-        <label>Ingrese puerto de origen</label><input id="txtPuerto" type="text"><br><br>
-        <label>Ingrese cantidad de contenedores</label><input id="txtCantContenedores" type="number"><br><br>
-        <label>Ingrese id de la empresa</label><input id="txtIdEmpresa" type="number"><br><br>
+        <label>Ingrese puerto de origen </label><input id="txtPuerto" type="text"><br><br>
+        <label>Ingrese cantidad de contenedores </label><input id="txtCantContenedores" type="number"><br><br>
+        <label>Ingrese id de la empresa </label><input id="txtIdEmpresa" type="number"><br><br>
         <input id="btnIngresarMercaderia" type="button" value="Ingresar mercaderia"><br><br>
         <p id="pIDGeneradoMercaderia"></p>
+        <br><br>
       </div>
-      <br><br>
-      <div id="divConsultarPendientes">
-        <h2>Consultar sus solicitudes pendientes</h2>
-        <label>Ingrese id o descripcion</label><input id="txtBuscarPendientes" type="text"><br><br>
+
+      <div id="divConsultarPendientes" style="display:none;">
+        <br><br>
+        <label>Ingrese id o descripcion </label><input id="txtBuscarPendientes" type="text"><br><br>
         <input id="btnBuscarPendientes" type="button" value="BUSCAR"><br><br>
         <div id="pBuscarPendientes"></div><br>
-        <input id="btnTotalPendientes" type="button" value="Actualizar total pendientes"><br><br>
+        <h2>Sus solicitudes pendientes</h2>
         <div id="pTotalPendientes"></div>
+        <br><br>
       </div>
-      <br><br>
-      <div id="divCancelarSolicitudDeCarga">
+      <div id="divCancelarSolicitudDeCarga" style="display:none;">
         <h2> Cancelar solicitud de carga</h2>
-        <div>
-          <label>Ingrese id de la solicitud a cancelar </label><input id="txtCancelarSolicitud" type="text" ><br><br>
-          <input id="btnCancelarSolicitud" type="button" value="Cancelar Solicitud"><br><br>
-          <p id="pCancelarSoli"></p>
-        </div>
+        <label>Ingrese id de la solicitud a cancelar </label><input id="txtCancelarSolicitud" type="text"><br><br>
+        <input id="btnCancelarSolicitud" type="button" value="Cancelar Solicitud"><br><br>
+        <p id="pCancelarSoli"></p>
+        <br><br>
       </div>
-      <br><br>
-      <div id="divInformacionEstadistica">
+
+      <div id="divInformacionEstadistica" style="display:none;">
         <h2>Informacion estadistica</h2>
-        <div id="divPorceCancelaciones"></div>
-        <div id="divTotalCarga"></div>
-        <div id="divProxLlegadas"></div>
-        <h2> Solicitudes solicitadas</h2>
-        <!--tabla va a ser generada por nosotros desde JS-->
+        <P id="divPorceCancelaciones"></p>
+        <p id="divTotalCarga"></p>
+        <p id="divProxLlegadas"></p>
       </div>
     </div>
-
-
     <div id="divEmpresa" style="display:none">
       <h2>Nuevo Viaje</h2>
-      <label> Nombre del buque</label>
+      <label> Nombre del buque </label>
       <input type="text" /> <br />
-      <!-- esto ya no va si precargamos la cantidad de cada buque <label> Cantidad maxima de contenedores</label>
+      <!-- esto ya no va si precargamos la cantidad de cada buque <label> Cantidad maxima de contenedores </label>
       <input type="text" /> <br/>-->
-      <!--<label> Empresa transportadora(ID)</label>
+      <!--<label> Empresa transportadora(ID) </label>
       <input type="text" /> <br/> Comento esto porque si tenemos una lista de buques tambien podemos asociar la empresa a la cual pertenece-->
-      <label> Fecha de llegada</label>
+      <label> Fecha de llegada </label>
       <input type="date" /> <br />
       <div id="divMostrarAutomatico"></div>
 
@@ -201,7 +195,7 @@
         <option value="">4</option>-->
       </select>
       <br />
-      <table border="2px">
+      <table border="2">
         <tr>
           <td><strong>Importador</strong></td>
           <td><strong>Contenedores</strong></td>
