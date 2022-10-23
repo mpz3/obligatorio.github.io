@@ -18,3 +18,12 @@ class SolicitudCarga{
         this.idEmpresa = -1;
     }
 }
+
+class Buques {
+    constructor() {
+      this.nombreBuque = "";
+      this.cargaMaxima = "";
+      this.fechaLlegada = "";
+      //aca luego tendremos que asociar el nombre de la empresa dueña del buque
+    }
+  }

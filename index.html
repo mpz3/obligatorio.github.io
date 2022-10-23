@@ -10,14 +10,14 @@
 </head>
 
 <body style="background-color: #9e9e9e26">
-  <div id="contenedorLogin" >
+  <div id="contenedorLogin">
     <div id="login">
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
       <p id="errorUsuarioLogin" class="errorObligatorio">
       </p>
       <div class="clear10px"></div>
-      <br />
+      <br/>
       <input id="txtloginPass" type="password" class="txtInput" placeholder="Ingrese Contraseña" />
       <p id="errorPassLogin" class="errorObligatorio">
       </p>
@@ -25,7 +25,7 @@
       <p id="errorUsuario" style="text-align: center;" class="errorObligatorio"></p>
       <input id="btnLogin" class="ingresoRegistro" type="button" value="Ingresar" />
       <p class="textos">
-        No tienes una cuenta?<br /><strong id="pRegistrateAqui">Registrate aqui</strong>
+        No tienes una cuenta?<br/><strong id="pRegistrateAqui">Registrate aqui</strong>
       </p>
     </div>
     <!--login-->
@@ -36,28 +36,28 @@
 
       </p>
       <div class="clear10px"></div>
-      <br />
+      <br/>
       <input class="txtInput" id="txtFoto" type="text" placeholder="Foto de perfil" />
       <p id="errorPfoto" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
-      <br />
+      <br/>
       <input class="txtInput" id="txtUser" type="text" placeholder="Ingrese Usuario" />
       <p id="errorPusuario" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
-      <br />
+      <br/>
       <input type="password" id="txtPass" class="txtInput" placeholder="Ingrese Contraseña" />
       <p id="errorPpass" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
-      <br />
+      <br/>
       <input id="btnRegistro" class="ingresoRegistro" type="button" value="Registrarse" />
       <p class="textos">
-        ¿Ya tienes una cuenta?<br />Ingresa
+        ¿Ya tienes una cuenta?<br/>Ingresa
         <strong id="ingresoDesdeRegistro">aquí</strong>
       </p>
     </div>
@@ -84,10 +84,11 @@
       <!-- FIN AUX -->
     </div>
     <!--cabezal-->
-    <div id="divImportador" >
+    <div id="divImportador">
       <div id="divSolicitudDeCarga">
         <h2>Crear una nueva solicitud de carga</h2>
-        <textarea id="txtDescrip" style="width: 395px;height: 50px;" placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
+        <textarea id="txtDescrip" style="width: 395px;height: 50px;"
+          placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
         <label>Seleeciona tipo de carga</label>
         <select id="txtTipoCarga">
           <option value="">Seleccione</option>
@@ -109,75 +110,92 @@
         <input id="btnBuscarPendientes" type="button" value="BUSCAR"><br><br>
         <div id="pBuscarPendientes"></div>
       </div>
+      <br><br>
+      <div id="divCancelarSolicitudDeCarga">
+        <h2> Cancelar solicitud de carga</h2>
+          <div>
+            <!--tabla va a ser generada por nosotros desde js-->
+          </div>
+      </div>
+      <br><br>
+      <div id="divInformacionEstadistica">
+        <h2>Informacion estadistica</h2>
+        <div id="divPorceCancelaciones"></div>
+        <div id="divTotalCarga"></div>
+        <div id="divProxLlegadas"></div>
+        <h2> Solicitudes solicitadas</h2>
+        <!--tabla va a ser generada por nosotros desde JS-->
+      </div>
     </div>
-    <div id="divEmpresa"  >
+    <div id="divEmpresa">
       <h2>Nuevo Viaje</h2>
       <label> Nombre del buque</label>
-      <input type="text" /> <br />
-      <label> Cantidad maxima de contenedores</label>
-      <input type="text" /> <br />
-      <label> Empresa transportadora(ID)</label>
-      <input type="text" /> <br />
+      <input type="text" /> <br/>
+      <!-- esto ya no va si precargamos la cantidad de cada buque <label> Cantidad maxima de contenedores</label>
+      <input type="text" /> <br/>-->
+      <!--<label> Empresa transportadora(ID)</label>
+      <input type="text" /> <br/> Comento esto porque si tenemos una lista de buques tambien podemos asociar la empresa a la cual pertenece-->
       <label> Fecha de llegada</label>
-      <input type="text" /> <br />
-      <p>+id automatico+</p>
+      <input type="date" /> <br/>
+      <div id="divMostrarAutomatico"></div>
 
       <h2>Asignar carga pendiente</h2>
       <label> Cargas pendientes </label>
-      <select name="" id="">
-        <option value="">1</option>
+      <select name="" id="selCargasPendientes">
+        <!--<option value="">1</option>
         <option value="">2</option>
         <option value="">3</option>
-        <option value="">4</option>
+        <option value="">4</option>-->
       </select>
-      <br />
+      <br/>
       <label> Viajes proximos: </label>
-      <select name="" id="">
-        <option value="">1</option>
+      <select name="" id="selProximosViajes">
+        <!--<option value="">1</option>
         <option value="">2</option>
         <option value="">3</option>
-        <option value="">4</option>
+        <option value="">4</option>-->
       </select>
-      <br />
+      <br/>
       <label> Fechas de llegada a puerto: </label>
-      <select name="" id="">
+      <select name="" id="selFechaLlegada">
+        <!--<option value="">dd/mm/aaaa</option>
         <option value="">dd/mm/aaaa</option>
         <option value="">dd/mm/aaaa</option>
-        <option value="">dd/mm/aaaa</option>
-        <option value="">dd/mm/aaaa</option>
+        <option value="">dd/mm/aaaa</option>-->
       </select>
-      <br />
+      <br/>
       <input type="button" value="confirmar" />
       <p>+ Solicitud de carga +</p>
 
       <h2>Rollover de carga</h2>
       <label> Solicitudes de cargas confirmadas: </label>
-      <select name="" id="">
+      <select name="" id="selRollover">
+        <!--<option value="">ID solicitud de carga</option>
         <option value="">ID solicitud de carga</option>
         <option value="">ID solicitud de carga</option>
-        <option value="">ID solicitud de carga</option>
-        <option value="">ID solicitud de carga</option>
-      </select><br />
+        <option value="">ID solicitud de carga</option>-->
+      </select>
+      <br/>
       <label> Viajes proximos: </label>
-      <select name="" id="">
-        <option value="">1</option>
+      <select name="" id="selProximosViajesRollover">
+        <!--<option value="">1</option>
         <option value="">2</option>
         <option value="">3</option>
-        <option value="">4</option>
+        <option value="">4</option>-->
       </select>
-      <br />
+      <br/>
       <input type="button" value="Rollover" />
 
       <h2>Manifiesto de carga</h2>
 
       <label> Linea de carga: </label>
-      <select name="" id="">
-        <option value="">1</option>
+      <select name="" id="selLineaDeCarga">
+        <!--<option value="">1</option>
         <option value="">2</option>
         <option value="">3</option>
-        <option value="">4</option>
+        <option value="">4</option>-->
       </select>
-      <br />
+      <br/>
       <table border="2px">
         <tr>
           <td><strong>Importador</strong></td>
@@ -185,54 +203,50 @@
           <td><strong>Tipo de carga</strong></td>
         </tr>
 
+        <!--<tr>
+          <td>Nombre</td>
+          <td>20</td>
+          <td>carga</td>
+        </tr>
         <tr>
           <td>Nombre</td>
           <td>20</td>
           <td>carga</td>
         </tr>
-
         <tr>
           <td>Nombre</td>
           <td>20</td>
           <td>carga</td>
-        </tr>
-
-        <tr>
-          <td>Nombre</td>
-          <td>20</td>
-          <td>carga</td>
-        </tr>
+        </tr> -->
       </table>
-      <br />
+      <br/>
 
-      <h2 style="color: red">Habilitar Importadores</h2>
+      <h2>Habilitar Importadores</h2>
 
       <table border="2px">
         <tr>
           <td><strong>Importador</strong></td>
           <td><strong>Status</strong></td>
-          <td><strong></strong></td>
+          <td><strong>Accion</strong></td>
         </tr>
 
+        <!--<tr>
+          <td>Nombre</td>
+          <td>Suspendido</td>
+          <td><input type="button" value="Habilitar" /></td>
+        </tr>
         <tr>
           <td>Nombre</td>
           <td>Suspendido</td>
           <td><input type="button" value="Habilitar" /></td>
         </tr>
-
         <tr>
           <td>Nombre</td>
           <td>Suspendido</td>
           <td><input type="button" value="Habilitar" /></td>
-        </tr>
-
-        <tr>
-          <td>Nombre</td>
-          <td>Suspendido</td>
-          <td><input type="button" value="Habilitar" /></td>
-        </tr>
+        </tr>-->
       </table>
-      <br />
+      <br/>
 
       <h2>Listado de carga peligrosa</h2>
 
@@ -243,25 +257,22 @@
           <td><strong> Carga peligrosa: </strong></td>
         </tr>
 
-        <tr>
+        <!--<tr>
           <td>Nombre</td>
           <td>ID linea de carga</td>
           <td>Si</td>
         </tr>
-
         <tr>
           <td>Nombre</td>
           <td>ID linea de carga</td>
           <td>No</td>
         </tr>
-
         <tr>
           <td>Nombre</td>
           <td>ID linea de carga</td>
           <td>No</td>
-        </tr>
-      </table>
-      <br />
+        </tr>-->
+        <br/>
     </div>
   </div>
   <!--contenedor-->
