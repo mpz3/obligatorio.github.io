@@ -77,25 +77,25 @@ function loginUI() {
     let pass = document.querySelector("#txtloginPass").value;
     let error = false;
     if (user === '') {
-        document.querySelector("#errorUsuarioLogin").style.display = "none";
+        document.querySelector("#errorUsuarioLogin").style.display = "block";
         document.querySelector("#errorUsuarioLogin").innerHTML = `Campo Obligatorio (*)`;
         error = true;
     } else {
-        document.querySelector("#errorUsuarioLogin").style.display = "block";
+        document.querySelector("#errorUsuarioLogin").style.display = "none";
     }
     if (pass === '') {
-        document.querySelector("#errorPassLogin").style.display = "none";
+        document.querySelector("#errorPassLogin").style.display = "block";
         document.querySelector("#errorPassLogin").innerHTML = `Campo Obligatorio (*)`;
         error = true;
     } else {
-        document.querySelector("#errorPassLogin").style.display = "block";
+        document.querySelector("#errorPassLogin").style.display = "none";
     }
     if (!error && buscarImportador(user, pass)) {
-        document.querySelector("#contenedor").style.display = "block";
-        document.querySelector("#contenedorLogin").style.display = "none";
-        document.querySelector("#divEmpresa").style.display = "none";
+        document.querySelector("#contenedor").style.display = "none";
+        document.querySelector("#contenedorLogin").style.display = "block";
+        document.querySelector("#divEmpresa").style.display = "block";
     } else {
-        document.querySelector("#errorUsuario").style.display = "none";
+        document.querySelector("#errorUsuario").style.display = "block";
         document.querySelector("#errorUsuario").innerHTML = `Datos invalidos`;
     }
 }
