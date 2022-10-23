@@ -1,5 +1,14 @@
+function registrateAqui() {
+    document.querySelector("#login").style.display = "none";
+    document.querySelector("#registro").style.display = "block";
+}
+function muestroLogin() {
+    document.querySelector("#login").style.display = "block";
+    document.querySelector("#registro").style.display = "none";
+}
+
 function nuevoRegistro(nombre, foto, usuario, pass) {
-    let user = new Usuario();
+    let user = new UsuarioImportador();
     user.nombre = nombre;
     user.foto = foto;
     user.user = usuario;
@@ -9,6 +18,7 @@ function nuevoRegistro(nombre, foto, usuario, pass) {
 
 function buscarImportador(user, pass) {
     let i = 0;
+    console.log("entroIm");
     let encontrado = false;
     user = user.toLowerCase();
     while (!encontrado && i < importadores.length) {
@@ -17,6 +27,7 @@ function buscarImportador(user, pass) {
         }
         i++
     }
+    console.log("entro" + encontrado);
     return encontrado;
 }
 
@@ -42,25 +53,60 @@ function validarContrasena(passw) {
     }
     return false;
 }
+function quitarFakePath(pNombreArchivo) {
+    let nombre = "";
+    let posBarra = -1;
+    let posBuscando = pNombreArchivo.length - 1;
+    while (posBuscando >= 0 && posBarra === -1) {
+        let letraX = pNombreArchivo.charAt(posBuscando);
+        if (letraX === "\\" || letraX === "/") {
+            posBarra = posBuscando;
+        }
+        posBuscando--;
+    }
+    for (let i = posBarra + 1; i < pNombreArchivo.length; i++) {
+        nombre += pNombreArchivo.charAt(i);
+    }
+    return nombre;
+}
 function validarDatosMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa) {
     if (pdesc === "" || ptipo === "" || ppuerto === "" || pcantContenedores === "" || isNaN(pcantContenedores) || pidEmpresa === "" || isNaN(pidEmpresa)) {
+        if (pdesc === "") document.querySelector("#txtDescrip").style.borderColor = "red";
+        else document.querySelector("#txtDescrip").style.borderColor = "black";
+
+        if (ptipo === "") document.querySelector("#txtTipoCarga").style.borderColor = "red";
+        else document.querySelector("#txtTipoCarga").style.borderColor = "black";
+
+        if (ppuerto === "") document.querySelector("#txtPuerto").style.borderColor = "red";
+        else document.querySelector("#txtPuerto").style.borderColor = "black";
+
+        if (pcantContenedores === "" || isNaN(pcantContenedores)) document.querySelector("#txtCantContenedores").style.borderColor = "red";
+        else document.querySelector("#txtCantContenedores").style.borderColor = "black";
+
+        if (pidEmpresa === "" || isNaN(pidEmpresa)) document.querySelector("#txtIdEmpresa").style.borderColor = "red";
+        else document.querySelector("#txtIdEmpresa").style.borderColor = "black";
+        
         return false;
     }
     return true;
 }
 function ingresarMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa) {
     let nuevaSolicitud = new SolicitudCarga();
-    nuevaSolicitud.id = 4; //todo incrementar id
+    nuevaSolicitud.id = SolicitudCarga.idSolicitudCarga;
     nuevaSolicitud.estado = "Pendiente";
     nuevaSolicitud.descripcion = pdesc;
     nuevaSolicitud.tipo = ptipo;
     nuevaSolicitud.puerto = ppuerto;
     nuevaSolicitud.cantidadContenedores = pcantContenedores;
     nuevaSolicitud.idEmpresa = pidEmpresa;
+    nuevaSolicitud.userImportador = userOnline;
     solicitudesDeCarga.push(nuevaSolicitud);
+    SolicitudCarga.idSolicitudCarga++;
+    return SolicitudCarga.idSolicitudCarga - 1;
 }
 
-function busquedaSolicitudes(busqueda) {
+
+function busquedaSolicitudesPendientes(busqueda) {
     let tabla = `<table border="1"><tr><th>ID</th><th>Descripcion</th></tr>`;
     for (let i = 0; i < solicitudesDeCarga.length; i++) {
         if (solicitudesDeCarga[i].id === Number(busqueda) || solicitudesDeCarga[i].descripcion.toLowerCase() === busqueda.toLowerCase()) {

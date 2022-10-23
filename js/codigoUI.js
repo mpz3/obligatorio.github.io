@@ -4,14 +4,17 @@ document.querySelector("#ingresoDesdeRegistro").addEventListener("click", muestr
 document.querySelector("#pRegistrateAqui").addEventListener("click", registrateAqui);
 document.querySelector("#btnIngresarMercaderia").addEventListener("click", btnUIMercaderia);
 document.querySelector("#btnBuscarPendientes").addEventListener("click", buscarPendientesUI);
+document.querySelector("#btnTotalPendientes").addEventListener("click", solicitudesPendientesUI);
+document.querySelector("#btnCancelarSolicitud").addEventListener("click", cancelarSolicitud);
+
 let importadores = new Array();
 let solicitudesDeCarga = new Array();
+let userOnline = "camila";
 inicio();
 function inicio() {
     nuevoRegistro("camila", "camila", "camila", "camila");
     nuevoRegistro("miguel", "miguel", "miguel", "miguel");
 }
-
 function registroUI() {
     let name = document.querySelector("#txtNombre").value;
     let foto = document.querySelector("#txtFoto").value;
@@ -62,7 +65,9 @@ function registroUI() {
             i++
         }
         if (!userEncontrado) {
+            foto = quitarFakePath(foto);
             nuevoRegistro(name, foto, usuario, pass);
+            userOnline = usuario;
             document.querySelector("#contenedor").style.display = "block";
             document.querySelector("#contenedorLogin").style.display = "none";
             document.querySelector("#divEmpresa").style.display = "none";
@@ -73,6 +78,7 @@ function registroUI() {
     }
 }
 function loginUI() {
+    console.log("entro");
     let user = document.querySelector("#txtloginUser").value;
     let pass = document.querySelector("#txtloginPass").value;
     let error = false;
@@ -91,23 +97,17 @@ function loginUI() {
         document.querySelector("#errorPassLogin").style.display = "none";
     }
     if (!error && buscarImportador(user, pass)) {
-        document.querySelector("#contenedor").style.display = "none";
-        document.querySelector("#contenedorLogin").style.display = "block";
-        document.querySelector("#divEmpresa").style.display = "block";
+        userOnline = user;
+        document.querySelector("#contenedor").style.display = "block";
+        document.querySelector("#contenedorLogin").style.display = "none";
+        document.querySelector("#divEmpresa").style.display = "none";
     } else {
         document.querySelector("#errorUsuario").style.display = "block";
         document.querySelector("#errorUsuario").innerHTML = `Datos invalidos`;
     }
 }
 
-function registrateAqui() {
-    document.querySelector("#login").style.display = "none";
-    document.querySelector("#registro").style.display = "block";
-}
-function muestroLogin() {
-    document.querySelector("#login").style.display = "block";
-    document.querySelector("#registro").style.display = "none";
-}
+
 function btnUIMercaderia() {
     let desc = document.querySelector("#txtDescrip").value;
     let tipo = document.querySelector("#txtTipoCarga").value;
@@ -115,13 +115,41 @@ function btnUIMercaderia() {
     let cantContenedores = document.querySelector("#txtCantContenedores").value;
     let idEmpresa = document.querySelector("#txtIdEmpresa").value;
     if (validarDatosMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa)) {
-        ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa);
-        document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente`;
+        let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa);
+        document.querySelector("#pIDGeneradoMercaderia").style.color = "black";
+        document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente <br><strong>El id generado es: ${idNuevaMercaderia}</strong>`;
     } else {
         document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Ingrese datos validos`;
+        document.querySelector("#pIDGeneradoMercaderia").style.color = "red";
     }
 }
+
+function solicitudesPendientesUI() {
+    let tabla = `<table border="1"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
+    for (let i = 0; i < solicitudesDeCarga.length; i++) {
+        if (solicitudesDeCarga[i].userImportador === userOnline) {
+            tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].estado}</td><td>${solicitudesDeCarga[i].descripcion}</td><td>${solicitudesDeCarga[i].tipo}</td><td>${solicitudesDeCarga[i].puerto}</td><td>${solicitudesDeCarga[i].cantidadContenedores}</td><td>${solicitudesDeCarga[i].idEmpresa}</td></tr>`;
+
+        }
+    }
+    tabla += `</table>`;
+    document.querySelector("#pTotalPendientes").innerHTML = tabla;
+}
+
 function buscarPendientesUI() {
     let buscar = document.querySelector("#txtBuscarPendientes").value;
-    busquedaSolicitudes(buscar);
+    busquedaSolicitudesPendientes(buscar);
+}
+
+function cancelarSolicitud() {
+    let idCancelar = document.querySelector("#txtCancelarSolicitud").value;
+    if (idCancelar === "" || isNaN(idCancelar)) {
+        document.querySelector("#pCancelarSoli").innerHTML = `No se encontraron resultados`;
+    } else {
+        idCancelar = Number(idCancelar);
+        if (solicitudesDeCarga[idCancelar].estado === "Pendiente") {
+            //funcion para cancelar
+            document.querySelector("#pCancelarSoli").innerHTML = `Se cancelo la solicitud ${idCancelar} con exito`;
+        }
+    }
 }
