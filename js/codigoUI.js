@@ -5,10 +5,10 @@ document.querySelector("#pRegistrateAqui").addEventListener("click", registrateA
 document.querySelector("#btnIngresarMercaderia").addEventListener("click", btnUIMercaderia);
 document.querySelector("#btnBuscarPendientes").addEventListener("click", buscarPendientesUI);
 document.querySelector("#btnCancelarSolicitud").addEventListener("click", cancelarSolicitudUI);
-document.querySelector("#liEstadistica").addEventListener("click", estadistica);
-document.querySelector("#liNuevaSolicitud").addEventListener("click", mostrarNuevaSolicitud);
-document.querySelector("#liConsultarSolictudes").addEventListener("click", mostrarConsultarSolictudes);
-document.querySelector("#liCancelarSolicitud").addEventListener("click", mostrarCancelarSolicitud);
+document.querySelector("#liEstadistica").addEventListener("click", estadisticaUI);
+document.querySelector("#liNuevaSolicitud").addEventListener("click", mostrarNuevaSolicitudUI);
+document.querySelector("#liConsultarSolictudes").addEventListener("click", mostrarConsultarSolictudesUI);
+document.querySelector("#liCancelarSolicitud").addEventListener("click", mostrarCancelarSolicitudUI);
 
 let importadores = new Array();
 let solicitudesDeCarga = new Array();
@@ -17,8 +17,8 @@ let userOnline = "camila";
 inicio();
 
 function inicio() {
-    nuevoRegistro("camila", "camila", "camila", "camila");
-    nuevoRegistro("miguel", "miguel", "miguel", "miguel");
+    nuevoRegistro("camila", "fotoCM.jpg","camila", "camilaCM123");
+    nuevoRegistro("miguel", "fotoMP.jpg","miguel", "miguelMP123");
 }
 function registrateAquiUI() {
     document.querySelector("#login").style.display = "none";
@@ -119,14 +119,14 @@ function loginUI() {
         document.querySelector("#errorUsuario").innerHTML = `Datos invalidos`;
     }
 }
-function mostrarNuevaSolicitud(){
+function mostrarNuevaSolicitudUI(){
     document.querySelector("#divSolicitudDeCarga").style.display = "block";
     document.querySelector("#divConsultarPendientes").style.display = "none";
     document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
     document.querySelector("#divInformacionEstadistica").style.display = "none";  
 }
 
-function mostrarConsultarSolictudes(){
+function mostrarConsultarSolictudesUI(){
     solicitudesPendientesUI();
     document.querySelector("#divSolicitudDeCarga").style.display = "none";
     document.querySelector("#divConsultarPendientes").style.display = "block";
@@ -134,7 +134,7 @@ function mostrarConsultarSolictudes(){
     document.querySelector("#divInformacionEstadistica").style.display = "none";  
 }
 
-function mostrarCancelarSolicitud(){
+function mostrarCancelarSolicitudUI(){
     document.querySelector("#divSolicitudDeCarga").style.display = "none";
     document.querySelector("#divConsultarPendientes").style.display = "none";
     document.querySelector("#divCancelarSolicitudDeCarga").style.display = "block";
@@ -186,7 +186,7 @@ function cancelarSolicitudUI() {
     }
 }
 
-function estadistica() {
+function estadisticaUI() {
     document.querySelector("#divSolicitudDeCarga").style.display = "none";
     document.querySelector("#divConsultarPendientes").style.display = "none";
     document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
@@ -197,6 +197,6 @@ function estadistica() {
         if (solicitudesDeCarga[i].estado === "Canceladas") cantPendiente++;
     }
     let porcentaje = (cantPendiente * 100) / cantTotal;
-    if (isNaN) porcentaje = 0;
+    if (isNaN(porcentaje)) porcentaje = 0;
     document.querySelector("#divPorceCancelaciones").innerHTML = `El porcentaje de cancelaciones contra el total de cargas es ${porcentaje}%`;
 }

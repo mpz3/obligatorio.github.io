@@ -7,12 +7,12 @@ function nuevoRegistro(nombre, foto, usuario, pass) {
     importadores.push(user);
 }
 
-function buscarImportador(user, pass) {
+function buscarImportador(pUser, pPass) {
     let i = 0;
     let encontrado = false;
-    user = user.toLowerCase();
+    pUser = pUser.toLowerCase();
     while (!encontrado && i < importadores.length) {
-        if (importadores[i].user.toLowerCase() === user && importadores[i].contraseña === pass) {
+        if (importadores[i].pUser.toLowerCase() === pUser && importadores[i].contraseña === pPass) {
             encontrado = true;
         }
         i++
@@ -20,16 +20,16 @@ function buscarImportador(user, pass) {
     return encontrado;
 }
 
-function validarContrasena(passw) {
+function validarContrasena(pPassw) {
     let i = 0;
     let mayusEncontrada = false;
     let minusEncontrada = false;
     let numEncontrado = false;
-    while (i < passw.length || !mayusEncontrada && !minusEncontrada && !numEncontrado) {
-        if (isNaN(passw.charAt(i))) {
-            if (passw.charAt(i) === passw.charAt(i).toLowerCase()) {
+    while (i < pPassw.length || !mayusEncontrada && !minusEncontrada && !numEncontrado) {
+        if (isNaN(pPassw.charAt(i))) {
+            if (pPassw.charAt(i) === pPassw.charAt(i).toLowerCase()) {
                 minusEncontrada = true;
-            } else if (passw.charAt(i) === passw.charAt(i).toUpperCase()) {
+            } else if (pPassw.charAt(i) === pPassw.charAt(i).toUpperCase()) {
                 mayusEncontrada = true;
             }
         } else {
@@ -58,36 +58,36 @@ function quitarFakePath(pNombreArchivo) {
     }
     return nombre;
 }
-function validarDatosMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa) {
-    if (pdesc === "" || ptipo === "" || ppuerto === "" || pcantContenedores === "" || isNaN(pcantContenedores) || pidEmpresa === "" || isNaN(pidEmpresa)) {
-        if (pdesc === "") document.querySelector("#txtDescrip").style.borderColor = "red";
+function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa) {
+    if (pDesc === "" || pTipo === "" || pPuerto === "" || pCantContenedores === "" || isNaN(pCantContenedores) || pIEmpresa === "" || isNaN(pIEmpresa)) {
+        if (pDesc === "") document.querySelector("#txtDescrip").style.borderColor = "red";
         else document.querySelector("#txtDescrip").style.borderColor = "black";
 
-        if (ptipo === "") document.querySelector("#txtTipoCarga").style.borderColor = "red";
+        if (pTipo === "") document.querySelector("#txtTipoCarga").style.borderColor = "red";
         else document.querySelector("#txtTipoCarga").style.borderColor = "black";
 
-        if (ppuerto === "") document.querySelector("#txtPuerto").style.borderColor = "red";
+        if (pPuerto === "") document.querySelector("#txtPuerto").style.borderColor = "red";
         else document.querySelector("#txtPuerto").style.borderColor = "black";
 
-        if (pcantContenedores === "" || isNaN(pcantContenedores)) document.querySelector("#txtCantContenedores").style.borderColor = "red";
+        if (pCantContenedores === "" || isNaN(pCantContenedores)) document.querySelector("#txtCantContenedores").style.borderColor = "red";
         else document.querySelector("#txtCantContenedores").style.borderColor = "black";
 
-        if (pidEmpresa === "" || isNaN(pidEmpresa)) document.querySelector("#txtIdEmpresa").style.borderColor = "red";
+        if (pIEmpresa === "" || isNaN(pIEmpresa)) document.querySelector("#txtIdEmpresa").style.borderColor = "red";
         else document.querySelector("#txtIdEmpresa").style.borderColor = "black";
 
         return false;
     }
     return true;
 }
-function ingresarMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa) {
+function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa) {
     let nuevaSolicitud = new SolicitudCarga();
     nuevaSolicitud.id = SolicitudCarga.idSolicitudCarga;
     nuevaSolicitud.estado = "Pendiente";
-    nuevaSolicitud.descripcion = pdesc;
-    nuevaSolicitud.tipo = ptipo;
-    nuevaSolicitud.puerto = ppuerto;
-    nuevaSolicitud.cantidadContenedores = pcantContenedores;
-    nuevaSolicitud.idEmpresa = pidEmpresa;
+    nuevaSolicitud.descripcion = pDesc;
+    nuevaSolicitud.tipo = pTipo;
+    nuevaSolicitud.puerto = pPuerto;
+    nuevaSolicitud.cantidadContenedores = pCantContenedores;
+    nuevaSolicitud.idEmpresa = pIEmpresa;
     nuevaSolicitud.userImportador = userOnline;
     solicitudesDeCarga.push(nuevaSolicitud);
     SolicitudCarga.idSolicitudCarga++;
@@ -95,10 +95,10 @@ function ingresarMercaderia(pdesc, ptipo, ppuerto, pcantContenedores, pidEmpresa
 }
 
 
-function busquedaSolicitudesPendientes(busqueda) {
+function busquedaSolicitudesPendientes(pBusqueda) {
     let tabla = `<table border="1" style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
     for (let i = 0; i < solicitudesDeCarga.length; i++) {
-        if (solicitudesDeCarga[i].id === Number(busqueda) || solicitudesDeCarga[i].descripcion.toLowerCase() === busqueda.toLowerCase()) {
+        if (solicitudesDeCarga[i].id === Number(pBusqueda) || solicitudesDeCarga[i].descripcion.toLowerCase() === pBusqueda.toLowerCase()) {
             tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].estado}</td><td>${solicitudesDeCarga[i].descripcion}</td><td>${solicitudesDeCarga[i].tipo}</td><td>${solicitudesDeCarga[i].puerto}</td><td>${solicitudesDeCarga[i].cantidadContenedores}</td><td>${solicitudesDeCarga[i].idEmpresa}</td></tr>`;
         }
     }

@@ -7,7 +7,7 @@
 }
 
 #cabezal {
-  height: 100px;
+  height: 150px;
   background-color: #303036;
 }
 
@@ -97,4 +97,11 @@
 .textos {
   color: blue;
   text-align: center;
+}
+
+#logo {
+  margin: 20px;
+  float: left;
+  width: 100px;
+  float: left;
 }
