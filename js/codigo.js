@@ -1,10 +1,16 @@
-function nuevoRegistro(nombre, foto, usuario, pass) {
-    let user = new UsuarioImportador();
-    user.nombre = nombre;
-    user.foto = foto;
-    user.user = usuario;
-    user.contraseña = pass;
-    importadores.push(user);
+function nuevoRegistro(pNombre, Pfoto, pUsuario, pPass,pTipo) {
+    if(pTipo ==="importador"){
+        let user = new UsuarioImportador();
+        user.id = UsuarioImportador.idImportador;
+        user.nombre = pNombre;
+        user.foto = Pfoto;
+        user.user = pUsuario;
+        user.contraseña = pPass;
+        importadores.push(user);
+        UsuarioImportador.idImportador++;
+    }else{
+        //aca ingreso empresa
+    }
 }
 
 function buscarImportador(pUser, pPass) {
@@ -12,12 +18,67 @@ function buscarImportador(pUser, pPass) {
     let encontrado = false;
     pUser = pUser.toLowerCase();
     while (!encontrado && i < importadores.length) {
-        if (importadores[i].pUser.toLowerCase() === pUser && importadores[i].contraseña === pPass) {
+        if (importadores[i].user.toLowerCase() === pUser && importadores[i].contraseña === pPass) {
             encontrado = true;
         }
         i++
     }
     return encontrado;
+}
+
+function validarRegistro(pName, pfoto, pUsuario, pPass) {
+    let error = false;
+    if (pName === "") {
+        document.querySelector("#errorPname").style.display = "block";
+        document.querySelector("#errorPname").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    } else {
+        document.querySelector("#errorPname").style.display = "none";
+    }
+    if (pfoto === "") {
+        document.querySelector("#errorPfoto").style.display = "block";
+        document.querySelector("#errorPfoto").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    } else {
+        document.querySelector("#errorPfoto").style.display = "none";
+    }
+    if (pUsuario === "") {
+        document.querySelector("#errorPusuario").style.display = "block";
+        document.querySelector("#errorPusuario").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    } else {
+        document.querySelector("#errorPusuario").style.display = "none";
+    }
+
+    if (pPass === "") {
+        document.querySelector("#errorPpass").style.display = "block";
+        document.querySelector("#errorPpass").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    } else if (!validarContrasena(pPass)) {
+        document.querySelector("#errorPpass").style.display = "block";
+        document.querySelector("#errorPpass").innerHTML = `(?) Debe de contar con al menos una minuscula, mayuscula y un numero`;
+        error = true;
+    } else {
+        document.querySelector("#errorPpass").style.display = "none";
+    }
+    return error;
+}
+
+function validarLogin(pUser,pPass){
+    if (pUser === '') {
+        document.querySelector("#errorUsuarioLogin").style.display = "block";
+        document.querySelector("#errorUsuarioLogin").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    } else {
+        document.querySelector("#errorUsuarioLogin").style.display = "none";
+    }
+    if (pPass === '') {
+        document.querySelector("#errorPassLogin").style.display = "block";
+        document.querySelector("#errorPassLogin").innerHTML = `Campo Obligatorio (*)`;
+        error = true;
+    } else {
+        document.querySelector("#errorPassLogin").style.display = "none";
+    }
 }
 
 function validarContrasena(pPassw) {
@@ -42,6 +103,7 @@ function validarContrasena(pPassw) {
     }
     return false;
 }
+
 function quitarFakePath(pNombreArchivo) {
     let nombre = "";
     let posBarra = -1;
@@ -58,6 +120,7 @@ function quitarFakePath(pNombreArchivo) {
     }
     return nombre;
 }
+
 function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa) {
     if (pDesc === "" || pTipo === "" || pPuerto === "" || pCantContenedores === "" || isNaN(pCantContenedores) || pIEmpresa === "" || isNaN(pIEmpresa)) {
         if (pDesc === "") document.querySelector("#txtDescrip").style.borderColor = "red";
@@ -79,6 +142,7 @@ function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpr
     }
     return true;
 }
+
 function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa) {
     let nuevaSolicitud = new SolicitudCarga();
     nuevaSolicitud.id = SolicitudCarga.idSolicitudCarga;
@@ -93,7 +157,6 @@ function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa)
     SolicitudCarga.idSolicitudCarga++;
     return SolicitudCarga.idSolicitudCarga - 1;
 }
-
 
 function busquedaSolicitudesPendientes(pBusqueda) {
     let tabla = `<table border="1" style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;

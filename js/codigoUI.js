@@ -17,58 +17,28 @@ let userOnline = "camila";
 inicio();
 
 function inicio() {
-    nuevoRegistro("camila", "fotoCM.jpg","camila", "camilaCM123");
-    nuevoRegistro("miguel", "fotoMP.jpg","miguel", "miguelMP123");
+    nuevoRegistro("camila", "fotoCM.jpg", "camila", "123", "importador");
+    nuevoRegistro("miguel", "fotoMP.jpg", "miguel", "miguelMP123", "importador");
 }
+
 function registrateAquiUI() {
     document.querySelector("#login").style.display = "none";
     document.querySelector("#registro").style.display = "block";
 }
+
 function muestroLoginUI() {
     document.querySelector("#login").style.display = "block";
     document.querySelector("#registro").style.display = "none";
 }
+
+
 function registroUI() {
     let name = document.querySelector("#txtNombre").value;
     let foto = document.querySelector("#txtFoto").value;
     let usuario = document.querySelector("#txtUser").value;
     let pass = document.querySelector("#txtPass").value;
-    let error = false;
-    if (name === "") {
-        document.querySelector("#errorPname").style.display = "block";
-        document.querySelector("#errorPname").innerHTML = `Campo Obligatorio (*)`;
-        error = true;
-    } else {
-        document.querySelector("#errorPname").style.display = "none";
-    }
-    if (foto === "") {
-        document.querySelector("#errorPfoto").style.display = "block";
-        document.querySelector("#errorPfoto").innerHTML = `Campo Obligatorio (*)`;
-        error = true;
-    } else {
-        document.querySelector("#errorPfoto").style.display = "none";
-    }
-    if (usuario === "") {
-        document.querySelector("#errorPusuario").style.display = "block";
-        document.querySelector("#errorPusuario").innerHTML = `Campo Obligatorio (*)`;
-        error = true;
-    } else {
-        document.querySelector("#errorPusuario").style.display = "none";
-    }
-
-    if (pass === "") {
-        document.querySelector("#errorPpass").style.display = "block";
-        document.querySelector("#errorPpass").innerHTML = `Campo Obligatorio (*)`;
-        error = true;
-    } else if (!validarContrasena(pass)) {
-        document.querySelector("#errorPpass").style.display = "block";
-        document.querySelector("#errorPpass").innerHTML = `(?) Debe de contar con al menos una minuscula, mayuscula y un numero`;
-        error = true;
-    } else {
-        document.querySelector("#errorPpass").style.display = "none";
-    }
-
-    if (!error) {
+    let registroValido = validarRegistro(name, foto, usuario, pass);
+    if (!registroValido) {
         let i = 0;
         let userEncontrado = false;
         while (!userEncontrado && i < importadores.length) {
@@ -79,9 +49,10 @@ function registroUI() {
         }
         if (!userEncontrado) {
             foto = quitarFakePath(foto);
-            nuevoRegistro(name, foto, usuario, pass);
+            nuevoRegistro(name, foto, usuario, pass, "importador");
             userOnline = usuario;
             document.querySelector("#contenedor").style.display = "block";
+            document.querySelector("#divImportador").style.display = "block";
             document.querySelector("#contenedorLogin").style.display = "none";
             document.querySelector("#divEmpresa").style.display = "none";
         } else {
@@ -90,28 +61,16 @@ function registroUI() {
         }
     }
 }
+
+
 function loginUI() {
-    console.log("entro");
     let user = document.querySelector("#txtloginUser").value;
     let pass = document.querySelector("#txtloginPass").value;
-    let error = false;
-    if (user === '') {
-        document.querySelector("#errorUsuarioLogin").style.display = "block";
-        document.querySelector("#errorUsuarioLogin").innerHTML = `Campo Obligatorio (*)`;
-        error = true;
-    } else {
-        document.querySelector("#errorUsuarioLogin").style.display = "none";
-    }
-    if (pass === '') {
-        document.querySelector("#errorPassLogin").style.display = "block";
-        document.querySelector("#errorPassLogin").innerHTML = `Campo Obligatorio (*)`;
-        error = true;
-    } else {
-        document.querySelector("#errorPassLogin").style.display = "none";
-    }
-    if (!error && buscarImportador(user, pass)) {
+    let loginvalido = validarLogin(user,pass);
+    if (!loginvalido && buscarImportador(user, pass)) {
         userOnline = user;
         document.querySelector("#contenedor").style.display = "block";
+        document.querySelector("#divImportador").style.display = "block";
         document.querySelector("#contenedorLogin").style.display = "none";
         document.querySelector("#divEmpresa").style.display = "none";
     } else {
@@ -119,27 +78,48 @@ function loginUI() {
         document.querySelector("#errorUsuario").innerHTML = `Datos invalidos`;
     }
 }
-function mostrarNuevaSolicitudUI(){
+
+
+function mostrarNuevaSolicitudUI() {
     document.querySelector("#divSolicitudDeCarga").style.display = "block";
     document.querySelector("#divConsultarPendientes").style.display = "none";
     document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
-    document.querySelector("#divInformacionEstadistica").style.display = "none";  
+    document.querySelector("#divInformacionEstadistica").style.display = "none";
 }
 
-function mostrarConsultarSolictudesUI(){
+
+function mostrarConsultarSolictudesUI() {
     solicitudesPendientesUI();
     document.querySelector("#divSolicitudDeCarga").style.display = "none";
     document.querySelector("#divConsultarPendientes").style.display = "block";
     document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
-    document.querySelector("#divInformacionEstadistica").style.display = "none";  
+    document.querySelector("#divInformacionEstadistica").style.display = "none";
 }
 
-function mostrarCancelarSolicitudUI(){
+
+function mostrarCancelarSolicitudUI() {
     document.querySelector("#divSolicitudDeCarga").style.display = "none";
     document.querySelector("#divConsultarPendientes").style.display = "none";
     document.querySelector("#divCancelarSolicitudDeCarga").style.display = "block";
-    document.querySelector("#divInformacionEstadistica").style.display = "none";  
+    document.querySelector("#divInformacionEstadistica").style.display = "none";
 }
+
+
+function estadisticaUI() {
+    document.querySelector("#divSolicitudDeCarga").style.display = "none";
+    document.querySelector("#divConsultarPendientes").style.display = "none";
+    document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
+    document.querySelector("#divInformacionEstadistica").style.display = "block";
+    let cantPendiente = 0;
+    let cantTotal = solicitudesDeCarga.length;
+    for (let i = 0; i < cantTotal; i++) {
+        if (solicitudesDeCarga[i].estado === "Canceladas") cantPendiente++;
+    }
+    let porcentaje = (cantPendiente * 100) / cantTotal;
+    if (isNaN(porcentaje)) porcentaje = 0;
+    document.querySelector("#divPorceCancelaciones").innerHTML = `El porcentaje de cancelaciones contra el total de cargas es ${porcentaje}%`;
+}
+
 
 function btnUIMercaderia() {
     let desc = document.querySelector("#txtDescrip").value;
@@ -157,6 +137,7 @@ function btnUIMercaderia() {
     }
 }
 
+
 function solicitudesPendientesUI() {
     let tabla = `<table border="1" style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
     for (let i = 0; i < solicitudesDeCarga.length; i++) {
@@ -168,10 +149,16 @@ function solicitudesPendientesUI() {
     document.querySelector("#pTotalPendientes").innerHTML = tabla;
 }
 
+
 function buscarPendientesUI() {
     let buscar = document.querySelector("#txtBuscarPendientes").value;
-    busquedaSolicitudesPendientes(buscar);
+    if (buscar === "") {
+        document.querySelector("#pBuscarPendientes").innerHTML = `EL id no es valido`;
+    } else {
+        busquedaSolicitudesPendientes(buscar);
+    }
 }
+
 
 function cancelarSolicitudUI() {
     let idCancelar = document.querySelector("#txtCancelarSolicitud").value;
@@ -184,19 +171,4 @@ function cancelarSolicitudUI() {
             document.querySelector("#pCancelarSoli").innerHTML = `Se cancelo la solicitud ${idCancelar} con exito`;
         }
     }
-}
-
-function estadisticaUI() {
-    document.querySelector("#divSolicitudDeCarga").style.display = "none";
-    document.querySelector("#divConsultarPendientes").style.display = "none";
-    document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
-    document.querySelector("#divInformacionEstadistica").style.display = "block";
-    let cantPendiente = 0;
-    let cantTotal = solicitudesDeCarga.length;
-    for (let i = 0; i < cantTotal; i++) {
-        if (solicitudesDeCarga[i].estado === "Canceladas") cantPendiente++;
-    }
-    let porcentaje = (cantPendiente * 100) / cantTotal;
-    if (isNaN(porcentaje)) porcentaje = 0;
-    document.querySelector("#divPorceCancelaciones").innerHTML = `El porcentaje de cancelaciones contra el total de cargas es ${porcentaje}%`;
 }

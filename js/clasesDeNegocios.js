@@ -1,12 +1,14 @@
 class UsuarioImportador {
+    static idImportador = 0;
     constructor() {
+        this.id = "";
         this.nombre = "";
         this.foto = "";
         this.user = "";
         this.contraseña = "";
     }
 }
-class empresa {
+class UsuarioEmpresa {
     static idEmpresa = 0;
     constructor() {
         this.nombre = "";

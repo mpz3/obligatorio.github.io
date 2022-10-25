@@ -9,8 +9,8 @@
   <link rel="stylesheet" tyoe="text/css" href="css/style.css" />
 </head>
 
-<body style="background-color: #9e9e9e26">
-  <div id="contenedorLogin" style="display:none">
+<body style="background-color: #9e9e9e26;font-family: arial;">
+  <div id="contenedorLogin">
     <div id="login">
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
@@ -29,7 +29,7 @@
       </p>
     </div>
     <div id="registro" style="display:none">
-      <h2 class="textos">Regristro</h2>
+      <h2 class="textos">Registro</h2>
       <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre" />
       <p id="errorPname" class="errorObligatorio">
 
@@ -60,9 +60,9 @@
         <strong id="ingresoDesdeRegistro">aquí</strong>
       </p>
     </div>
-  </div>
-  <!--contenedor login-->
-  <div id="contenedor">
+  </div> <!--contenedor login-->
+ 
+  <div id="contenedor" style="display:none">
     <div id="cabezal" class="clearfix">
       <img id="logo" src="img/8.jpg" alt="logo">
       <ul id="navPrincipal">
@@ -81,9 +81,9 @@
       </ul>
       <div id="aux"><a>Cerrar Sesion</a></div>
       <!-- FIN AUX -->
-    </div>
-    <!--cabezal-->
-    <div id="divImportador">
+    </div><!--cabezal-->
+    
+    <div id="divImportador" style="display:none">
       <div id="divSolicitudDeCarga">
         <h2>Crear una nueva solicitud de carga</h2>
         <textarea id="txtDescrip" style="width: 395px;height: 50px;"
@@ -98,15 +98,15 @@
         <label>Ingrese puerto de origen </label><input id="txtPuerto" type="text"><br><br>
         <label>Ingrese cantidad de contenedores </label><input id="txtCantContenedores" type="number"><br><br>
         <label>Ingrese id de la empresa </label><input id="txtIdEmpresa" type="number"><br><br>
-        <input id="btnIngresarMercaderia" type="button" value="Ingresar mercaderia"><br><br>
+        <input id="btnIngresarMercaderia" type="button" class="btnForma" value="Ingresar mercaderia"><br><br>
         <p id="pIDGeneradoMercaderia"></p>
         <br><br>
       </div>
 
       <div id="divConsultarPendientes" style="display:none;">
         <br><br>
-        <label>Ingrese id o descripcion </label><input id="txtBuscarPendientes" type="text"><br><br>
-        <input id="btnBuscarPendientes" type="button" value="BUSCAR"><br><br>
+        <label>Ingrese id o descripcion parcial </label><input id="txtBuscarPendientes" type="text">
+        <input id="btnBuscarPendientes" type="button" class="btnForma" value="BUSCAR"><br><br>
         <div id="pBuscarPendientes"></div><br>
         <h2>Sus solicitudes pendientes</h2>
         <div id="pTotalPendientes"></div>
@@ -115,7 +115,7 @@
       <div id="divCancelarSolicitudDeCarga" style="display:none;">
         <h2> Cancelar solicitud de carga</h2>
         <label>Ingrese id de la solicitud a cancelar </label><input id="txtCancelarSolicitud" type="text"><br><br>
-        <input id="btnCancelarSolicitud" type="button" value="Cancelar Solicitud"><br><br>
+        <input id="btnCancelarSolicitud" type="button" class="btnForma" value="Cancelar Solicitud"><br><br>
         <p id="pCancelarSoli"></p>
         <br><br>
       </div>
@@ -126,7 +126,7 @@
         <p id="divTotalCarga"></p>
         <p id="divProxLlegadas"></p>
       </div>
-    </div>
+    </div><!--divImportador-->
     <div id="divEmpresa" style="display:none">
       <h2>Nuevo Viaje</h2>
       <label> Nombre del buque </label>
@@ -273,9 +273,11 @@
           <td>No</td>
         </tr>-->
         <br />
-    </div>
-  </div>
-  <!--contenedor-->
+    </div><!--divEmpresa-->
+
+  </div> <!--contenedor-->
+
+  
   <script type="text/javascript" src="js/clasesDeNegocios.js"></script>
   <script type="text/javascript" src="js/codigo.js"></script>
   <script type="text/javascript" src="js/codigoUI.js"></script>
