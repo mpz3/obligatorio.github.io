@@ -1,4 +1,5 @@
-class UsuarioImportador {
+//class UsuarioImportador {
+class Usuario {
     static idImportador = 0;
     constructor() {
         this.id = "";
@@ -6,8 +7,10 @@ class UsuarioImportador {
         this.foto = "";
         this.user = "";
         this.contraseña = "";
+        this.tipo = "";
     }
 }
+/*
 class UsuarioEmpresa {
     static idEmpresa = 0;
     constructor() {
@@ -16,7 +19,7 @@ class UsuarioEmpresa {
         this.user = "";
         this.contraseña = "";
     }
-}
+}*/
 
 class SolicitudCarga {
     static idSolicitudCarga = 0;
@@ -28,15 +31,25 @@ class SolicitudCarga {
         this.puerto = "";
         this.cantidadContenedores = -1;
         this.idEmpresa = -1;
-        this.userImportador = "";
+        this.userImportador = "";//o id
+    }
+}
+class CargaConfirmada{
+    static idCargaConfirmada = 0;
+    constructor() {
+        this.id = -1;
+        this.idViaje = -1;
+        this.idCarga = -1;
     }
 }
 
-class Buques {
+class ViajeBuque {
+    static idViajeBuque = 0;
     constructor() {
+        this.id = -1;
+        this.idEmpresa = -1;
         this.nombreBuque = "";
-        this.cargaMaxima = "";
+        this.cargaMaxima = -1;
         this.fechaLlegada = "";
-        //aca luego tendremos que asociar el nombre de la empresa dueña del buque
     }
 }

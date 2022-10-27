@@ -1,5 +1,5 @@
 #contenedor {
-  width: 800px;
+  width: 900px;
   background-color: white;
   margin: 0 auto;
   padding: 30px;
@@ -114,6 +114,22 @@
   color: white;
 }
 
-input {
-  height: 22px;
+input,select,textarea{
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 30px;
+    margin: 5px 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
