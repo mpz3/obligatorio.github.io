@@ -1,5 +1,5 @@
 #contenedor {
-  width: 800px;
+  width: 900px;
   background-color: white;
   margin: 0 auto;
   padding: 30px;
@@ -7,7 +7,7 @@
 }
 
 #cabezal {
-  height: 100px;
+  height: 150px;
   background-color: #303036;
 }
 
@@ -35,7 +35,7 @@
   float: right;
   margin-top: 5px;
   margin-right: 10px;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 #navPrincipal li {
@@ -53,14 +53,10 @@
   color: red;
 }
 
-.ocultar {
-  display: none;
-}
-
 #contenedorLogin {
   width: 500px;
   background-color: white;
-  margin: 10% auto;
+  margin: 57px 29%;
   padding: 30px;
   border-radius: 10px;
 }
@@ -69,8 +65,8 @@
   margin: 10px;
 }
 
-.txtInput {
 
+.txtInput {
   padding-left: 10px;
   outline: none;
   margin-top: 2px;
@@ -100,4 +96,40 @@
 .textos {
   color: blue;
   text-align: center;
+}
+
+#logo {
+  margin: 20px;
+  float: left;
+  width: 100px;
+  float: left;
+}
+
+.btnForma {
+  background: blue;
+  border: none;
+  border-radius: 6px;
+  height: 30px;
+  width: 150px;
+  color: white;
+}
+
+input,select,textarea{
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 30px;
+    margin: 5px 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
