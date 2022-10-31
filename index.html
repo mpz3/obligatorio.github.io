@@ -1,219 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administración de Puertos</title>
+    <link rel="stylesheet" tyoe="text/css" href="css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Administración de Puertos</title>
-  <link rel="stylesheet" tyoe="text/css" href="css/style.css"/>
-</head>
-
-<body style="background-color: #9e9e9e26;font-family: arial;">
-  <div id="contenedorLogin">
-    <div id="login">
-      <h2 class="textos">Iniciar sesion</h2>
-      <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario"/>
-      <p id="errorUsuarioLogin" class="errorObligatorio">
-      </p>
-      <div class="clear10px"></div>
-      <br/>
-      <input id="txtloginPass" type="password" class="txtInput" placeholder="Ingrese Contraseña"/>
-      <p id="errorPassLogin" class="errorObligatorio">
-      </p>
-      <br>
-      <p id="errorUsuario" style="text-align: center;" class="errorObligatorio"></p>
-      <input id="btnLogin" class="ingresoRegistro" type="button" value="Ingresar"/>
-      <p class="textos">
-        No tienes una cuenta?<br/><strong id="pRegistrateAqui">Registrate aqui</strong>
-      </p>
+  <body style="background-color: #9e9e9e26; font-family: arial">
+    <div id="contenedorLogin">
+      <div id="login">
+        <h2 class="textos">Iniciar sesion</h2>
+        <input
+          id="txtloginUser"
+          class="txtInput"
+          type="text"
+          placeholder="Ingrese Usuario"
+        />
+        <p id="errorUsuarioLogin" class="errorObligatorio"></p>
+        <div class="clear10px"></div>
+        <br />
+        <input
+          id="txtloginPass"
+          type="password"
+          class="txtInput"
+          placeholder="Ingrese Contraseña"
+        />
+        <p id="errorPassLogin" class="errorObligatorio"></p>
+        <br />
+        <p
+          id="errorUsuario"
+          style="text-align: center"
+          class="errorObligatorio"
+        ></p>
+        <input
+          id="btnLogin"
+          class="ingresoRegistro"
+          type="button"
+          value="Ingresar"
+        />
+        <p class="textos">
+          No tienes una cuenta?<br /><strong id="pRegistrateAqui"
+            >Registrate aqui</strong
+          >
+        </p>
+      </div>
+      <div id="registro" style="display: none">
+        <h2 class="textos">Registro</h2>
+        <input
+          class="txtInput"
+          id="txtNombre"
+          type="text"
+          placeholder="Ingrese Nombre"
+        />
+        <p id="errorPname" class="errorObligatorio"></p>
+        <div class="clear10px"></div>
+        <br />
+        <label>Subir foto de perfil </label
+        ><input class="txtInput" id="txtFoto" type="file" />
+        <p id="errorPfoto" class="errorObligatorio"></p>
+        <div class="clear10px"></div>
+        <br />
+        <input
+          class="txtInput"
+          id="txtUser"
+          type="text"
+          placeholder="Ingrese Usuario"
+        />
+        <p id="errorPusuario" class="errorObligatorio"></p>
+        <div class="clear10px"></div>
+        <br />
+        <input
+          type="password"
+          id="txtPass"
+          class="txtInput"
+          placeholder="Ingrese Contraseña"
+        />
+        <p id="errorPpass" class="errorObligatorio"></p>
+        <div class="clear10px"></div>
+        <br />
+        <input
+          id="btnRegistro"
+          class="ingresoRegistro"
+          type="button"
+          value="Registrarse"
+        />
+        <p class="textos">
+          ¿Ya tienes una cuenta?<br />Ingresa
+          <strong id="ingresoDesdeRegistro">aquí</strong>
+        </p>
+      </div>
     </div>
-    <div id="registro" style="display:none">
-      <h2 class="textos">Registro</h2>
-      <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre"/>
-      <p id="errorPname" class="errorObligatorio">
+    <!--contenedor login-->
 
-      </p>
-      <div class="clear10px"></div>
-      <br/>
-      <label>Subir foto de perfil </label><input class="txtInput" id="txtFoto" type="file"/>
-      <p id="errorPfoto" class="errorObligatorio">
+    <div id="contenedor" style="display: none">
+      <div id="cabezal" class="clearfix">
+        <img id="logo" src="img/8.jpg" alt="logo" />
+        <ul id="navPrincipal">
+          <div id="navImportador" style="display: none">
+            <li id="liNuevaSolicitud">
+              <a>Nueva Solicitud</a>
+            </li>
+            <li id="liConsultarSolictudes">
+              <a>Consultar Solictudes</a>
+            </li>
+            <li id="liCancelarSolicitud">
+              <a>Cancelar Solicitud</a>
+            </li>
+            <li id="liEstadistica">
+              <a>Estadistica</a>
+            </li>
+          </div>
+          <div id="navEmpresa" style="display: none">
+            <li id="liCrearViaje">
+              <a>Crear viaje</a>
+            </li>
+            <li id="liAsignarBuque">
+              <a>Asignar a buque</a>
+            </li>
+            <li id="liRollover">
+              <a>Rollover</a>
+            </li>
+            <li id="liManifiesto">
+              <a>Manifiesto</a>
+            </li>
+            <li id="liHablitarI">
+              <a>Habilitar Importadores</a>
+            </li>
+            <li id="liListaPeligrosa">
+              <a>Lista Peligrosa</a>
+            </li>
+          </div>
+        </ul>
+        <div id="aux"><a>Cerrar Sesion</a></div>
+        <!-- FIN AUX -->
+      </div>
+      <!--cabezal-->
 
-      </p>
-      <div class="clear10px"></div>
-      <br/>
-      <input class="txtInput" id="txtUser" type="text" placeholder="Ingrese Usuario"/>
-      <p id="errorPusuario" class="errorObligatorio">
-
-      </p>
-      <div class="clear10px"></div>
-      <br/>
-      <input type="password" id="txtPass" class="txtInput" placeholder="Ingrese Contraseña"/>
-      <p id="errorPpass" class="errorObligatorio">
-
-      </p>
-      <div class="clear10px"></div>
-      <br/>
-      <input id="btnRegistro" class="ingresoRegistro" type="button" value="Registrarse"/>
-      <p class="textos">
-        ¿Ya tienes una cuenta?<br/>Ingresa
-        <strong id="ingresoDesdeRegistro">aquí</strong>
-      </p>
-    </div>
-  </div>
-  <!--contenedor login-->
-
-  <div id="contenedor" style="display:none">
-    <div id="cabezal" class="clearfix">
-      <img id="logo" src="img/8.jpg" alt="logo">
-      <ul id="navPrincipal">
-        <div id="navImportador" style="display: none;">
-          <li id="liNuevaSolicitud">
-            <a>Nueva Solicitud</a>
-          </li>
-          <li id="liConsultarSolictudes">
-            <a>Consultar Solictudes</a>
-          </li>
-          <li id="liCancelarSolicitud">
-            <a>Cancelar Solicitud</a>
-          </li>
-          <li id="liEstadistica">
-            <a>Estadistica</a>
-          </li>
+      <div id="divImportador" style="display: none">
+        <div id="divSolicitudDeCarga" style="width: 400px">
+          <h2>Crear una nueva solicitud de carga</h2>
+          <textarea
+            id="txtDescrip"
+            style="width: 395px; height: 50px"
+            placeholder="Ingrese descripcion de mercaderia"
+          ></textarea
+          ><br /><br />
+          <label>Seleeciona tipo de carga </label>
+          <select id="txtTipoCarga">
+            <option value="">Seleccione</option>
+            <option value="General">General</option>
+            <option value="Refrigerado">Refrigerado</option>
+            <option value="Peligrosa">Carga peligrosa</option></select
+          ><br /><br />
+          <label>Ingrese puerto de origen </label
+          ><input id="txtPuerto" type="text" /><br /><br />
+          <label>Ingrese cantidad de contenedores </label
+          ><input id="txtCantContenedores" type="number" /><br /><br />
+          <label>Ingrese id de la empresa </label
+          ><input id="txtIdEmpresa" type="number" /><br /><br />
+          <input
+            id="btnIngresarMercaderia"
+            type="button"
+            class="btnForma"
+            value="Ingresar mercaderia"
+          /><br /><br />
+          <p id="pIDGeneradoMercaderia"></p>
+          <br /><br />
         </div>
-        <div id="navEmpresa" style="display: none;">
-          <li id="liCrearViaje">
-            <a>Crear viaje</a>
-          </li>
-          <li id="liAsignarBuque">
-            <a>Asignar a buque</a>
-          </li>
-          <li id="liRollover">
-            <a>Rollover</a>
-          </li>
-          <li id="liManifiesto">
-            <a>Manifiesto</a>
-          </li>
-          <li id="liHablitarI">
-            <a>Habilitar Importadores</a>
-          </li>
-          <li id="liListaPeligrosa">
-            <a>Lista Peligrosa</a>
-          </li>
+
+        <div id="divConsultarPendientes" style="display: none">
+          <br /><br />
+          <label>Ingrese id o descripcion parcial </label
+          ><input id="txtBuscarPendientes" type="text" />
+          <input
+            id="btnBuscarPendientes"
+            type="button"
+            class="btnForma"
+            value="BUSCAR"
+          /><br /><br />
+          <div id="pBuscarPendientes"></div>
+          <br />
+          <h2>Sus solicitudes pendientes</h2>
+          <div id="pTotalPendientes"></div>
+          <br /><br />
         </div>
-      </ul>
-      <div id="aux"><a>Cerrar Sesion</a></div>
-      <!-- FIN AUX -->
-    </div>
-    <!--cabezal-->
+        <div id="divCancelarSolicitudDeCarga" style="display: none">
+          <h2>Cancelar solicitud de carga</h2>
+          <label>Ingrese id de la solicitud a cancelar </label>
+          <div id="divPendientesACancelar"></div>
+          <br /><br />
+          <input
+            id="btnCancelarSolicitud"
+            type="button"
+            class="btnForma"
+            value="Cancelar Solicitud"
+          /><br /><br />
+          <p id="pCancelarSoli"></p>
+          <br /><br />
+        </div>
 
-    <div id="divImportador" style="display:none">
-      <div id="divSolicitudDeCarga" style="width: 400px">
-        <h2>Crear una nueva solicitud de carga</h2>
-        <textarea id="txtDescrip" style="width: 395px;height: 50px;"
-          placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
-        <label>Seleeciona tipo de carga </label>
-        <select id="txtTipoCarga">
-          <option value="">Seleccione</option>
-          <option value="General">General</option>
-          <option value="Refrigerado">Refrigerado</option>
-          <option value="Peligrosa">Carga peligrosa</option>
-        </select><br><br>
-        <label>Ingrese puerto de origen </label><input id="txtPuerto" type="text"><br><br>
-        <label>Ingrese cantidad de contenedores </label><input id="txtCantContenedores" type="number"><br><br>
-        <label>Ingrese id de la empresa </label><input id="txtIdEmpresa" type="number"><br><br>
-        <input id="btnIngresarMercaderia" type="button" class="btnForma" value="Ingresar mercaderia"><br><br>
-        <p id="pIDGeneradoMercaderia"></p>
-        <br><br>
+        <div id="divInformacionEstadistica" style="display: none">
+          <h2>Informacion estadistica</h2>
+          <p id="divPorceCancelaciones"></p>
+          <p id="divTotalCarga"></p>
+          <p id="divProxLlegadas"></p>
+        </div>
       </div>
+      <!--divImportador-->
+      <div id="divEmpresa" style="display: none">
+        <div id="divNuevoViaje" style="width: 400px">
+          <h2>Nuevo Viaje</h2>
+          <label> Nombre del buque </label
+          ><input id="txtNombreBuque" type="text" /> <br />
+          <label> Cantidad maxima de contenedores </label>
+          <input id="txtCantMax" type="text" /> <br /><br />
+          <label> Fecha de llegada </label><input id="txtFecha" type="date" />
+          <br />
+          <input
+            id="btnNuevoViaje"
+            type="button"
+            class="btnForma"
+            value="Crae nuevo viaje"
+          /><br /><br />
+          <div id="divMostrarAutomatico"></div>
+        </div>
+        <div id="divConfirmarPendientes" style="width: 400px; display: none">
+          <h2>Asignar carga pendiente</h2>
+          <label> Cargas pendientes </label>
+          <div id="divCargasPendientes"></div>
+          <br />
+          <label> Viajes proximos: </label>
+          <div id="divProximosViajes"></div>
+          <br />
+          <input
+            type="button"
+            class="btnForma"
+            id="btnConfirmarCarga"
+            value="confirmar"
+          />
+          <p id="pIDSolicitudConfirmada"></p>
+        </div>
 
-      <div id="divConsultarPendientes" style="display:none;">
-        <br><br>
-        <label>Ingrese id o descripcion parcial </label><input id="txtBuscarPendientes" type="text">
-        <input id="btnBuscarPendientes" type="button" class="btnForma" value="BUSCAR"><br><br>
-        <div id="pBuscarPendientes"></div><br>
-        <h2>Sus solicitudes pendientes</h2>
-        <div id="pTotalPendientes"></div>
-        <br><br>
-      </div>
-      <div id="divCancelarSolicitudDeCarga" style="display:none;">
-        <h2> Cancelar solicitud de carga</h2>
-        <label>Ingrese id de la solicitud a cancelar </label>
-        <div id="divPendientesACancelar"></div>
-        <br><br>
-        <input id="btnCancelarSolicitud" type="button" class="btnForma" value="Cancelar Solicitud"><br><br>
-        <p id="pCancelarSoli"></p>
-        <br><br>
-      </div>
-
-      <div id="divInformacionEstadistica" style="display:none;">
-        <h2>Informacion estadistica</h2>
-        <P id="divPorceCancelaciones"></p>
-        <p id="divTotalCarga"></p>
-        <p id="divProxLlegadas"></p>
-      </div>
-    </div>
-    <!--divImportador-->
-    <div id="divEmpresa" style="display:none">
-      <div id="divNuevoViaje" style="width: 400px;">
-        <h2>Nuevo Viaje</h2>
-        <label> Nombre del buque </label><input id="txtNombreBuque" type="text"/> <br/>
-        <label> Cantidad maxima de contenedores </label> <input id="txtCantMax" type="text"/> <br/><br/>
-        <label> Fecha de llegada </label><input id="txtFecha" type="date"/> <br/>
-        <input id="btnNuevoViaje" type="button" class="btnForma" value="Crae nuevo viaje"><br><br>
-        <div id="divMostrarAutomatico"></div>
-      </div>
-      <div id="divConfirmarPendientes" style="width: 400px;display:none;">
-        <h2>Asignar carga pendiente</h2>
-        <label> Cargas pendientes </label>
-        <div id="divCargasPendientes"></div>
-        <br/>
-        <label> Viajes proximos: </label>
-        <div id="divProximosViajes"></div>
-        <br/>
-        <input type="button" class="btnForma" id="btnConfirmarCarga" value="confirmar"/>
-        <p id="pIDSolicitudConfirmada"></p>
-      </div>
-
-      <div id="divRollover" style="width: 400px;display:none;">
-        <h2>Rollover de carga</h2>
-        <label> Solicitudes de cargas confirmadas: </label>
-        <select id="selRollover">
-          <!--<option value="">ID solicitud de carga</option>
+        <div id="divRollover" style="width: 400px; display: none">
+          <h2>Rollover de carga</h2>
+          <label> Solicitudes de cargas confirmadas: </label>
+          <select id="selRollover">
+            <!--<option value="">ID solicitud de carga</option>
         <option value="">ID solicitud de carga</option>
         <option value="">ID solicitud de carga</option>
         <option value="">ID solicitud de carga</option>-->
-        </select>
-        <br/>
-        <label> Viajes proximos: </label>
-        <select id="selProximosViajesRollover">
-          <!--<option value="">1</option>
+          </select>
+          <input type="button" value="Rollear" id="btnRollover" />
+          <div id="divMostrarTablaRollover">
+            <h4>Selecciona el nuevo buque que transportara la carga:</h4>
+          </div>
+          <br />
+
+          <label> Viajes proximos: </label>
+          <select id="selProximosViajesRollover">
+            <!--<option value="">1</option>
         <option value="">2</option>
         <option value="">3</option>
         <option value="">4</option>-->
-        </select>
-        <br/>
-        <input type="button" class="btnForma" value="Rollover"/>
-      </div>
+          </select>
+          <br />
+          <input type="button" class="btnForma" value="Rollover" />
+        </div>
 
-      <div id="divManifiestoCargar" style="display:none;">
-        <h2>Manifiesto de carga</h2>
-        <label> Linea de carga: </label>
-        <select id="selLineaDeCarga">
-          <!--<option value="">1</option>
+        <div id="divManifiestoCargar" style="display: none">
+          <h2>Manifiesto de carga</h2>
+          <label> Linea de carga: </label>
+          <select id="selLineaDeCarga">
+            <!--<option value="">1</option>
         <option value="">2</option>
         <option value="">3</option>
         <option value="">4</option>-->
-        </select>
-        <br/>
-        <table>
-          <tr>
-            <td><strong>Importador</strong></td>
-            <td><strong>Contenedores</strong></td>
-            <td><strong>Tipo de carga</strong></td>
-          </tr>
+          </select>
+          <br />
+          <table>
+            <tr>
+              <td><strong>Importador</strong></td>
+              <td><strong>Contenedores</strong></td>
+              <td><strong>Tipo de carga</strong></td>
+            </tr>
 
-          <!--<tr>
+            <!--<tr>
           <td>Nombre</td>
           <td>20</td>
           <td>carga</td>
@@ -228,19 +301,19 @@
           <td>20</td>
           <td>carga</td>
         </tr> -->
-        </table>
-        <br/>
-      </div>
+          </table>
+          <br />
+        </div>
 
-      <div id="divHabilitarImportadores" style="display:none;">
-        <h2>Habilitar Importadores</h2>
-        <table>
-          <tr>
-            <td><strong>Importador</strong></td>
-            <td><strong>Status</strong></td>
-            <td><strong>Accion</strong></td>
-          </tr>
-          <!--<tr>
+        <div id="divHabilitarImportadores" style="display: none">
+          <h2>Habilitar Importadores</h2>
+          <table>
+            <tr>
+              <td><strong>Importador</strong></td>
+              <td><strong>Status</strong></td>
+              <td><strong>Accion</strong></td>
+            </tr>
+            <!--<tr>
           <td>Nombre</td>
           <td>Suspendido</td>
           <td><input type="button" value="Habilitar"/></td>
@@ -255,20 +328,20 @@
           <td>Suspendido</td>
           <td><input type="button" value="Habilitar"/></td>
         </tr>-->
-        </table>
-        <br/>
-      </div>
+          </table>
+          <br />
+        </div>
 
-      <div id="divListadoCargaPeligrosa" style="display:none;">
-        <h2>Listado de carga peligrosa</h2>
+        <div id="divListadoCargaPeligrosa" style="display: none">
+          <h2>Listado de carga peligrosa</h2>
 
-        <table>
-          <tr>
-            <td><strong>Importador</strong></td>
-            <td><strong> Linea de carga</strong></td>
-            <td><strong> Carga peligrosa: </strong></td>
-          </tr>
-          <!--<tr>
+          <table>
+            <tr>
+              <td><strong>Importador</strong></td>
+              <td><strong> Linea de carga</strong></td>
+              <td><strong> Carga peligrosa: </strong></td>
+            </tr>
+            <!--<tr>
           <td>Nombre</td>
           <td>ID linea de carga</td>
           <td>Si</td>
@@ -283,18 +356,16 @@
           <td>ID linea de carga</td>
           <td>No</td>
         </tr>-->
-        </table>
-        <br/>
+          </table>
+          <br />
+        </div>
       </div>
+      <!--divEmpresa-->
     </div>
-    <!--divEmpresa-->
-  </div>
-  <!--contenedor-->
+    <!--contenedor-->
 
-
-  <script type="text/javascript" src="js/clasesDeNegocios.js"></script>
-  <script type="text/javascript" src="js/codigo.js"></script>
-  <script type="text/javascript" src="js/codigoUI.js"></script>
-</body>
-
+    <script type="text/javascript" src="js/clasesDeNegocios.js"></script>
+    <script type="text/javascript" src="js/codigo.js"></script>
+    <script type="text/javascript" src="js/codigoUI.js"></script>
+  </body>
 </html>
