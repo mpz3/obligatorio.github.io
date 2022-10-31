@@ -5,6 +5,7 @@ function preCarga() {
     nuevoRegistro("importador3", "fotoMP.jpg", "userimportar3", "importadoR3", "importador");
     nuevoRegistro("importador4", "fotoMP.jpg", "userimportar4", "importadoR4", "importador");
     nuevoRegistro("importador5", "fotoMP.jpg", "userimportar5", "importadoR5", "importador");
+    nuevoRegistro("importador6", "fotoMP.jpg", "1", "1", "importador");
     nuevoRegistro("empresa1", "empre.jpg", "userempresa1", "userempreSA1", "empresa");
     nuevoRegistro("empresa2", "empre.jpg", "userempresa2", "userempreSA2", "empresa");
     nuevoRegistro("empresa3", "empre.jpg", "userempresa3", "userempreSA3", "empresa");
@@ -177,8 +178,10 @@ function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa)
 
 function busquedaSolicitudesPendientes(pBusqueda) {
     let tabla = `<table  style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
+    pBusqueda = pBusqueda.toLowerCase();
     for (let i = 0; i < solicitudesDeCarga.length; i++) {
-        if (solicitudesDeCarga[i].id === Number(pBusqueda) || solicitudesDeCarga[i].descripcion.toLowerCase() === pBusqueda.toLowerCase()) {
+        let descripcionMinus = solicitudesDeCarga[i].descripcion.toLowerCase();
+        if (solicitudesDeCarga[i].id === Number(pBusqueda) || descripcionMinus === pBusqueda || descripcionMinus.includes(pBusqueda)) {
             tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].estado}</td><td>${solicitudesDeCarga[i].descripcion}</td><td>${solicitudesDeCarga[i].tipo}</td><td>${solicitudesDeCarga[i].puerto}</td><td>${solicitudesDeCarga[i].cantidadContenedores}</td><td>${solicitudesDeCarga[i].idEmpresa}</td></tr>`;
         }
     }
@@ -239,14 +242,14 @@ function confirmarCarga(pIdsolcitudAprobada, pEnElviaje) {
     carga.idViaje = pEnElviaje;
     carga.idCarga = pIdsolcitudAprobada;
     viajesConfirmados.push(carga);
-    cambiarEstado(pIdsolcitudAprobada,"CONFIRMADA");
+    cambiarEstado(pIdsolcitudAprobada, "CONFIRMADA");
     cargarDatosPendientes();//para quitarla del select y volver con las pendientes
     CargaConfirmada.idCargaConfirmada++;
 }
 
-function cambiarEstado(pIDCarga,pEstado) {
+function cambiarEstado(pIDCarga, pEstado) {
     let encontrado = false;
-    let i =0;
+    let i = 0;
     while (i < solicitudesDeCarga.length && !encontrado) {
         if (solicitudesDeCarga[i].id === pIDCarga) {
             solicitudesDeCarga[i].estado = pEstado;
