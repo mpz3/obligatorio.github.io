@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "../.."
+    },
+    {
+      "name": "obligatorio.github.io",
+      "path": ".."
+    }
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "obligatorio.github.io"
+  }
+}
