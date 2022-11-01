@@ -5,8 +5,6 @@ let viajesConfirmados = new Array();
 let userOnline = "camila";
 let tipoUserG = "importador";
 
-
-
 function preCarga() {
   /* usuarios */
   nuevoRegistro("camila", "fotoCM.jpg", "camila", "camilaCM123", "importador");
@@ -26,11 +24,11 @@ function preCarga() {
   ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1);
   ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2);
   ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 4);
-  /*Crear viajes */
-  ingresarBuque("ORO", 300, "2022-11-14", "1");
-  ingresarBuque("PLATA", 100, "2022-11-17", "1");
-  ingresarBuque("BARCO", 50, "2022-11-16", "1");
-  ingresarBuque("BRA", 500, "2022-11-15", "pUerOnline");
+  /*Crear buques */
+  ingresarBuque("BRA", 500, "2022-11-15", "userempresa2");
+  ingresarBuque("ORO", 300, "2022-11-14", "userempresa3");
+  ingresarBuque("PLATA", 100, "2022-11-17", "userempresa4");
+  ingresarBuque("BARCO", 50, "2022-11-16", "userempresa5");
 }
 
 function buscarUser(pUser, pPass) {
@@ -207,6 +205,7 @@ function busquedaSolicitudesPendientes(pBusqueda) {
 
 function ingresarBuque(pNombreB, pCantMax, pFecha, pUser) {
   let nuevoViaje = new ViajeBuque();
+  console.log(pUser)
   nuevoViaje.id = ViajeBuque.idViajeBuque;
   nuevoViaje.idEmpresa = buscarIDEmpresa(pUser);
   nuevoViaje.nombreBuque = pNombreB;
@@ -332,6 +331,8 @@ function cambiarViaje() {
   return encontrado;
 }
 
+
+
 /* function getIdUser(pUser) {
   let i = 0;
   let encontrado = false;
@@ -342,41 +343,3 @@ function cambiarViaje() {
   }
   return "";
 } */
-
-/* function calendario(pIDuser) {
-  let i = 0;
-  let encontrado = false;
-  let varIdCarga = "";
-  let varIdViaje = "";
-  while (i < solicitudesDeCarga.length || !encontrado) {
-    if (solicitudesDeCarga[i].userImportador === userOnline) {
-      varIdCarga = solicitudesDeCarga[i].id;
-      encontrado = true;
-    }
-    i++;
-  }//hasta aca encontre el id de la carga
-
-  if (encontrado) {
-    encontrado = false;
-    while (i < viajesConfirmados.length || !encontrado) {
-      if (viajesConfirmados[i].idCarga === varIdCarga) {
-        varIdViaje = viajesConfirmados[i].idViaje;
-        encontrado = true;
-      }
-      i++;
-    }//hasta aca encontre el id del viaje
-  }
-  let varFecha = "";
-  if (encontrado) {
-    encontrado = false;
-    while (i < buques.length || !encontrado) {
-      if (buques[i].id === varIdViaje) {
-        varFecha = buques[i].fechaLlegada;
-        encontrado = true;
-      }
-      i++;
-    }
-  }
-
-} */
-
