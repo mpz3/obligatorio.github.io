@@ -23,9 +23,7 @@ document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuard
 
 
 inicio();
-function inicio() {
-  preCarga();
-}
+
 function registrateAquiUI() {
   document.querySelector("#login").style.display = "none";
   document.querySelector("#registro").style.display = "block";

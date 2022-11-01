@@ -5,6 +5,10 @@ let viajesConfirmados = new Array();
 let userOnline = "camila";
 let tipoUserG = "importador";
 
+function inicio() {
+  preCarga();
+}
+
 function preCarga() {
   /* usuarios */
   nuevoRegistro("camila", "fotoCM.jpg", "camila", "camilaCM123", "importador");
@@ -205,7 +209,6 @@ function busquedaSolicitudesPendientes(pBusqueda) {
 
 function ingresarBuque(pNombreB, pCantMax, pFecha, pUser) {
   let nuevoViaje = new ViajeBuque();
-  console.log(pUser)
   nuevoViaje.id = ViajeBuque.idViajeBuque;
   nuevoViaje.idEmpresa = buscarIDEmpresa(pUser);
   nuevoViaje.nombreBuque = pNombreB;
