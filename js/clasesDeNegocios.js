@@ -20,10 +20,10 @@ class SolicitudCarga {
         this.puerto = "";
         this.cantidadContenedores = -1;
         this.idEmpresa = -1;
-        this.userImportador = "";//o id
+        this.userImportador = "";
     }
 }
-class CargaConfirmada{
+class CargaConfirmada {
     static idCargaConfirmada = 0;
     constructor() {
         this.id = -1;
