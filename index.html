@@ -180,22 +180,14 @@
       <div id="divRollover" style="width: 400px;display:none;">
         <h2>Rollover de carga</h2>
         <label> Solicitudes de cargas confirmadas: </label>
-        <select id="selRollover">
-          <!--<option value="">ID solicitud de carga</option>
-        <option value="">ID solicitud de carga</option>
-        <option value="">ID solicitud de carga</option>
-        <option value="">ID solicitud de carga</option>-->
-        </select>
-        <br />
-        <label> Viajes proximos: </label>
-        <select id="selProximosViajesRollover">
-          <!--<option value="">1</option>
-        <option value="">2</option>
-        <option value="">3</option>
-        <option value="">4</option>-->
-        </select>
-        <br />
-        <input type="button" class="btnForma" value="Rollover" />
+        <div id="divSelRollover"></div><br/><!-- primer select -->
+        <input type="button" class="btnForma" id="btnRollover" value="Buscar otro viaje" />
+
+        <div id="divbuscarNuevoViaje" style="display:none;">
+          <div id="divMoverViaje"></div><!-- segundo select -->
+          <input type="button" class="btnForma" id="btnGuardarRollover" value="Rollear" />
+        </div>
+        <p id="msgRollover"></p>
       </div>
 
       <div id="divManifiestoCargar" style="display:none;">

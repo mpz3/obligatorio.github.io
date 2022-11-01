@@ -1,5 +1,14 @@
+let usuarios = new Array();
+let solicitudesDeCarga = new Array();
+let buques = new Array();
+let viajesConfirmados = new Array();
+let userOnline = "camila";
+let tipoUserG = "importador";
+
+
 
 function preCarga() {
+  /* usuarios */
   nuevoRegistro("camila", "fotoCM.jpg", "camila", "camilaCM123", "importador");
   nuevoRegistro("miguel", "fotoMP.jpg", "miguel", "miguelMP123", "importador");
   nuevoRegistro("importador3", "fotoMP.jpg", "userimportar3", "importadoR3", "importador");
@@ -12,9 +21,16 @@ function preCarga() {
   nuevoRegistro("empresa4", "empre.jpg", "userempresa4", "userempreSA4", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "userempresa5", "userempreSA5", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 1);
-  ingresarMercaderia("Desc2", "CARGA_GENERAL", "CBA", 32, 1);
+  /* solicitudes penditentes */
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0);
+  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1);
   ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2);
+  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 4);
+  /*Crear viajes */
+  ingresarBuque("ORO", 300, "2022-11-14", "1");
+  ingresarBuque("PLATA", 100, "2022-11-17", "1");
+  ingresarBuque("BARCO", 50, "2022-11-16", "1");
+  ingresarBuque("BRA", 500, "2022-11-15", "pUerOnline");
 }
 
 function buscarUser(pUser, pPass) {
@@ -83,14 +99,14 @@ function validarRegistro(pName, pfoto, pUsuario, pPass) {
 }
 
 function validarLogin(pUser, pPass) {
-  if (pUser === '') {
+  if (pUser === "") {
     document.querySelector("#errorUsuarioLogin").style.display = "block";
     document.querySelector("#errorUsuarioLogin").innerHTML = `Campo Obligatorio (*)`;
     error = true;
   } else {
     document.querySelector("#errorUsuarioLogin").style.display = "none";
   }
-  if (pPass === '') {
+  if (pPass === "") {
     document.querySelector("#errorPassLogin").style.display = "block";
     document.querySelector("#errorPassLogin").innerHTML = `Campo Obligatorio (*)`;
     error = true;
@@ -189,10 +205,10 @@ function busquedaSolicitudesPendientes(pBusqueda) {
   document.querySelector("#pBuscarPendientes").innerHTML = tabla;
 }
 
-function ingresarBuque(pNombreB, pCantMax, pFecha, pUerOnline) {
+function ingresarBuque(pNombreB, pCantMax, pFecha, pUser) {
   let nuevoViaje = new ViajeBuque();
   nuevoViaje.id = ViajeBuque.idViajeBuque;
-  nuevoViaje.idEmpresa = buscarEmpresa(pUerOnline);
+  nuevoViaje.idEmpresa = buscarIDEmpresa(pUser);
   nuevoViaje.nombreBuque = pNombreB;
   nuevoViaje.cargaMaxima = pCantMax;
   nuevoViaje.cargaTotal = 0;
@@ -201,7 +217,7 @@ function ingresarBuque(pNombreB, pCantMax, pFecha, pUerOnline) {
   ViajeBuque.idViajeBuque++;
 }
 
-function buscarEmpresa(pUser) {
+function buscarIDEmpresa(pUser) {
   let encotrando = false;
   let i = 0;
   while (i < usuarios.length || !encotrando) {
@@ -224,7 +240,7 @@ function cargarDatosSolicitudesPendientes() {
   opciones += "</select>";
   document.querySelector("#divCargasPendientes").innerHTML = opciones;
 }
-function cargarDatosViajesProximos() { 
+function cargarDatosViajesProximos() {
   let pIDSolicitud = Number(document.querySelector("#selCargasPendientes").value);
   let opFecha = `<select id="selViajesPendientes"> <option value="">Seleccione </option>`;
   for (let i = 0; i < buques.length; i++) {
@@ -261,6 +277,61 @@ function cambiarEstado(pIDCarga, pEstado) {
     i++;
   }
 }
+
+function cargarSolicitudes() {
+  let select = `<select id="selRollover"> <option value="">Seleccione</option>`;
+  for (let i = 0; i < viajesConfirmados.length; i++) {
+    select += `<option value="idViajeConfir-${viajesConfirmados[i].id}">Cancelar viaje ${viajesConfirmados[i].idCarga} de buque ${viajesConfirmados[i].idViaje}</option>`;
+  }
+  select += "</select>";
+  document.querySelector("#divSelRollover").innerHTML = select;
+}
+
+function buscarViajePorIDDeConfirmacion(pIDCancelar) {
+  let newA = new Array();
+  let i = 0;
+  let encontrado = false;
+  while (i < viajesConfirmados.length || !encontrado) {
+    if (viajesConfirmados[i].id === pIDCancelar) {
+      newA.push(viajesConfirmados[i].idCarga);
+      newA.push(viajesConfirmados[i].idViaje);
+      encontrado = true;
+    }
+    i++;
+  }
+  return newA;
+}
+
+function buscarViajeDisponible(pIDCancelar) {
+  let idConfirmacion = Number(pIDCancelar.split("idViajeConfir-")[1]);//este es el id del array carga confirmada
+  let select = `<select id="selMoverViaje"> <option value="">Seleccione</option>`;
+  let viaje = buscarViajePorIDDeConfirmacion(idConfirmacion);
+  for (let i = 0; i < buques.length; i++) {
+    if (buques[i].cargaMaxima >= buques[i].cargaTotal + solicitudesDeCarga[idConfirmacion].cantidadContenedores && buques[i].fechaLlegada > buques[viaje[1]].fechaLlegada) {
+      select += `<option value="moverABuque-${buques[i].id}">Mover a buque ${buques[i].id}</option>`;
+    }
+  }
+  select += "</select>";
+  document.querySelector("#divMoverViaje").innerHTML = select;
+}
+
+function cambiarViaje() {
+  let pCancelar = document.querySelector("#selRollover").value;
+  let pMover = document.querySelector("#selMoverViaje").value;
+  pCancelar = Number(pCancelar.split("idViajeConfir-")[1]);//idViajeConfir-0
+  pMover = Number(pMover.split("moverABuque-")[1]);//moverABuque-1
+  let encontrado = false;
+  let i = 0;
+  while (i < viajesConfirmados.length && !encontrado) {
+    if (viajesConfirmados[i].id === pCancelar) {
+      viajesConfirmados[i].idViaje = pMover;
+      encontrado = true;
+    }
+    i++;
+  }
+  return encontrado;
+}
+
 /* function getIdUser(pUser) {
   let i = 0;
   let encontrado = false;

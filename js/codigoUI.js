@@ -18,20 +18,14 @@ document.querySelector("#liEstadistica").addEventListener("click", estadisticaUI
 document.querySelector("#btnNuevoViaje").addEventListener("click", btnNuevoViajeUI);
 document.querySelector("#btnConfirmarCarga").addEventListener("click", btnConfirmarCargaUI);
 document.querySelector("#btnBuscarViajesProx").addEventListener("click", btnBuscarViajesProxUI);
+document.querySelector("#btnRollover").addEventListener("click", btnRolloverUI);
+document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuardarRollover);
 
 
-let usuarios = new Array();
-let solicitudesDeCarga = new Array();
-let buques = new Array();
-let viajesConfirmados = new Array();
-let userOnline = "camila";
-let tipoUserG = "importador";
 inicio();
-
 function inicio() {
   preCarga();
 }
-
 function registrateAquiUI() {
   document.querySelector("#login").style.display = "none";
   document.querySelector("#registro").style.display = "block";
@@ -151,6 +145,7 @@ function liAsignarBuqueUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
 }
 function liRolloverUI() {
+  cargarSolicitudes();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
   document.querySelector("#divRollover").style.display = "block";
@@ -282,7 +277,23 @@ function btnConfirmarCargaUI() {
   }
 }
 
-function btnBuscarViajesProxUI(){
+function btnBuscarViajesProxUI() {
   document.querySelector("#divBuscarProximosViajes").style.display = "block";
   cargarDatosViajesProximos();
+}
+
+function btnRolloverUI() {
+  let cancelar = document.querySelector("#selRollover").value;
+  buscarViajeDisponible(cancelar);
+  document.querySelector("#divbuscarNuevoViaje").style.display = "block";
+}
+
+function btnGuardarRollover() {
+  if (cambiarViaje()) {
+    document.querySelector("#divbuscarNuevoViaje").style.display = "none";
+    document.querySelector("#divMoverViaje").innerHTML = "";
+    document.querySelector("#msgRollover").innerHTML = `Se movio correctamente`;
+  } else {
+    document.querySelector("#msgRollover").innerHTML = `No se pudo mover`;
+  }
 }
