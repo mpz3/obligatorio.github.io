@@ -39,6 +39,7 @@ class ViajeBuque {
         this.idEmpresa = -1;
         this.nombreBuque = "";
         this.cargaMaxima = -1;
+        this.cargaTotal = -1;
         this.fechaLlegada = "";
     }
 }

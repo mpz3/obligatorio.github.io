@@ -2,61 +2,61 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Administración de Puertos</title>
-  <link rel="stylesheet" tyoe="text/css" href="css/style.css"/>
+  <link rel="stylesheet" tyoe="text/css" href="css/style.css" />
 </head>
 
 <body style="background-color: #9e9e9e26;font-family: arial;">
   <div id="contenedorLogin">
     <div id="login">
       <h2 class="textos">Iniciar sesion</h2>
-      <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario"/>
+      <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
       <p id="errorUsuarioLogin" class="errorObligatorio">
       </p>
       <div class="clear10px"></div>
-      <br/>
-      <input id="txtloginPass" type="password" class="txtInput" placeholder="Ingrese Contraseña"/>
+      <br />
+      <input id="txtloginPass" type="password" class="txtInput" placeholder="Ingrese Contraseña" />
       <p id="errorPassLogin" class="errorObligatorio">
       </p>
       <br>
       <p id="errorUsuario" style="text-align: center;" class="errorObligatorio"></p>
-      <input id="btnLogin" class="ingresoRegistro" type="button" value="Ingresar"/>
+      <input id="btnLogin" class="ingresoRegistro" type="button" value="Ingresar" />
       <p class="textos">
-        No tienes una cuenta?<br/><strong id="pRegistrateAqui">Registrate aqui</strong>
+        No tienes una cuenta?<br /><strong id="pRegistrateAqui">Registrate aqui</strong>
       </p>
     </div>
     <div id="registro" style="display:none">
       <h2 class="textos">Registro</h2>
-      <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre"/>
+      <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre" />
       <p id="errorPname" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
-      <br/>
-      <label>Subir foto de perfil </label><input class="txtInput" id="txtFoto" type="file"/>
+      <br />
+      <label>Subir foto de perfil </label><input class="txtInput" id="txtFoto" type="file" />
       <p id="errorPfoto" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
-      <br/>
-      <input class="txtInput" id="txtUser" type="text" placeholder="Ingrese Usuario"/>
+      <br />
+      <input class="txtInput" id="txtUser" type="text" placeholder="Ingrese Usuario" />
       <p id="errorPusuario" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
-      <br/>
-      <input type="password" id="txtPass" class="txtInput" placeholder="Ingrese Contraseña"/>
+      <br />
+      <input type="password" id="txtPass" class="txtInput" placeholder="Ingrese Contraseña" />
       <p id="errorPpass" class="errorObligatorio">
 
       </p>
       <div class="clear10px"></div>
-      <br/>
-      <input id="btnRegistro" class="ingresoRegistro" type="button" value="Registrarse"/>
+      <br />
+      <input id="btnRegistro" class="ingresoRegistro" type="button" value="Registrarse" />
       <p class="textos">
-        ¿Ya tienes una cuenta?<br/>Ingresa
+        ¿Ya tienes una cuenta?<br />Ingresa
         <strong id="ingresoDesdeRegistro">aquí</strong>
       </p>
     </div>
@@ -149,7 +149,6 @@
       <div id="divInformacionEstadistica" style="display:none;">
         <h2>Informacion estadistica</h2>
         <P id="divPorceCancelaciones"></p>
-        <p id="divTotalCarga"></p>
         <p id="divProxLlegadas"></p>
       </div>
     </div>
@@ -157,9 +156,9 @@
     <div id="divEmpresa" style="display:none">
       <div id="divNuevoViaje" style="width: 400px;">
         <h2>Nuevo Viaje</h2>
-        <label> Nombre del buque </label><input id="txtNombreBuque" type="text"/> <br/>
-        <label> Cantidad maxima de contenedores </label> <input id="txtCantMax" type="text"/> <br/><br/>
-        <label> Fecha de llegada </label><input id="txtFecha" type="date"/> <br/>
+        <label> Nombre del buque </label><input id="txtNombreBuque" type="text" /> <br />
+        <label> Cantidad maxima de contenedores </label> <input id="txtCantMax" type="text" /> <br /><br />
+        <label> Fecha de llegada </label><input id="txtFecha" type="date" /> <br />
         <input id="btnNuevoViaje" type="button" class="btnForma" value="Crae nuevo viaje"><br><br>
         <div id="divMostrarAutomatico"></div>
       </div>
@@ -167,11 +166,14 @@
         <h2>Asignar carga pendiente</h2>
         <label> Cargas pendientes </label>
         <div id="divCargasPendientes"></div>
-        <br/>
-        <label> Viajes proximos: </label>
-        <div id="divProximosViajes"></div>
-        <br/>
-        <input type="button" class="btnForma" id="btnConfirmarCarga" value="confirmar"/>
+        <br />
+        <input type="button" class="btnForma" id="btnBuscarViajesProx" value="Buscar" />
+        <div id="divBuscarProximosViajes" style="display: none;">
+          <label> Viajes proximos: </label>
+          <div id="divProximosViajes"></div>
+          <br />
+          <input type="button" class="btnForma" id="btnConfirmarCarga" value="confirmar" />
+        </div>
         <p id="pIDSolicitudConfirmada"></p>
       </div>
 
@@ -184,7 +186,7 @@
         <option value="">ID solicitud de carga</option>
         <option value="">ID solicitud de carga</option>-->
         </select>
-        <br/>
+        <br />
         <label> Viajes proximos: </label>
         <select id="selProximosViajesRollover">
           <!--<option value="">1</option>
@@ -192,8 +194,8 @@
         <option value="">3</option>
         <option value="">4</option>-->
         </select>
-        <br/>
-        <input type="button" class="btnForma" value="Rollover"/>
+        <br />
+        <input type="button" class="btnForma" value="Rollover" />
       </div>
 
       <div id="divManifiestoCargar" style="display:none;">
@@ -205,7 +207,7 @@
         <option value="">3</option>
         <option value="">4</option>-->
         </select>
-        <br/>
+        <br />
         <table>
           <tr>
             <td><strong>Importador</strong></td>
@@ -229,7 +231,7 @@
           <td>carga</td>
         </tr> -->
         </table>
-        <br/>
+        <br />
       </div>
 
       <div id="divHabilitarImportadores" style="display:none;">
@@ -256,7 +258,7 @@
           <td><input type="button" value="Habilitar"/></td>
         </tr>-->
         </table>
-        <br/>
+        <br />
       </div>
 
       <div id="divListadoCargaPeligrosa" style="display:none;">
@@ -284,7 +286,7 @@
           <td>No</td>
         </tr>-->
         </table>
-        <br/>
+        <br />
       </div>
     </div>
     <!--divEmpresa-->
