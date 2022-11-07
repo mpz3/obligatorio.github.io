@@ -1,4 +1,3 @@
-//class UsuarioImportador {
 class Usuario {
     static idImportador = 0;
     constructor() {
@@ -8,18 +7,9 @@ class Usuario {
         this.user = "";
         this.contraseña = "";
         this.tipo = "";
+        this.estado = "";
     }
 }
-/*
-class UsuarioEmpresa {
-    static idEmpresa = 0;
-    constructor() {
-        this.nombre = "";
-        this.foto = "";
-        this.user = "";
-        this.contraseña = "";
-    }
-}*/
 
 class SolicitudCarga {
     static idSolicitudCarga = 0;
@@ -31,10 +21,10 @@ class SolicitudCarga {
         this.puerto = "";
         this.cantidadContenedores = -1;
         this.idEmpresa = -1;
-        this.userImportador = "";//o id
+        this.userImportador = "";
     }
 }
-class CargaConfirmada{
+class CargaConfirmada {
     static idCargaConfirmada = 0;
     constructor() {
         this.id = -1;
@@ -50,6 +40,7 @@ class ViajeBuque {
         this.idEmpresa = -1;
         this.nombreBuque = "";
         this.cargaMaxima = -1;
+        this.cargaTotal = -1;
         this.fechaLlegada = "";
     }
 }
