@@ -9,6 +9,7 @@ document.querySelector("#liCrearViaje").addEventListener("click", liCrearViajeUI
 document.querySelector("#liAsignarBuque").addEventListener("click", liAsignarBuqueUI);
 document.querySelector("#liRollover").addEventListener("click", liRolloverUI);
 document.querySelector("#liManifiesto").addEventListener("click", liManifiestoUI);
+document.querySelector("#btnBuscarEnManifiesto").addEventListener("click", btnBuscarEnManifiesto);
 document.querySelector("#liHablitarI").addEventListener("click", liHablitarIUI);
 document.querySelector("#liListaPeligrosa").addEventListener("click", liListaPeligrosaUI);
 document.querySelector("#btnIngresarMercaderia").addEventListener("click", btnUIMercaderia);
@@ -20,6 +21,7 @@ document.querySelector("#btnConfirmarCarga").addEventListener("click", btnConfir
 document.querySelector("#btnBuscarViajesProx").addEventListener("click", btnBuscarViajesProxUI);
 document.querySelector("#btnRollover").addEventListener("click", btnRolloverUI);
 document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuardarRollover);
+
 
 
 inicio();
@@ -152,6 +154,7 @@ function liRolloverUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
 }
 function liManifiestoUI() {
+  mostrarViajesDeLineaCarga();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
   document.querySelector("#divRollover").style.display = "none";
@@ -291,7 +294,17 @@ function btnGuardarRollover() {
     document.querySelector("#divbuscarNuevoViaje").style.display = "none";
     document.querySelector("#divMoverViaje").innerHTML = "";
     document.querySelector("#msgRollover").innerHTML = `Se movio correctamente`;
+    cargarSolicitudes();
   } else {
     document.querySelector("#msgRollover").innerHTML = `No se pudo mover`;
+  }
+}
+
+function btnBuscarEnManifiesto() {
+  let nroViaje = document.querySelector("#selLineaDeCarga").value;
+  if (nroViaje === ""){
+//validar
+  }else{
+     buscarEnManifiesto(nroViaje);
   }
 }

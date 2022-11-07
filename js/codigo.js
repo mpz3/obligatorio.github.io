@@ -246,7 +246,8 @@ function cargarDatosViajesProximos() {
   let pIDSolicitud = Number(document.querySelector("#selCargasPendientes").value);
   let opFecha = `<select id="selViajesPendientes"> <option value="">Seleccione </option>`;
   for (let i = 0; i < buques.length; i++) {
-    if (new Date(buques[i].fechaLlegada) > new Date() && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {    //validar importador habilitado
+    if (new Date(buques[i].fechaLlegada) > new Date() && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {
+      //validar importador habilitado
       if ((buques[i].cargaTotal + solicitudesDeCarga[pIDSolicitud].cantidadContenedores) <= buques[i].cargaMaxima) {
         buques[i].cargaTotal += solicitudesDeCarga[pIDSolicitud].cantidadContenedores;
         opFecha += `<option value="${buques[i].id}">Buque ID ${buques[i].id}</option>`;
@@ -320,8 +321,8 @@ function buscarViajeDisponible(pIDCancelar) {
 function cambiarViaje() {
   let pCancelar = document.querySelector("#selRollover").value;
   let pMover = document.querySelector("#selMoverViaje").value;
-  pCancelar = Number(pCancelar.split("idViajeConfir-")[1]);//idViajeConfir-0
-  pMover = Number(pMover.split("moverABuque-")[1]);//moverABuque-1
+  pCancelar = Number(pCancelar.split("idViajeConfir-")[1]);//idViajeConfir-x
+  pMover = Number(pMover.split("moverABuque-")[1]);//moverABuque-x
   let encontrado = false;
   let i = 0;
   while (i < viajesConfirmados.length && !encontrado) {
@@ -334,7 +335,48 @@ function cambiarViaje() {
   return encontrado;
 }
 
+function mostrarViajesDeLineaCarga() {
+  let pSelect = document.querySelector("#selLineaDeCarga");
+  document.querySelector("#selLineaDeCarga").innerHTML = "";//limpia las opciones y las carga de nuevo para que no se repitan
+  let option = "";
+  let viajesCargados = new Array();
+  for (let i = 0; i < viajesConfirmados.length; i++) {
+    if (!agruparViajesConfirmados(viajesConfirmados[i].idViaje, viajesCargados)) {
+      option += `<option value="manifiestoViaje-${viajesConfirmados[i].idViaje}">Viaje nro ${viajesConfirmados[i].idViaje} </option>`;
+      viajesCargados.push(viajesConfirmados[i].idViaje);//guardo en el array para saber que este ya lo cargue
+    }
+  }
+  pSelect.insertAdjacentHTML("beforeend", option);
+}
 
+function agruparViajesConfirmados(pIDViajeManifiesto, pArrayConfirmados) {
+  let i = 0;
+  while (i < viajesConfirmados.length) {//buscar si el id del manifiesto esta en el array, si esta retorno true
+    if (pIDViajeManifiesto === pArrayConfirmados[i]) {
+      return true;
+    }
+    i++;
+  }
+  return false;
+}
+
+function buscarEnManifiesto(pNroViaje) {
+  let tabla = `<table><tr><th><strong>origen</strong></th><th><strong>Contenedor</strong></th><th><strong>Importador</strong></th><th><strong>Descripción</strong></th><th><strong>Tipo de carga</strong></th></tr>`;
+  pNroViaje = Number(pNroViaje.split("manifiestoViaje-")[1]);//este es el id del viaje
+  for (let i = 0; i < viajesConfirmados.length; i++) {
+    if (viajesConfirmados[i].idViaje === pNroViaje) {
+      let idDeCarga = viajesConfirmados[i].idCarga;
+      //buscar el nombre del importador, no el user
+      tabla += `<tr><td>${solicitudesDeCarga[idDeCarga].puerto}</td>
+      <td>${solicitudesDeCarga[idDeCarga].cantidadContenedores}</td>
+      <td>${solicitudesDeCarga[idDeCarga].userImportador}</td>
+      <td>${solicitudesDeCarga[idDeCarga].descripcion}</td>
+      <td>${solicitudesDeCarga[idDeCarga].tipo}</td>`;
+    }
+  }
+  tabla += `</table>`;
+  document.querySelector("#pManifiesto").innerHTML = tabla;
+}
 
 /* function getIdUser(pUser) {
   let i = 0;
