@@ -2,8 +2,9 @@ let usuarios = new Array();
 let solicitudesDeCarga = new Array();
 let buques = new Array();
 let viajesConfirmados = new Array();
-let userOnline = "camila";
-let tipoUserG = "importador";
+let usuariosDesabilitados = new Array();
+let userOnline = "";
+let tipoUserG = "";
 
 function inicio() {
   preCarga();
@@ -24,10 +25,10 @@ function preCarga() {
   nuevoRegistro("empresa5", "empre.jpg", "userempresa5", "userempreSA5", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
   /* solicitudes penditentes */
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0);
-  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1);
-  ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2);
-  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 4);
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "camila");
+  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1, "miguel");
+  ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3");
+  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 4, "userimportar4");
   /*Crear buques */
   ingresarBuque("BRA", 500, "2022-11-15", "userempresa2");
   ingresarBuque("ORO", 300, "2022-11-14", "userempresa3");
@@ -58,6 +59,7 @@ function nuevoRegistro(pNombre, Pfoto, pUsuario, pPass, pTipo) {
   user.user = pUsuario;
   user.contraseña = pPass;
   user.tipo = pTipo;
+  user.estado = "habilitado";
   usuarios.push(user);
   Usuario.idImportador++;
 }
@@ -179,7 +181,7 @@ function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpr
   return true;
 }
 
-function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa) {
+function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa, pUsuario) {
   let nuevaSolicitud = new SolicitudCarga();
   nuevaSolicitud.id = SolicitudCarga.idSolicitudCarga;
   nuevaSolicitud.estado = "Pendiente";
@@ -188,7 +190,7 @@ function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa)
   nuevaSolicitud.puerto = pPuerto;
   nuevaSolicitud.cantidadContenedores = pCantContenedores;
   nuevaSolicitud.idEmpresa = pIEmpresa;
-  nuevaSolicitud.userImportador = userOnline;
+  nuevaSolicitud.userImportador = pUsuario;
   solicitudesDeCarga.push(nuevaSolicitud);
   SolicitudCarga.idSolicitudCarga++;
   return SolicitudCarga.idSolicitudCarga - 1;
@@ -378,13 +380,63 @@ function buscarEnManifiesto(pNroViaje) {
   document.querySelector("#pManifiesto").innerHTML = tabla;
 }
 
-/* function getIdUser(pUser) {
+function cancelarCargaDeshabilitarImportador(pidCancelar) {
+  pidCancelar = Number(pidCancelar);
+  if (solicitudesDeCarga[pidCancelar].estado === "Pendiente") {
+    solicitudesDeCarga[pidCancelar].estado = "Cancelada";
+    if (cambiarEstadoImportador(solicitudesDeCarga[pidCancelar].userImportador)) {//busco el id de ese importador y lo deshabilito
+      let idUser = getIdUser(solicitudesDeCarga[pidCancelar].userImportador);
+      usuarios[idUser].estado = "Deshabilitado";
+    }
+    document.querySelector("#pCancelarSoli").innerHTML = `Se cancelo la solicitud ${pidCancelar} con exito`;
+    solicitudesPendientesUI();
+  }
+}
+
+function cambiarEstadoImportador(pUser) {//si es menor retorna false(no hay que cambiar estado)
+  let cantidadCanceladas = 0;
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {
+    if (solicitudesDeCarga[i].userImportador === pUser && solicitudesDeCarga[i].estado === "Cancelada") {
+      cantidadCanceladas++;
+    }
+  }
+  return !(cantidadCanceladas < 4);
+}
+
+function getIdUser(pUser) {//busco id segun su usuario 
   let i = 0;
   let encontrado = false;
-  while (i < usuarios.length || !encontrado) { //busco el usuario
+  while (i < usuarios.length || !encontrado) {
     if (usuarios[i].user === pUser) {
       return usuarios[i].id;
     }
+    i++;
   }
   return "";
-} */
+}
+
+function cargarDeshabilitados() {
+  // to do, hacer funcionar el cerrar session para cambiar entre los usuarios, ver funcionamiento de boton en tabla
+  let tabla = `<table><tr><th><strong>Importador</strong></th><th><strong>Status</strong></th><th><strong>Accion</strong></th></tr>`
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].estado === "Deshabilitado") {
+      tabla += `tabla += <tr><td>${usuarios[i].nombre}</td><td>${usuarios[i].estado}</td><td><input type="button" class="btnForma" value="Buscar otro viaje" /></td>`;
+    }
+  }
+  tabla += `</table>`;
+  document.querySelector("#divHabilitarImportadores").innerHTML = tabla;
+}
+
+function mostrarViajesDeLineaCarga() {
+  let pSelect = document.querySelector("#selLineaDeCarga");
+  document.querySelector("#selLineaDeCarga").innerHTML = "";//limpia las opciones y las carga de nuevo para que no se repitan
+  let option = "";
+  let viajesCargados = new Array();
+  for (let i = 0; i < viajesConfirmados.length; i++) {
+    if (!agruparViajesConfirmados(viajesConfirmados[i].idViaje, viajesCargados)) {
+      option += `<option value="manifiestoViaje-${viajesConfirmados[i].idViaje}">Viaje nro ${viajesConfirmados[i].idViaje} </option>`;
+      viajesCargados.push(viajesConfirmados[i].idViaje);//guardo en el array para saber que este ya lo cargue
+    }
+  }
+  pSelect.insertAdjacentHTML("beforeend", option);
+}

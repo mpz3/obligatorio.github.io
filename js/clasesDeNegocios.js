@@ -7,6 +7,7 @@ class Usuario {
         this.user = "";
         this.contraseña = "";
         this.tipo = "";
+        this.estado = "";
     }
 }
 

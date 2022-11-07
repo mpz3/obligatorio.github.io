@@ -23,7 +23,6 @@ document.querySelector("#btnRollover").addEventListener("click", btnRolloverUI);
 document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuardarRollover);
 
 
-
 inicio();
 
 function registrateAquiUI() {
@@ -119,7 +118,7 @@ function liMostrarCancelarSolicitudUI() {
   let opciones = `<select id="opCancelar"> <option value="">Seleccione para cancelar </OPTION>`;
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     let soli = solicitudesDeCarga[i];
-    if (soli.estado === "Pendiente") {
+    if (soli.estado === "Pendiente" && soli.userImportador === userOnline) {
       opciones += `<option value="${soli.id}">Cancelar nro ${soli.id} de empresa nro ${soli.idEmpresa} </option>`;
     }
   }
@@ -163,6 +162,7 @@ function liManifiestoUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
 }
 function liHablitarIUI() {
+  cargarDeshabilitados();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
   document.querySelector("#divRollover").style.display = "none";
@@ -186,7 +186,7 @@ function btnUIMercaderia() {
   let cantContenedores = document.querySelector("#txtCantContenedores").value;
   let idEmpresa = document.querySelector("#txtIdEmpresa").value;
   if (validarDatosMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa)) {
-    let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa);
+    let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa, userOnline);
     document.querySelector("#pIDGeneradoMercaderia").style.color = "black";
     document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente <br><strong>El id generado es: ${idNuevaMercaderia}</strong>`;
   } else {
@@ -223,12 +223,7 @@ function cancelarSolicitudUI() {
   if (idCancelar === "") {
     document.querySelector("#pCancelarSoli").innerHTML = `No se encontraron resultados`;
   } else {
-    idCancelar = Number(idCancelar);
-    if (solicitudesDeCarga[idCancelar].estado === "Pendiente") {
-      solicitudesDeCarga[idCancelar].estado = "Cancelada";
-      document.querySelector("#pCancelarSoli").innerHTML = `Se cancelo la solicitud ${idCancelar} con exito`;
-      solicitudesPendientesUI();
-    }
+    cancelarCargaDeshabilitarImportador(idCancelar);
   }
 }
 
@@ -302,9 +297,9 @@ function btnGuardarRollover() {
 
 function btnBuscarEnManifiesto() {
   let nroViaje = document.querySelector("#selLineaDeCarga").value;
-  if (nroViaje === ""){
-//validar
-  }else{
-     buscarEnManifiesto(nroViaje);
+  if (nroViaje === "") {
+    //validar
+  } else {
+    buscarEnManifiesto(nroViaje);
   }
 }
