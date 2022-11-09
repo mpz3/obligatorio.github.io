@@ -250,7 +250,7 @@ function btnNuevoViajeUI() {
   let nombreB = document.querySelector("#txtNombreBuque").value;
   let cantMax = document.querySelector("#txtCantMax").value;
   let fecha = document.querySelector("#txtFecha").value;
-  if (nombreB != "" && cantMax != "" && !isNaN(cantMax) && fecha != "") {
+  if (validarIngresoBuque(nombreB, cantMax, fecha)) {
     ingresarBuque(nombreB, Number(cantMax), fecha, userOnline);
     document.querySelector("#divMostrarAutomatico").innerHTML = `Se ingreso correctamente con el id ${buques[buques.length - 1].id}`;
   } else {
@@ -274,8 +274,14 @@ function btnConfirmarCargaUI() {
 }
 
 function btnBuscarViajesProxUI() {
-  document.querySelector("#divBuscarProximosViajes").style.display = "block";
-  cargarDatosViajesProximos();
+  let pIDSolicitud = document.querySelector("#selCargasPendientes").value;
+  if (pIDSolicitud != "") {
+    document.querySelector("#divBuscarProximosViajes").style.display = "block";
+    cargarDatosViajesProximos(Number(pIDSolicitud));
+  } else {
+    document.querySelector("#pIDSolicitudConfirmada").innerHTML = `No se encontro ningun resultado`;
+  }
+
 }
 
 function btnRolloverUI() {

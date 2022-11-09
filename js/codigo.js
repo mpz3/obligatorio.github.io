@@ -221,6 +221,18 @@ function ingresarBuque(pNombreB, pCantMax, pFecha, pUser) {
   ViajeBuque.idViajeBuque++;
 }
 
+function validarIngresoBuque(pnombreB, pcantMax, pfecha) {
+  let fechaHoraSistema = new Date();
+  fechaHoraSistema.setHours(0);
+  fechaHoraSistema.setMinutes(0);
+  fechaHoraSistema.setSeconds(0);
+  console.log(new Date(`"${pfecha}"`) >= fechaHoraSistema);
+  if (pnombreB != "" && pcantMax != "" && !isNaN(pcantMax) && pfecha != "" && new Date(`"${pfecha}"`) >= fechaHoraSistema) {
+    return true;
+  }
+  return false;
+}
+
 function buscarIDEmpresa(pUser) {
   let encotrando = false;
   let i = 0;
@@ -244,20 +256,24 @@ function cargarDatosSolicitudesPendientes() {
   opciones += "</select>";
   document.querySelector("#divCargasPendientes").innerHTML = opciones;
 }
-function cargarDatosViajesProximos() {
-  let pIDSolicitud = Number(document.querySelector("#selCargasPendientes").value);
-  let opFecha = `<select id="selViajesPendientes"> <option value="">Seleccione </option>`;
-  for (let i = 0; i < buques.length; i++) {
-    if (new Date(buques[i].fechaLlegada) > new Date() && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {
-      //validar importador habilitado
-      if ((buques[i].cargaTotal + solicitudesDeCarga[pIDSolicitud].cantidadContenedores) <= buques[i].cargaMaxima) {
-        buques[i].cargaTotal += solicitudesDeCarga[pIDSolicitud].cantidadContenedores;
-        opFecha += `<option value="${buques[i].id}">Buque ID ${buques[i].id}</option>`;
+function cargarDatosViajesProximos(pIDSolicitud) {
+    let opFecha = `<select id="selViajesPendientes"> <option value="">Seleccione </option>`;
+    let fechaHoraSistema = new Date();
+    fechaHoraSistema.setHours(0);
+    fechaHoraSistema.setMinutes(0);
+    fechaHoraSistema.setSeconds(0);
+    for (let i = 0; i < buques.length; i++) {
+      if (new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {
+        //validar importador habilitado 
+        if ((buques[i].cargaTotal + solicitudesDeCarga[pIDSolicitud].cantidadContenedores) <= buques[i].cargaMaxima) {
+          buques[i].cargaTotal += solicitudesDeCarga[pIDSolicitud].cantidadContenedores;
+          opFecha += `<option value="${buques[i].id}">Buque ID ${buques[i].id}</option>`;
+        }
       }
     }
-  }
-  opFecha += "</select>";
-  document.querySelector("#divProximosViajes").innerHTML = opFecha;
+    opFecha += "</select>";
+    document.querySelector("#divProximosViajes").innerHTML = opFecha;
+
 }
 
 function confirmarCarga(pIdsolcitudAprobada, pEnElviaje) {
