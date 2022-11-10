@@ -24,6 +24,7 @@ class SolicitudCarga {
         this.userImportador = "";
     }
 }
+
 class CargaConfirmada {
     static idCargaConfirmada = 0;
     constructor() {
@@ -40,7 +41,7 @@ class ViajeBuque {
         this.idEmpresa = -1;
         this.nombreBuque = "";
         this.cargaMaxima = -1;
-        this.cargaTotal = -1;
+        this.cargaTotal = -1;//error de letra no puede ir, se calcula en tiempo de ejecucion
         this.fechaLlegada = "";
     }
 }

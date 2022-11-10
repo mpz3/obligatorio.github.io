@@ -110,7 +110,7 @@
     <div id="divImportador" style="display:none">
       <div id="divSolicitudDeCarga" style="width: 400px">
         <h2>Crear una nueva solicitud de carga</h2>
-        <textarea id="txtDescrip" style="width: 395px;height: 50px;"
+        <textarea id="txtDescrip" class="txtInput" style="width: 395px;height: 50px;"
           placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
         <label>Seleeciona tipo de carga </label>
         <select id="txtTipoCarga">
@@ -119,9 +119,10 @@
           <option value="REFRIGERADO">Refrigerado</option>
           <option value="CARGA_PELIGROSA">Carga peligrosa</option>
         </select><br><br>
-        <label>Ingrese puerto de origen </label><input id="txtPuerto" type="text"><br><br>
-        <label>Ingrese cantidad de contenedores </label><input id="txtCantContenedores" type="number"><br><br>
-        <label>Ingrese id de la empresa </label><input id="txtIdEmpresa" type="number"><br><br>
+        <label>Ingrese puerto de origen </label><input id="txtPuerto" class="txtInput" type="text"><br><br>
+        <label>Ingrese cantidad de contenedores </label><input id="txtCantContenedores" class="txtInput"
+          type="number"><br><br>
+        <label>Ingrese id de la empresa </label><input id="txtIdEmpresa" class="txtInput" type="number"><br><br>
         <input id="btnIngresarMercaderia" type="button" class="btnForma" value="Ingresar mercaderia"><br><br>
         <p id="pIDGeneradoMercaderia"></p>
         <br><br>
@@ -129,7 +130,7 @@
 
       <div id="divConsultarPendientes" style="display:none;">
         <br><br>
-        <label>Ingrese id o descripcion parcial </label><input id="txtBuscarPendientes" type="text">
+        <label>Ingrese id o descripcion parcial </label><input id="txtBuscarPendientes" class="txtInput" type="text">
         <input id="btnBuscarPendientes" type="button" class="btnForma" value="BUSCAR"><br><br>
         <div id="pBuscarPendientes"></div><br>
         <h2>Sus solicitudes pendientes</h2>
@@ -156,9 +157,10 @@
     <div id="divEmpresa" style="display:none">
       <div id="divNuevoViaje" style="width: 400px;">
         <h2>Nuevo Viaje</h2>
-        <label> Nombre del buque </label><input id="txtNombreBuque" type="text" /> <br />
-        <label> Cantidad maxima de contenedores </label> <input id="txtCantMax" type="text" /> <br /><br />
-        <label> Fecha de llegada </label><input id="txtFecha" type="date" /> <br />
+        <label> Nombre del buque </label><input id="txtNombreBuque" class="txtInput" type="text" /> <br />
+        <label> Cantidad maxima de contenedores </label> <input id="txtCantMax" class="txtInput" type="text" />
+        <br /><br />
+        <label> Fecha de llegada </label><input id="txtFecha" class="txtInput" type="date" /> <br />
         <input id="btnNuevoViaje" type="button" class="btnForma" value="Crae nuevo viaje"><br><br>
         <div id="divMostrarAutomatico"></div>
       </div>
@@ -190,11 +192,12 @@
         <p id="msgRollover"></p>
       </div>
 
-      <div id="divManifiestoCargar" style="display:none;">
+      <div id="divManifiestoCargar" style="width: 400px; display: none;">
         <h2>Manifiesto de carga</h2>
         <label> Linea de carga: </label>
-        <select id="selLineaDeCarga">
-        </select> 
+        <select id="selLineaDeCarga" class="txtCleanSelect">
+          <option value=""></option>
+        </select>
         <input type="button" class="btnForma" id="btnBuscarEnManifiesto" value="Buscar en Manifiesto" />
         <br />
         <div id="pManifiesto"></div>
@@ -207,31 +210,14 @@
         <br />
       </div>
 
-      <div id="divListadoCargaPeligrosa" style="display:none;">
+      <div id="divListadoCargaPeligrosa" style="width: 400px; display: none;">
         <h2>Listado de carga peligrosa</h2>
-
-        <table>
-          <tr>
-            <td><strong>Importador</strong></td>
-            <td><strong> Linea de carga</strong></td>
-            <td><strong> Carga peligrosa: </strong></td>
-          </tr>
-          <!--<tr>
-          <td>Nombre</td>
-          <td>ID linea de carga</td>
-          <td>Si</td>
-        </tr>
-        <tr>
-          <td>Nombre</td>
-          <td>ID linea de carga</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <td>Nombre</td>
-          <td>ID linea de carga</td>
-          <td>No</td>
-        </tr>-->
-        </table>
+        <label> Seleccione viaje: </label>
+        <select id="selListadoPeligroso" class="txtCleanSelect">
+          <option value=""></option>
+        </select>
+        <input type="button" class="btnForma" id="btnBuscarPeligrosa" value="Buscar" />
+        <div id="tablaListaPeligrosa"></div>
         <br />
       </div>
     </div>
