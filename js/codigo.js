@@ -2,7 +2,6 @@ let usuarios = new Array();
 let solicitudesDeCarga = new Array();
 let buques = new Array();
 let viajesConfirmados = new Array();
-let usuariosDesabilitados = new Array();
 let userOnline = "";
 let tipoUserG = "";
 
@@ -24,16 +23,17 @@ function preCarga() {
   nuevoRegistro("empresa4", "empre.jpg", "userempresa4", "userempreSA4", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "userempresa5", "userempreSA5", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
+  nuevoRegistro("empresa5", "empre.jpg", "2", "2", "importador");
   /* solicitudes penditentes */
   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "camila");
   ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1, "miguel");
   ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3");
   ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 4, "userimportar4");
   /*Crear buques */
-  ingresarBuque("BRA", 500, "2022-11-15", "userempresa2");
-  ingresarBuque("ORO", 300, "2022-11-14", "userempresa3");
-  ingresarBuque("PLATA", 100, "2022-11-17", "userempresa4");
-  ingresarBuque("BARCO", 50, "2022-11-16", "userempresa5");
+  ingresarBuque("BRA", 5003, "2023-11-15", "userempresa2");
+  ingresarBuque("ORO", 3300, "2023-11-14", "userempresa3");
+  ingresarBuque("PLATA", 1003, "2023-11-17", "userempresa4");
+  ingresarBuque("BARCO", 530, "2023-11-16", "userempresa5");
 }
 
 function buscarUser(pUser, pPass) {
@@ -41,7 +41,7 @@ function buscarUser(pUser, pPass) {
   let encontrado = false;
   pUser = pUser.toLowerCase()
   while (!encontrado && i < usuarios.length) {
-    if (usuarios[i].user.toLowerCase() === pUser && usuarios[i].contraseña === pPass) {
+    if (usuarios[i].user.toLowerCase() === pUser && usuarios[i].contraseña === pPass && usuarios[i].estado === "habilitado") {
       encontrado = true;
       tipoUserG = usuarios[i].tipo;
     }
@@ -158,6 +158,19 @@ function quitarFakePath(pNombreArchivo) {
   }
   return nombre;
 }
+/* lipiar campos */
+function limpiarCampos(pClass, pClassSelect) {
+  let inputss = document.querySelectorAll('.' + pClass);
+  for (let inputX of inputss) {
+    inputX.value = "";
+  }
+  if (pClassSelect != "") {
+    let selectt = document.querySelectorAll('.' + pClassSelect);
+    for (let selectX of selectt) {
+      selectX.value = "-1";
+    }
+  }
+}
 
 function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa) {
   if (pDesc === "" || pTipo === "" || pPuerto === "" || pCantContenedores === "" || isNaN(pCantContenedores) || pIEmpresa === "" || isNaN(pIEmpresa)) {
@@ -179,6 +192,17 @@ function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpr
     return false;
   }
   return true;
+}
+
+function buscarEmpresa(pID) {
+  let i = 0;
+  while (i < usuarios.length) {
+    if (usuarios[i].id === Number(pID)) {
+      return true;
+    }
+    i++;
+  }
+  return false
 }
 
 function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa, pUsuario) {
@@ -212,7 +236,7 @@ function busquedaSolicitudesPendientes(pBusqueda) {
 function ingresarBuque(pNombreB, pCantMax, pFecha, pUser) {
   let nuevoViaje = new ViajeBuque();
   nuevoViaje.id = ViajeBuque.idViajeBuque;
-  nuevoViaje.idEmpresa = buscarIDEmpresa(pUser);
+  nuevoViaje.idEmpresa = getIdUser(pUser);
   nuevoViaje.nombreBuque = pNombreB;
   nuevoViaje.cargaMaxima = pCantMax;
   nuevoViaje.cargaTotal = 0;
@@ -233,46 +257,47 @@ function validarIngresoBuque(pnombreB, pcantMax, pfecha) {
   return false;
 }
 
-function buscarIDEmpresa(pUser) {
-  let encotrando = false;
-  let i = 0;
-  while (i < usuarios.length || !encotrando) {
-    if (usuarios[i].user === pUser) {
-      return usuarios[i].id;
-    }
-    i++;
-  }
-  return "";
-}
 
 function cargarDatosSolicitudesPendientes() {
   let opciones = `<select id="selCargasPendientes"> <option value="">Seleccione </option>`;
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     let soli = solicitudesDeCarga[i];
-    if (soli.estado === "Pendiente") {
+    if (soli.estado === "Pendiente" && !imporadorDesHabilitado(soli.userImportador)) {
       opciones += `<option value="${soli.id}">Solicitud Nro ${soli.id} de tipo ${soli.tipo}</option>`;
     }
   }
   opciones += "</select>";
   document.querySelector("#divCargasPendientes").innerHTML = opciones;
 }
+
+function imporadorDesHabilitado(pUserImportador) {
+  let i = 0;
+  while (i < usuarios.length) {
+    if (usuarios[i].user === pUserImportador && usuarios[i].estado === "Deshabilitado") {
+      return true;
+    }
+    i++;
+  }
+  return false
+
+}
+
 function cargarDatosViajesProximos(pIDSolicitud) {
-    let opFecha = `<select id="selViajesPendientes"> <option value="">Seleccione </option>`;
-    let fechaHoraSistema = new Date();
-    fechaHoraSistema.setHours(0);
-    fechaHoraSistema.setMinutes(0);
-    fechaHoraSistema.setSeconds(0);
-    for (let i = 0; i < buques.length; i++) {
-      if (new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {
-        //validar importador habilitado 
-        if ((buques[i].cargaTotal + solicitudesDeCarga[pIDSolicitud].cantidadContenedores) <= buques[i].cargaMaxima) {
-          buques[i].cargaTotal += solicitudesDeCarga[pIDSolicitud].cantidadContenedores;
-          opFecha += `<option value="${buques[i].id}">Buque ID ${buques[i].id}</option>`;
-        }
+  let opFecha = `<select id="selViajesPendientes"> <option value="">Seleccione </option>`;
+  let fechaHoraSistema = new Date();
+  fechaHoraSistema.setHours(0);
+  fechaHoraSistema.setMinutes(0);
+  fechaHoraSistema.setSeconds(0);
+  for (let i = 0; i < buques.length; i++) {
+    if (new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {
+      if ((buques[i].cargaTotal + solicitudesDeCarga[pIDSolicitud].cantidadContenedores) <= buques[i].cargaMaxima) {
+        buques[i].cargaTotal += solicitudesDeCarga[pIDSolicitud].cantidadContenedores;
+        opFecha += `<option value="${buques[i].id}">Buque ID ${buques[i].id}</option>`;
       }
     }
-    opFecha += "</select>";
-    document.querySelector("#divProximosViajes").innerHTML = opFecha;
+  }
+  opFecha += "</select>";
+  document.querySelector("#divProximosViajes").innerHTML = opFecha;
 
 }
 
@@ -353,24 +378,11 @@ function cambiarViaje() {
   return encontrado;
 }
 
-function mostrarViajesDeLineaCarga() {
-  let pSelect = document.querySelector("#selLineaDeCarga");
-  document.querySelector("#selLineaDeCarga").innerHTML = "";//limpia las opciones y las carga de nuevo para que no se repitan
-  let option = "";
-  let viajesCargados = new Array();
-  for (let i = 0; i < viajesConfirmados.length; i++) {
-    if (!agruparViajesConfirmados(viajesConfirmados[i].idViaje, viajesCargados)) {
-      option += `<option value="manifiestoViaje-${viajesConfirmados[i].idViaje}">Viaje nro ${viajesConfirmados[i].idViaje} </option>`;
-      viajesCargados.push(viajesConfirmados[i].idViaje);//guardo en el array para saber que este ya lo cargue
-    }
-  }
-  pSelect.insertAdjacentHTML("beforeend", option);
-}
 
-function agruparViajesConfirmados(pIDViajeManifiesto, pArrayConfirmados) {
+function buscarEnLista(pIDViaje, pArrayConfirmados) {//esta funcion busca en un array cualquiera el dato que le pasemos
   let i = 0;
-  while (i < viajesConfirmados.length) {//buscar si el id del manifiesto esta en el array, si esta retorno true
-    if (pIDViajeManifiesto === pArrayConfirmados[i]) {
+  while (i < pArrayConfirmados.length) {
+    if (pIDViaje === pArrayConfirmados[i]) {
       return true;
     }
     i++;
@@ -389,7 +401,7 @@ function buscarEnManifiesto(pNroViaje) {
       <td>${solicitudesDeCarga[idDeCarga].cantidadContenedores}</td>
       <td>${solicitudesDeCarga[idDeCarga].userImportador}</td>
       <td>${solicitudesDeCarga[idDeCarga].descripcion}</td>
-      <td>${solicitudesDeCarga[idDeCarga].tipo}</td>`;
+      <td>${solicitudesDeCarga[idDeCarga].tipo}</td><tr>`;
     }
   }
   tabla += `</table>`;
@@ -403,20 +415,21 @@ function cancelarCargaDeshabilitarImportador(pidCancelar) {
     if (cambiarEstadoImportador(solicitudesDeCarga[pidCancelar].userImportador)) {//busco el id de ese importador y lo deshabilito
       let idUser = getIdUser(solicitudesDeCarga[pidCancelar].userImportador);
       usuarios[idUser].estado = "Deshabilitado";
+      cerrarSesion();
     }
     document.querySelector("#pCancelarSoli").innerHTML = `Se cancelo la solicitud ${pidCancelar} con exito`;
     solicitudesPendientesUI();
   }
 }
 
-function cambiarEstadoImportador(pUser) {//si es menor retorna false(no hay que cambiar estado)
+function cambiarEstadoImportador(pUser) {//si es 3 hay que cambiar de estado a Deshabilitado
   let cantidadCanceladas = 0;
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     if (solicitudesDeCarga[i].userImportador === pUser && solicitudesDeCarga[i].estado === "Cancelada") {
       cantidadCanceladas++;
     }
   }
-  return !(cantidadCanceladas < 4);
+  return (cantidadCanceladas >= 3);
 }
 
 function getIdUser(pUser) {//busco id segun su usuario 
@@ -430,6 +443,7 @@ function getIdUser(pUser) {//busco id segun su usuario
   }
   return "";
 }
+
 
 function cargarDeshabilitados() {
   // to do, hacer funcionar el cerrar session para cambiar entre los usuarios, ver funcionamiento de boton en tabla
@@ -446,13 +460,58 @@ function cargarDeshabilitados() {
 function mostrarViajesDeLineaCarga() {
   let pSelect = document.querySelector("#selLineaDeCarga");
   document.querySelector("#selLineaDeCarga").innerHTML = "";//limpia las opciones y las carga de nuevo para que no se repitan
-  let option = "";
-  let viajesCargados = new Array();
+  let option = `<option value="">Seleccione una opcion</option>`;
+  let viajesCargados = new Array();//guardo los que ya cargue en el select
   for (let i = 0; i < viajesConfirmados.length; i++) {
-    if (!agruparViajesConfirmados(viajesConfirmados[i].idViaje, viajesCargados)) {
+    if (!buscarEnLista(viajesConfirmados[i].idViaje, viajesCargados)) {
       option += `<option value="manifiestoViaje-${viajesConfirmados[i].idViaje}">Viaje nro ${viajesConfirmados[i].idViaje} </option>`;
       viajesCargados.push(viajesConfirmados[i].idViaje);//guardo en el array para saber que este ya lo cargue
     }
   }
   pSelect.insertAdjacentHTML("beforeend", option);
+}
+
+
+function mostrarCargasPeligrosas() {
+  let pSelect = document.querySelector("#selListadoPeligroso");
+  document.querySelector("#selListadoPeligroso").innerHTML = "";//limpia las opciones y las carga de nuevo para que no se repitan cada vez que hago click
+  let option = `<option value="">Seleccione una opcion</option>`;
+  let cargasPeligrosasCargada = new Array();//guardo los que ya cargue en el select
+  for (let i = 0; i < viajesConfirmados.length; i++) {
+    if (!buscarEnLista(viajesConfirmados[i].idViaje, cargasPeligrosasCargada)) {
+      option += `<option value="${viajesConfirmados[i].idViaje}">Viaje nro ${viajesConfirmados[i].idViaje}</option>`;
+      cargasPeligrosasCargada.push(viajesConfirmados[i].idViaje);//guardo en el array para saber que este ya lo cargue
+    }
+  }
+  pSelect.insertAdjacentHTML("beforeend", option);
+}
+
+
+function buscarCargaPeligrosa(pViaje) {
+  pViaje = Number(pViaje);
+  let tabla = `<table>
+  <tr><th>ID</th>
+  <th>Estado</th>
+  <th>Descripcion</th>
+  <th>Tipo</th>
+  <th>Puerto</th>
+  <th>Cantidad Contenedores</th>
+  <th>Nro Empresa</th>
+  <th>Importador</th><tr>`;
+  for (let i = 0; i < viajesConfirmados.length; i++) {
+    if (viajesConfirmados[i].idViaje === pViaje) {
+      let idDeCarga = viajesConfirmados[i].idCarga;
+      //[TODO] buscar el nombre del importador, no el user
+      tabla += `<tr><td>${solicitudesDeCarga[idDeCarga].id}</td>
+      <td>${solicitudesDeCarga[idDeCarga].estado}</td>
+      <td>${solicitudesDeCarga[idDeCarga].descripcion}</td>
+      <td>${solicitudesDeCarga[idDeCarga].tipo}</td>
+      <td>${solicitudesDeCarga[idDeCarga].puerto}</td>
+      <td>${solicitudesDeCarga[idDeCarga].cantidadContenedores}</td>
+      <td>${solicitudesDeCarga[idDeCarga].idEmpresa}</td>
+      <td>${solicitudesDeCarga[idDeCarga].userImportador}</td><tr>`;
+    }
+  }
+  tabla += `</table>`;
+  document.querySelector("#tablaListaPeligrosa").innerHTML = tabla;
 }

@@ -2,6 +2,7 @@ document.querySelector("#btnRegistro").addEventListener("click", registroUI);
 document.querySelector("#btnLogin").addEventListener("click", loginUI);
 document.querySelector("#ingresoDesdeRegistro").addEventListener("click", muestroLoginUI);
 document.querySelector("#pRegistrateAqui").addEventListener("click", registrateAquiUI);
+document.querySelector("#aux").addEventListener("click", cerrarSesion);
 document.querySelector("#liNuevaSolicitud").addEventListener("click", liMostrarNuevaSolicitudUI);
 document.querySelector("#liConsultarSolictudes").addEventListener("click", liMostrarConsultarSolictudesUI);
 document.querySelector("#liCancelarSolicitud").addEventListener("click", liMostrarCancelarSolicitudUI);
@@ -9,10 +10,11 @@ document.querySelector("#liCrearViaje").addEventListener("click", liCrearViajeUI
 document.querySelector("#liAsignarBuque").addEventListener("click", liAsignarBuqueUI);
 document.querySelector("#liRollover").addEventListener("click", liRolloverUI);
 document.querySelector("#liManifiesto").addEventListener("click", liManifiestoUI);
-document.querySelector("#btnBuscarEnManifiesto").addEventListener("click", btnBuscarEnManifiesto);
+document.querySelector("#btnBuscarEnManifiesto").addEventListener("click", btnBuscarEnManifiestoUI);
+document.querySelector("#btnBuscarPeligrosa").addEventListener("click", btnBuscarPeligrosaUI);
 document.querySelector("#liHablitarI").addEventListener("click", liHablitarIUI);
 document.querySelector("#liListaPeligrosa").addEventListener("click", liListaPeligrosaUI);
-document.querySelector("#btnIngresarMercaderia").addEventListener("click", btnUIMercaderia);
+document.querySelector("#btnIngresarMercaderia").addEventListener("click", btnUIMercaderiaUI);
 document.querySelector("#btnBuscarPendientes").addEventListener("click", buscarPendientesUI);
 document.querySelector("#btnCancelarSolicitud").addEventListener("click", cancelarSolicitudUI);
 document.querySelector("#liEstadistica").addEventListener("click", estadisticaUI);
@@ -23,18 +25,26 @@ document.querySelector("#btnRollover").addEventListener("click", btnRolloverUI);
 document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuardarRollover);
 
 
+
 inicio();
 
 function registrateAquiUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#login").style.display = "none";
   document.querySelector("#registro").style.display = "block";
 }
 
 function muestroLoginUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#login").style.display = "block";
   document.querySelector("#registro").style.display = "none";
 }
 
+function cerrarSesion() {
+  limpiarCampos("txtInput", "txtCleanSelect");
+  document.querySelector("#contenedorLogin").style.display = "block";
+  document.querySelector("#contenedor").style.display = "none";
+}
 
 function registroUI() {
   let name = document.querySelector("#txtNombre").value;
@@ -78,8 +88,10 @@ function loginUI() {
     document.querySelector("#contenedor").style.display = "block";
     if (tipoUserG === "importador") {
       document.querySelector("#divImportador").style.display = "block";
-      document.querySelector("#navImportador").style.display = "block";
       document.querySelector("#divEmpresa").style.display = "none";
+      document.querySelector("#navImportador").style.display = "block";
+      document.querySelector("#navEmpresa").style.display = "none";
+      limpiarCampos("txtInput", "txtCleanSelect");;
     } else {
       document.querySelector("#divImportador").style.display = "none";
       document.querySelector("#divEmpresa").style.display = "block";
@@ -94,6 +106,7 @@ function loginUI() {
 
 
 function liMostrarNuevaSolicitudUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#divSolicitudDeCarga").style.display = "block";
   document.querySelector("#divConsultarPendientes").style.display = "none";
   document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
@@ -103,6 +116,7 @@ function liMostrarNuevaSolicitudUI() {
 
 function liMostrarConsultarSolictudesUI() {
   solicitudesPendientesUI();
+  limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#divSolicitudDeCarga").style.display = "none";
   document.querySelector("#divConsultarPendientes").style.display = "block";
   document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
@@ -127,6 +141,7 @@ function liMostrarCancelarSolicitudUI() {
 }
 
 function liCrearViajeUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#divNuevoViaje").style.display = "block";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
   document.querySelector("#divRollover").style.display = "none";
@@ -135,6 +150,7 @@ function liCrearViajeUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
 }
 function liAsignarBuqueUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   cargarDatosSolicitudesPendientes();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "block";
@@ -145,6 +161,7 @@ function liAsignarBuqueUI() {
 }
 function liRolloverUI() {
   cargarSolicitudes();
+  limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
   document.querySelector("#divRollover").style.display = "block";
@@ -153,6 +170,7 @@ function liRolloverUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
 }
 function liManifiestoUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   mostrarViajesDeLineaCarga();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
@@ -163,6 +181,7 @@ function liManifiestoUI() {
 }
 function liHablitarIUI() {
   cargarDeshabilitados();
+  limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
   document.querySelector("#divRollover").style.display = "none";
@@ -171,6 +190,8 @@ function liHablitarIUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
 }
 function liListaPeligrosaUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
+  mostrarCargasPeligrosas();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
   document.querySelector("#divRollover").style.display = "none";
@@ -179,16 +200,22 @@ function liListaPeligrosaUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "block";
 }
 
-function btnUIMercaderia() {
+function btnUIMercaderiaUI() {
   let desc = document.querySelector("#txtDescrip").value;
   let tipo = document.querySelector("#txtTipoCarga").value;
   let puerto = document.querySelector("#txtPuerto").value;
   let cantContenedores = document.querySelector("#txtCantContenedores").value;
   let idEmpresa = document.querySelector("#txtIdEmpresa").value;
   if (validarDatosMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa)) {
-    let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa, userOnline);
-    document.querySelector("#pIDGeneradoMercaderia").style.color = "black";
-    document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente <br><strong>El id generado es: ${idNuevaMercaderia}</strong>`;
+    if (!buscarEmpresa(idEmpresa)) {
+      document.querySelector("#pIDGeneradoMercaderia").innerHTML = `No se encotro un ID con esa empresa`;
+      document.querySelector("#pIDGeneradoMercaderia").style.color = "red";
+    } else {
+      let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa, userOnline);
+      document.querySelector("#pIDGeneradoMercaderia").style.color = "black";
+      document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente <br><strong>El id generado es: ${idNuevaMercaderia}</strong>`;
+      limpiarCampos("txtInput", "txtCleanSelect");
+    }
   } else {
     document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Ingrese datos validos`;
     document.querySelector("#pIDGeneradoMercaderia").style.color = "red";
@@ -224,6 +251,7 @@ function cancelarSolicitudUI() {
     document.querySelector("#pCancelarSoli").innerHTML = `No se encontraron resultados`;
   } else {
     cancelarCargaDeshabilitarImportador(idCancelar);
+    limpiarCampos("txtInput", "txtCleanSelect");
   }
 }
 
@@ -253,6 +281,7 @@ function btnNuevoViajeUI() {
   if (validarIngresoBuque(nombreB, cantMax, fecha)) {
     ingresarBuque(nombreB, Number(cantMax), fecha, userOnline);
     document.querySelector("#divMostrarAutomatico").innerHTML = `Se ingreso correctamente con el id ${buques[buques.length - 1].id}`;
+    limpiarCampos("txtInput", "txtCleanSelect");
   } else {
     document.querySelector("#divMostrarAutomatico").innerHTML = `Los campos son invalidos`;
   }
@@ -268,6 +297,7 @@ function btnConfirmarCargaUI() {
     document.querySelector("#pIDSolicitudConfirmada").innerHTML = `Se confirmo Correctamente`;
     document.querySelector("#divProximosViajes").innerHTML = "";
     document.querySelector("#divBuscarProximosViajes").style.display = "none";
+    limpiarCampos("txtInput", "txtCleanSelect");
   } else {
     document.querySelector("#pIDSolicitudConfirmada").innerHTML = `Todos los campos son requeridos`;
   }
@@ -296,16 +326,28 @@ function btnGuardarRollover() {
     document.querySelector("#divMoverViaje").innerHTML = "";
     document.querySelector("#msgRollover").innerHTML = `Se movio correctamente`;
     cargarSolicitudes();
+    limpiarCampos("txtInput", "txtCleanSelect");
   } else {
     document.querySelector("#msgRollover").innerHTML = `No se pudo mover`;
   }
 }
 
-function btnBuscarEnManifiesto() {
+function btnBuscarEnManifiestoUI() {
   let nroViaje = document.querySelector("#selLineaDeCarga").value;
   if (nroViaje === "") {
-    //validar
+    //[todo] validar
   } else {
     buscarEnManifiesto(nroViaje);
+    limpiarCampos("txtInput", "txtCleanSelect");
+  }
+}
+
+function btnBuscarPeligrosaUI() {
+  let nroViaje = document.querySelector("#selListadoPeligroso").value;
+  if (nroViaje === "") {
+    //[todo] validar
+  } else {
+    buscarCargaPeligrosa(nroViaje);
+    //limpiar select y cargar de nuevo los datos
   }
 }
