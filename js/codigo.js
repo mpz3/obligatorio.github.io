@@ -25,6 +25,9 @@ function preCarga() {
   nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "2", "2", "importador");
   /* solicitudes penditentes */
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "camila");
   ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1, "miguel");
   ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3");
@@ -161,6 +164,7 @@ function quitarFakePath(pNombreArchivo) {
 /* lipiar campos */
 function limpiarCampos(pClass, pClassSelect) {
   let inputss = document.querySelectorAll('.' + pClass);
+  let tabless = document.querySelectorAll('.cleanTable');
   for (let inputX of inputss) {
     inputX.value = "";
   }
@@ -169,6 +173,10 @@ function limpiarCampos(pClass, pClassSelect) {
     for (let selectX of selectt) {
       selectX.value = "-1";
     }
+  }
+
+  for (let tableX of tabless) {
+    tableX.innerHTML = "";
   }
 }
 
@@ -230,7 +238,17 @@ function busquedaSolicitudesPendientes(pBusqueda) {
     }
   }
   tabla += `</table>`;
-  document.querySelector("#pBuscarPendientes").innerHTML = tabla;
+  document.querySelector("#divBuscarPendientes").innerHTML = tabla;
+}
+function tablaSoliPendientes() {
+  let tabla = `<table  style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {
+    if (solicitudesDeCarga[i].userImportador === userOnline) {
+      tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].estado}</td><td>${solicitudesDeCarga[i].descripcion}</td><td>${solicitudesDeCarga[i].tipo}</td><td>${solicitudesDeCarga[i].puerto}</td><td>${solicitudesDeCarga[i].cantidadContenedores}</td><td>${solicitudesDeCarga[i].idEmpresa}</td></tr>`;
+    }
+  }
+  tabla += `</table>`;
+  return tabla;
 }
 
 function ingresarBuque(pNombreB, pCantMax, pFecha, pUser) {
@@ -405,7 +423,7 @@ function buscarEnManifiesto(pNroViaje) {
     }
   }
   tabla += `</table>`;
-  document.querySelector("#pManifiesto").innerHTML = tabla;
+  document.querySelector("#divManifiesto").innerHTML = tabla;
 }
 
 function cancelarCargaDeshabilitarImportador(pidCancelar) {
@@ -444,18 +462,6 @@ function getIdUser(pUser) {//busco id segun su usuario
   return "";
 }
 
-
-function cargarDeshabilitados() {
-  // to do, hacer funcionar el cerrar session para cambiar entre los usuarios, ver funcionamiento de boton en tabla
-  let tabla = `<table><tr><th><strong>Importador</strong></th><th><strong>Status</strong></th><th><strong>Accion</strong></th></tr>`
-  for (let i = 0; i < usuarios.length; i++) {
-    if (usuarios[i].estado === "Deshabilitado") {
-      tabla += `tabla += <tr><td>${usuarios[i].nombre}</td><td>${usuarios[i].estado}</td><td><input type="button" class="btnForma" value="Buscar otro viaje" /></td>`;
-    }
-  }
-  tabla += `</table>`;
-  document.querySelector("#divHabilitarImportadores").innerHTML = tabla;
-}
 
 function mostrarViajesDeLineaCarga() {
   let pSelect = document.querySelector("#selLineaDeCarga");
@@ -513,5 +519,32 @@ function buscarCargaPeligrosa(pViaje) {
     }
   }
   tabla += `</table>`;
-  document.querySelector("#tablaListaPeligrosa").innerHTML = tabla;
+  document.querySelector("#divTablaListaPeligrosa").innerHTML = tabla;
+}
+
+
+function generarTablaImportadores() {
+  let tabla = `<table>
+  <tr><th>ID</th>
+  <th>Importador</th>
+  <th>Accion</th><tr>`;
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].estado === "Deshabilitado") {
+      tabla += `<tr><td>${usuarios[i].id}</td>
+      <td>${usuarios[i].nombre}</td>
+      <td><input type="button" class="habilitar btnForma" data-idUsuario="${usuarios[i].id}" value="HABILITAR"/></td><tr>`;
+    }
+  }
+  tabla += `</table>`;
+  return tabla;
+}
+function habilitarDeshabilitados() {
+  let botonSeleccionado = this;
+  let idImportador = botonSeleccionado.getAttribute("data-idUsuario");
+  usuarios[idImportador].estado = "habilitado";
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {
+    if (solicitudesDeCarga[i].userImportador === usuarios[idImportador].user) {
+      solicitudesDeCarga[i].estado="Ignorada"
+    }
+  }
 }

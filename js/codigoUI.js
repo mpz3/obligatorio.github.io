@@ -25,7 +25,6 @@ document.querySelector("#btnRollover").addEventListener("click", btnRolloverUI);
 document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuardarRollover);
 
 
-
 inicio();
 
 function registrateAquiUI() {
@@ -180,7 +179,7 @@ function liManifiestoUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
 }
 function liHablitarIUI() {
-  cargarDeshabilitados();
+  document.querySelector("#divTableHablitarImportadores").innerHTML = generarTablaImportadores();
   limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "none";
@@ -188,6 +187,10 @@ function liHablitarIUI() {
   document.querySelector("#divManifiestoCargar").style.display = "none";
   document.querySelector("#divHabilitarImportadores").style.display = "block";
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
+  let darVidaBoton = document.querySelectorAll('.habilitar');
+  for (let darVidaBotonX of darVidaBoton) {
+    darVidaBotonX.addEventListener("click",habilitarDeshabilitados);
+  }
 }
 function liListaPeligrosaUI() {
   limpiarCampos("txtInput", "txtCleanSelect");
@@ -224,21 +227,14 @@ function btnUIMercaderiaUI() {
 
 
 function solicitudesPendientesUI() {
-  let tabla = `<table  style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
-  for (let i = 0; i < solicitudesDeCarga.length; i++) {
-    if (solicitudesDeCarga[i].userImportador === userOnline) {
-      tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].estado}</td><td>${solicitudesDeCarga[i].descripcion}</td><td>${solicitudesDeCarga[i].tipo}</td><td>${solicitudesDeCarga[i].puerto}</td><td>${solicitudesDeCarga[i].cantidadContenedores}</td><td>${solicitudesDeCarga[i].idEmpresa}</td></tr>`;
-    }
-  }
-  tabla += `</table>`;
-  document.querySelector("#pTotalPendientes").innerHTML = tabla;
+  document.querySelector("#divTotalPendientes").innerHTML = tablaSoliPendientes();
 }
 
 
 function buscarPendientesUI() {
   let buscar = document.querySelector("#txtBuscarPendientes").value;
   if (buscar === "") {
-    document.querySelector("#pBuscarPendientes").innerHTML = `EL id no es valido`;
+    document.querySelector("#divBuscarPendientes").innerHTML = `EL id no es valido`;
   } else {
     busquedaSolicitudesPendientes(buscar);
   }
@@ -335,19 +331,17 @@ function btnGuardarRollover() {
 function btnBuscarEnManifiestoUI() {
   let nroViaje = document.querySelector("#selLineaDeCarga").value;
   if (nroViaje === "") {
-    //[todo] validar
+    document.querySelector("#divManifiesto").innerHTML = `No se selecciono ninguna Linea de Carga`;
   } else {
     buscarEnManifiesto(nroViaje);
-    limpiarCampos("txtInput", "txtCleanSelect");
   }
 }
 
 function btnBuscarPeligrosaUI() {
   let nroViaje = document.querySelector("#selListadoPeligroso").value;
   if (nroViaje === "") {
-    //[todo] validar
+    document.querySelector("#divTablaListaPeligrosa").innerHTML = `No se selecciono ningun viaje`;
   } else {
     buscarCargaPeligrosa(nroViaje);
-    //limpiar select y cargar de nuevo los datos
   }
 }
