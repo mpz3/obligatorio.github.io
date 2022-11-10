@@ -132,9 +132,9 @@
         <br><br>
         <label>Ingrese id o descripcion parcial </label><input id="txtBuscarPendientes" class="txtInput" type="text">
         <input id="btnBuscarPendientes" type="button" class="btnForma" value="BUSCAR"><br><br>
-        <div id="pBuscarPendientes"></div><br>
+        <div id="divBuscarPendientes" class="cleanTable"></div><br>
         <h2>Sus solicitudes pendientes</h2>
-        <div id="pTotalPendientes"></div>
+        <div id="divTotalPendientes" class="cleanTable"></div>
         <br><br>
       </div>
       <div id="divCancelarSolicitudDeCarga" style="display:none;">
@@ -200,13 +200,12 @@
         </select>
         <input type="button" class="btnForma" id="btnBuscarEnManifiesto" value="Buscar en Manifiesto" />
         <br />
-        <div id="pManifiesto"></div>
+        <div id="divManifiesto" class="cleanTable"></div>
       </div>
 
       <div id="divHabilitarImportadores" style="display:none;">
         <h2>Habilitar Importadores</h2>
-
-        </table>
+        <div id="divTableHablitarImportadores" id="cleanTable"></div>
         <br />
       </div>
 
@@ -217,7 +216,7 @@
           <option value=""></option>
         </select>
         <input type="button" class="btnForma" id="btnBuscarPeligrosa" value="Buscar" />
-        <div id="tablaListaPeligrosa"></div>
+        <div id="divTablaListaPeligrosa" class="cleanTable"></div>
         <br />
       </div>
     </div>
