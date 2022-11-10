@@ -351,6 +351,18 @@ function cargarSolicitudes() {
   document.querySelector("#divSelRollover").innerHTML = select;
 }
 
+function cargarSelCancelarCarga(){
+  let opciones = `<select id="opCancelar"> <option value="">Seleccione para cancelar </OPTION>`;
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {
+    let soli = solicitudesDeCarga[i];
+    if (soli.estado === "Pendiente" && soli.userImportador === userOnline) {
+      opciones += `<option value="${soli.id}">Cancelar nro ${soli.id} de empresa nro ${soli.idEmpresa} </option>`;
+    }
+  }
+  opciones += "</select>";
+  return opciones;
+}
+
 function buscarViajePorIDDeConfirmacion(pIDCancelar) {
   let newA = new Array();
   let i = 0;
@@ -544,7 +556,8 @@ function habilitarDeshabilitados() {
   usuarios[idImportador].estado = "habilitado";
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     if (solicitudesDeCarga[i].userImportador === usuarios[idImportador].user) {
-      solicitudesDeCarga[i].estado="Ignorada"
+      solicitudesDeCarga[i].estado="Ignorada";
     }
   }
+  document.querySelector("#divTableHablitarImportadores").innerHTML = generarTablaImportadores();
 }

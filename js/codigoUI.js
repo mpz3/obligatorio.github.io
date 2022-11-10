@@ -128,15 +128,7 @@ function liMostrarCancelarSolicitudUI() {
   document.querySelector("#divConsultarPendientes").style.display = "block";
   document.querySelector("#divCancelarSolicitudDeCarga").style.display = "block";
   document.querySelector("#divInformacionEstadistica").style.display = "none";
-  let opciones = `<select id="opCancelar"> <option value="">Seleccione para cancelar </OPTION>`;
-  for (let i = 0; i < solicitudesDeCarga.length; i++) {
-    let soli = solicitudesDeCarga[i];
-    if (soli.estado === "Pendiente" && soli.userImportador === userOnline) {
-      opciones += `<option value="${soli.id}">Cancelar nro ${soli.id} de empresa nro ${soli.idEmpresa} </option>`;
-    }
-  }
-  opciones += "</select>";
-  document.querySelector("#divPendientesACancelar").innerHTML = opciones;
+  document.querySelector("#divPendientesACancelar").innerHTML = cargarSelCancelarCarga();
 }
 
 function liCrearViajeUI() {
@@ -247,6 +239,7 @@ function cancelarSolicitudUI() {
     document.querySelector("#pCancelarSoli").innerHTML = `No se encontraron resultados`;
   } else {
     cancelarCargaDeshabilitarImportador(idCancelar);
+    document.querySelector("#divPendientesACancelar").innerHTML = cargarSelCancelarCarga();
     limpiarCampos("txtInput", "txtCleanSelect");
   }
 }
