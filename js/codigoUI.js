@@ -19,7 +19,6 @@ document.querySelector("#btnBuscarPendientes").addEventListener("click", buscarP
 document.querySelector("#btnCancelarSolicitud").addEventListener("click", cancelarSolicitudUI);
 document.querySelector("#liEstadistica").addEventListener("click", estadisticaUI);
 document.querySelector("#btnNuevoViaje").addEventListener("click", btnNuevoViajeUI);
-document.querySelector("#btnConfirmarCarga").addEventListener("click", btnConfirmarCargaUI);
 document.querySelector("#btnBuscarViajesProx").addEventListener("click", btnBuscarViajesProxUI);
 document.querySelector("#btnRollover").addEventListener("click", btnRolloverUI);
 document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuardarRollover);
@@ -181,7 +180,7 @@ function liHablitarIUI() {
   document.querySelector("#divListadoCargaPeligrosa").style.display = "none";
   let darVidaBoton = document.querySelectorAll('.habilitar');
   for (let darVidaBotonX of darVidaBoton) {
-    darVidaBotonX.addEventListener("click",habilitarDeshabilitados);
+    darVidaBotonX.addEventListener("click", habilitarDeshabilitados);
   }
 }
 function liListaPeligrosaUI() {
@@ -276,27 +275,15 @@ function btnNuevoViajeUI() {
   }
 }
 
-function btnConfirmarCargaUI() {
-  let idsolcitudAprobada = document.querySelector("#selCargasPendientes").value;
-  let enElviaje = document.querySelector("#selViajesPendientes").value;
-  if (idsolcitudAprobada != "" && !isNaN(idsolcitudAprobada) && enElviaje != "" && !isNaN(enElviaje)) {
-    idsolcitudAprobada = Number(idsolcitudAprobada);
-    enElviaje = Number(enElviaje);
-    confirmarCarga(idsolcitudAprobada, enElviaje);
-    document.querySelector("#pIDSolicitudConfirmada").innerHTML = `Se confirmo Correctamente`;
-    document.querySelector("#divProximosViajes").innerHTML = "";
-    document.querySelector("#divBuscarProximosViajes").style.display = "none";
-    limpiarCampos("txtInput", "txtCleanSelect");
-  } else {
-    document.querySelector("#pIDSolicitudConfirmada").innerHTML = `Todos los campos son requeridos`;
-  }
-}
-
 function btnBuscarViajesProxUI() {
   let pIDSolicitud = document.querySelector("#selCargasPendientes").value;
   if (pIDSolicitud != "") {
     document.querySelector("#divBuscarProximosViajes").style.display = "block";
     cargarDatosViajesProximos(Number(pIDSolicitud));
+    let darVidaBoton = document.querySelectorAll('.buscarVPend');
+    for (let darVidaBotonX of darVidaBoton) {
+      darVidaBotonX.addEventListener("click", confirmarEstaCarga);
+    }
   } else {
     document.querySelector("#pIDSolicitudConfirmada").innerHTML = `No se encontro ningun resultado`;
   }
@@ -307,6 +294,8 @@ function btnRolloverUI() {
   let cancelar = document.querySelector("#selRollover").value;
   buscarViajeDisponible(cancelar);
   document.querySelector("#divbuscarNuevoViaje").style.display = "block";
+
+
 }
 
 function btnGuardarRollover() {
