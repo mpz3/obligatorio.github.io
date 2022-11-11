@@ -14,7 +14,7 @@
     <div id="login">
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
-      <p id="errorUsuarioLogin" class="errorObligatorio">
+      <p id="errorUsuarioLogin" class="errorObligatorio ">
       </p>
       <div class="clear10px"></div>
       <br />
@@ -36,7 +36,7 @@
       </p>
       <div class="clear10px"></div>
       <br />
-      <label>Subir foto de perfil </label><input class="txtInput" id="txtFoto" type="file" />
+      <label>Subir foto de perfil </label><input class="txtInput" id="txtFoto" type="file"/>
       <p id="errorPfoto" class="errorObligatorio">
 
       </p>
@@ -102,7 +102,12 @@
           </li>
         </div>
       </ul>
-      <div id="aux"><a>Cerrar Sesion</a></div>
+      <div id="aux"><img src="" id="imgUsuario" style="
+        width: auto;
+        float: right;
+        height: 50px;
+        /* background: red; */
+    "><a>Cerrar Sesion</a></div>
       <!-- FIN AUX -->
     </div>
     <!--cabezal-->
@@ -124,7 +129,7 @@
           type="number"><br><br>
         <label>Ingrese id de la empresa </label><input id="txtIdEmpresa" class="txtInput" type="number"><br><br>
         <input id="btnIngresarMercaderia" type="button" class="btnForma" value="Ingresar mercaderia"><br><br>
-        <p id="pIDGeneradoMercaderia"></p>
+        <p id="pIDGeneradoMercaderia" class="clearP"></p>
         <br><br>
       </div>
 
@@ -143,14 +148,14 @@
         <div id="divPendientesACancelar"></div>
         <br><br>
         <input id="btnCancelarSolicitud" type="button" class="btnForma" value="Cancelar Solicitud"><br><br>
-        <p id="pCancelarSoli"></p>
+        <p id="pCancelarSoli" class="clearP"></p>
         <br><br>
       </div>
 
       <div id="divInformacionEstadistica" style="display:none;">
         <h2>Informacion estadistica</h2>
-        <P id="divPorceCancelaciones"></p>
-        <p id="divProxLlegadas"></p>
+        <P id="divPorceCancelaciones" class="clearP" ></p>
+        <p id="divProxLlegadas" class="clearP"></p>
       </div>
     </div>
     <!--divImportador-->
@@ -175,7 +180,7 @@
           <label> Viajes proximos: </label>
           <div id="divProximosViajes"></div>
         </div>
-        <p id="pIDSolicitudConfirmada"></p>
+        <p id="pIDSolicitudConfirmada" class="clearP"></p>
       </div>
 
       <div id="divRollover" style="width: 400px;display:none;">
@@ -185,10 +190,9 @@
         <input type="button" class="btnForma" id="btnRollover" value="Buscar otro viaje" />
 
         <div id="divbuscarNuevoViaje" style="display:none;">
-          <div id="divMoverViaje"></div><!-- segundo select -->
-          <input type="button" class="btnForma" id="btnGuardarRollover" value="Rollear" />
+          <div id="divMoverViaje" class="cleanTable"></div>          
         </div>
-        <p id="msgRollover"></p>
+        <p id="msgRollover" class="clearP"></p>
       </div>
 
       <div id="divManifiestoCargar" style="width: 400px; display: none;">

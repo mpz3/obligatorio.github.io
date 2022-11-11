@@ -21,7 +21,6 @@ document.querySelector("#liEstadistica").addEventListener("click", estadisticaUI
 document.querySelector("#btnNuevoViaje").addEventListener("click", btnNuevoViajeUI);
 document.querySelector("#btnBuscarViajesProx").addEventListener("click", btnBuscarViajesProxUI);
 document.querySelector("#btnRollover").addEventListener("click", btnRolloverUI);
-document.querySelector("#btnGuardarRollover").addEventListener("click", btnGuardarRollover);
 
 
 inicio();
@@ -63,18 +62,17 @@ function registroUI() {
       foto = quitarFakePath(foto);
       nuevoRegistro(name, foto, usuario, pass, "importador");
       userOnline = usuario;
-      document.querySelector("#contenedor").style.display = "block";
       document.querySelector("#divImportador").style.display = "block";
-      document.querySelector("#contenedorLogin").style.display = "none";
       document.querySelector("#divEmpresa").style.display = "none";
       document.querySelector("#navImportador").style.display = "block";
+      document.querySelector("#navEmpresa").style.display = "none";
+      limpiarCampos("txtInput", "txtCleanSelect");
     } else {
       document.querySelector("#errorPusuario").style.display = "none";
       document.querySelector("#errorPusuario").innerHTML = `Usuario ya en uso`;
     }
   }
 }
-
 
 function loginUI() {
   let user = document.querySelector("#txtloginUser").value;
@@ -89,7 +87,7 @@ function loginUI() {
       document.querySelector("#divEmpresa").style.display = "none";
       document.querySelector("#navImportador").style.display = "block";
       document.querySelector("#navEmpresa").style.display = "none";
-      limpiarCampos("txtInput", "txtCleanSelect");;
+      limpiarCampos("txtInput", "txtCleanSelect");
     } else {
       document.querySelector("#divImportador").style.display = "none";
       document.querySelector("#divEmpresa").style.display = "block";
@@ -292,22 +290,45 @@ function btnBuscarViajesProxUI() {
 
 function btnRolloverUI() {
   let cancelar = document.querySelector("#selRollover").value;
-  buscarViajeDisponible(cancelar);
-  document.querySelector("#divbuscarNuevoViaje").style.display = "block";
-
-
+  if (cancelar != "") {
+    let mostrar = buscarViajeDisponible(cancelar);
+    document.querySelector("#divbuscarNuevoViaje").style.display = "block";
+    let darVidaBoton = document.querySelectorAll('.rolloverMover');
+    for (let darVidaBotonX of darVidaBoton) {
+      darVidaBotonX.addEventListener("click", cambiarViaje);
+    }
+    if (!mostrar) {
+      document.querySelector("#divMoverViaje").innerHTML = "";
+      document.querySelector("#msgRollover").innerHTML = `No existen viajes posteriores a la fecha`;
+    }
+  } else {
+    document.querySelector("#msgRollover").innerHTML = `Seleccione un viaje (*)`;
+  }
 }
 
-function btnGuardarRollover() {
-  if (cambiarViaje()) {
+function cambiarViaje() {
+  let botonSeleccionado = this;
+  let pCancelar = document.querySelector("#selRollover").value;
+  pCancelar = encotrarNumero(pCancelar);//retorna el numero x -> 'idViajeConfir-x'
+  let pMover = botonSeleccionado.getAttribute("data-idBuqueRollover");
+  pMover = Number(pMover);
+  let encontrado = false;
+  let i = 0;
+  while (i < solicitudEnViajeConfirmada.length && !encontrado) {
+    if (solicitudEnViajeConfirmada[i].id === pCancelar) {
+      solicitudEnViajeConfirmada[i].idViaje = pMover;
+      encontrado = true;
+    }
+    i++;
+  }
+  if (encontrado) {
     document.querySelector("#divbuscarNuevoViaje").style.display = "none";
     document.querySelector("#divMoverViaje").innerHTML = "";
     document.querySelector("#msgRollover").innerHTML = `Se movio correctamente`;
     cargarSolicitudes();
-    limpiarCampos("txtInput", "txtCleanSelect");
-  } else {
-    document.querySelector("#msgRollover").innerHTML = `No se pudo mover`;
   }
+  limpiarCampos("txtInput", "txtCleanSelect");
+  return encontrado;
 }
 
 function btnBuscarEnManifiestoUI() {

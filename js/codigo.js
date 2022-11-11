@@ -1,7 +1,7 @@
 let usuarios = new Array();
 let solicitudesDeCarga = new Array();
 let buques = new Array();
-let viajesConfirmados = new Array();
+let solicitudEnViajeConfirmada = new Array();
 let userOnline = "";
 let tipoUserG = "";
 
@@ -16,7 +16,6 @@ function preCarga() {
   nuevoRegistro("importador3", "fotoMP.jpg", "userimportar3", "importadoR3", "importador");
   nuevoRegistro("importador4", "fotoMP.jpg", "userimportar4", "importadoR4", "importador");
   nuevoRegistro("importador5", "fotoMP.jpg", "userimportar5", "importadoR5", "importador");
-  /* nuevoRegistro("importador6", "fotoMP.jpg", "1", "1", "importador"); */
   nuevoRegistro("empresa1", "empre.jpg", "userempresa1", "userempreSA1", "empresa");
   nuevoRegistro("empresa2", "empre.jpg", "userempresa2", "userempreSA2", "empresa");
   nuevoRegistro("empresa3", "empre.jpg", "userempresa3", "userempreSA3", "empresa");
@@ -34,9 +33,9 @@ function preCarga() {
   ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 4, "userimportar4");
   /*Crear buques */
   ingresarBuque("BRA", 5003, "2023-11-15", "userempresa2");
-  ingresarBuque("ORO", 3300, "2023-11-14", "userempresa3");
-  ingresarBuque("PLATA", 1003, "2023-11-17", "userempresa4");
-  ingresarBuque("BARCO", 530, "2023-11-16", "userempresa5");
+  ingresarBuque("ORO", 3300, "2024-11-14", "userempresa3");
+  ingresarBuque("PLATA", 1003, "2025-11-17", "userempresa4");
+  ingresarBuque("BARCO", 530, "2026-11-16", "userempresa5");
 }
 
 function buscarUser(pUser, pPass) {
@@ -161,10 +160,12 @@ function quitarFakePath(pNombreArchivo) {
   }
   return nombre;
 }
+
 /* lipiar campos */
 function limpiarCampos(pClass, pClassSelect) {
   let inputss = document.querySelectorAll('.' + pClass);
   let tabless = document.querySelectorAll('.cleanTable');
+  let parrafos = document.querySelectorAll('.clearP');
   for (let inputX of inputss) {
     inputX.value = "";
   }
@@ -174,9 +175,11 @@ function limpiarCampos(pClass, pClassSelect) {
       selectX.value = "-1";
     }
   }
-
   for (let tableX of tabless) {
     tableX.innerHTML = "";
+  }
+  for (let parrafo of parrafos) {
+    parrafo.innerHTML = "";
   }
 }
 
@@ -229,7 +232,7 @@ function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa,
 }
 
 function busquedaSolicitudesPendientes(pBusqueda) {
-  let tabla = `<table  style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
+  let tabla = `<table style="text-align: center;"><tr><th>ID</th><th>Estado</th><th>Descripcion</th><th>Tipo</th><th>Puerto Origen</th><th>Nro de contenedores</th><th>ID Empresa</th></tr>`;
   pBusqueda = pBusqueda.toLowerCase();
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     let descripcionMinus = solicitudesDeCarga[i].descripcion.toLowerCase();
@@ -257,7 +260,6 @@ function ingresarBuque(pNombreB, pCantMax, pFecha, pUser) {
   nuevoViaje.idEmpresa = getIdUser(pUser);
   nuevoViaje.nombreBuque = pNombreB;
   nuevoViaje.cargaMaxima = pCantMax;
-  nuevoViaje.cargaTotal = 0;
   nuevoViaje.fechaLlegada = pFecha;
   buques.push(nuevoViaje);
   ViajeBuque.idViajeBuque++;
@@ -268,7 +270,6 @@ function validarIngresoBuque(pnombreB, pcantMax, pfecha) {
   fechaHoraSistema.setHours(0);
   fechaHoraSistema.setMinutes(0);
   fechaHoraSistema.setSeconds(0);
-  console.log(new Date(`"${pfecha}"`) >= fechaHoraSistema);
   if (pnombreB != "" && pcantMax != "" && !isNaN(pcantMax) && pfecha != "" && new Date(`"${pfecha}"`) >= fechaHoraSistema) {
     return true;
   }
@@ -311,13 +312,11 @@ function cargarDatosViajesProximos(pIDSolicitud) {
   <th>Fecha llegada</th>
   <th>Accion</th><tr>`;
   for (let i = 0; i < buques.length; i++) {
-    if (new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {
-      if ((buques[i].cargaTotal + solicitudesDeCarga[pIDSolicitud].cantidadContenedores) <= buques[i].cargaMaxima) {
-        tabla += `<tr><td>${buques[i].id}</td>
+    if ((new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= obteconerCargaActualBuque(buques[i].id) + solicitudesDeCarga[pIDSolicitud].cantidadContenedores)) {
+      tabla += `<tr><td>${buques[i].id}</td>
         <td>${buques[i].nombreBuque}</td>
         <td>${buques[i].fechaLlegada}</td>
         <td><input type="button" class="buscarVPend btnForma" data-ViajesPendientes="${buques[i].id}" value="CONFIRMAR"/></td><tr>`;
-      }
     }
   }
   tabla += `</table>`;
@@ -346,7 +345,7 @@ function confirmarCarga(pIdsolcitudAprobada, pEnElviaje) {
   carga.id = CargaConfirmada.idCargaConfirmada;
   carga.idViaje = pEnElviaje;
   carga.idCarga = pIdsolcitudAprobada;
-  viajesConfirmados.push(carga);
+  solicitudEnViajeConfirmada.push(carga);
   cambiarEstado(pIdsolcitudAprobada, "CONFIRMADA");
   cargarDatosSolicitudesPendientes();//para quitarla del select y volver con las pendientes
   CargaConfirmada.idCargaConfirmada++;
@@ -366,8 +365,8 @@ function cambiarEstado(pIDCarga, pEstado) {
 
 function cargarSolicitudes() {
   let select = `<select id="selRollover"> <option value="">Seleccione</option>`;
-  for (let i = 0; i < viajesConfirmados.length; i++) {
-    select += `<option value="idViajeConfir-${viajesConfirmados[i].id}">Cancelar viaje ${viajesConfirmados[i].idCarga} de buque ${viajesConfirmados[i].idViaje}</option>`;
+  for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
+    select += `<option value="idViajeConfir-${solicitudEnViajeConfirmada[i].id}">Cancelar viaje ${solicitudEnViajeConfirmada[i].idCarga} de buque ${solicitudEnViajeConfirmada[i].idViaje}</option>`;
   }
   select += "</select>";
   document.querySelector("#divSelRollover").innerHTML = select;
@@ -389,10 +388,10 @@ function buscarViajePorIDDeConfirmacion(pIDCancelar) {
   let newA = new Array();
   let i = 0;
   let encontrado = false;
-  while (i < viajesConfirmados.length || !encontrado) {
-    if (viajesConfirmados[i].id === pIDCancelar) {
-      newA.push(viajesConfirmados[i].idCarga);
-      newA.push(viajesConfirmados[i].idViaje);
+  while (i < solicitudEnViajeConfirmada.length || !encontrado) {
+    if (solicitudEnViajeConfirmada[i].id === pIDCancelar) {
+      newA.push(solicitudEnViajeConfirmada[i].idCarga);
+      newA.push(solicitudEnViajeConfirmada[i].idViaje);
       encontrado = true;
     }
     i++;
@@ -400,36 +399,28 @@ function buscarViajePorIDDeConfirmacion(pIDCancelar) {
   return newA;
 }
 
-function buscarViajeDisponible(pIDCancelar) {
-  let idConfirmacion = Number(pIDCancelar.split("idViajeConfir-")[1]);//este es el id del array carga confirmada
-  let select = `<select id="selMoverViaje"> <option value="">Seleccione</option>`;
+function buscarViajeDisponible(pIDCancelar) {//se usa para buscar viaje prox en el rollover
+  let idConfirmacion =encotrarNumero(pIDCancelar);//este es el id del array carga confirmada
   let viaje = buscarViajePorIDDeConfirmacion(idConfirmacion);
+  let tabla = `<table>
+  <tr><th>ID</th>
+  <th>Buque</th>
+  <th>Fecha llegada</th>
+  <th>Mover</th><tr>`;
+  let mostrar = false;
   for (let i = 0; i < buques.length; i++) {
-    if (buques[i].cargaMaxima >= buques[i].cargaTotal + solicitudesDeCarga[idConfirmacion].cantidadContenedores && buques[i].fechaLlegada > buques[viaje[1]].fechaLlegada) {
-      select += `<option value="moverABuque-${buques[i].id}">Mover a buque ${buques[i].id}</option>`;
+    if (buques[i].cargaMaxima >= obteconerCargaActualBuque(buques[i].id) + solicitudesDeCarga[idConfirmacion].cantidadContenedores && buques[i].fechaLlegada > buques[viaje[1]].fechaLlegada) {
+      tabla += `<tr><td>${buques[i].id}</td>
+      <td>${buques[i].nombreBuque}</td>
+      <td>${buques[i].fechaLlegada}</td>
+      <td><input type="button" class="rolloverMover btnForma" data-idBuqueRollover="${buques[i].id}" value="MOVER AQUI"/></td><tr>`;
+      mostrar = true;
     }
   }
-  select += "</select>";
-  document.querySelector("#divMoverViaje").innerHTML = select;
+  tabla += `</table>`;
+  document.querySelector("#divMoverViaje").innerHTML = tabla;
+  return mostrar;
 }
-
-function cambiarViaje() {
-  let pCancelar = document.querySelector("#selRollover").value;
-  let pMover = document.querySelector("#selMoverViaje").value;
-  pCancelar = Number(pCancelar.split("idViajeConfir-")[1]);//idViajeConfir-x
-  pMover = Number(pMover.split("moverABuque-")[1]);//moverABuque-x
-  let encontrado = false;
-  let i = 0;
-  while (i < viajesConfirmados.length && !encontrado) {
-    if (viajesConfirmados[i].id === pCancelar) {
-      viajesConfirmados[i].idViaje = pMover;
-      encontrado = true;
-    }
-    i++;
-  }
-  return encontrado;
-}
-
 
 function buscarEnLista(pIDViaje, pArrayConfirmados) {//esta funcion busca en un array cualquiera el dato que le pasemos
   let i = 0;
@@ -444,11 +435,10 @@ function buscarEnLista(pIDViaje, pArrayConfirmados) {//esta funcion busca en un 
 
 function buscarEnManifiesto(pNroViaje) {
   let tabla = `<table><tr><th><strong>origen</strong></th><th><strong>Contenedor</strong></th><th><strong>Importador</strong></th><th><strong>Descripción</strong></th><th><strong>Tipo de carga</strong></th></tr>`;
-  pNroViaje = Number(pNroViaje.split("manifiestoViaje-")[1]);//este es el id del viaje
-  for (let i = 0; i < viajesConfirmados.length; i++) {
-    if (viajesConfirmados[i].idViaje === pNroViaje) {
-      let idDeCarga = viajesConfirmados[i].idCarga;
-      //buscar el nombre del importador, no el user
+  pNroViaje = encotrarNumero(pNroViaje);//este es el id del viaje
+  for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
+    if (solicitudEnViajeConfirmada[i].idViaje === pNroViaje) {
+      let idDeCarga = solicitudEnViajeConfirmada[i].idCarga;
       tabla += `<tr><td>${solicitudesDeCarga[idDeCarga].puerto}</td>
       <td>${solicitudesDeCarga[idDeCarga].cantidadContenedores}</td>
       <td>${solicitudesDeCarga[idDeCarga].userImportador}</td>
@@ -502,10 +492,10 @@ function mostrarViajesDeLineaCarga() {
   document.querySelector("#selLineaDeCarga").innerHTML = "";//limpia las opciones y las carga de nuevo para que no se repitan
   let option = `<option value="">Seleccione una opcion</option>`;
   let viajesCargados = new Array();//guardo los que ya cargue en el select
-  for (let i = 0; i < viajesConfirmados.length; i++) {
-    if (!buscarEnLista(viajesConfirmados[i].idViaje, viajesCargados)) {
-      option += `<option value="manifiestoViaje-${viajesConfirmados[i].idViaje}">Viaje nro ${viajesConfirmados[i].idViaje} </option>`;
-      viajesCargados.push(viajesConfirmados[i].idViaje);//guardo en el array para saber que este ya lo cargue
+  for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
+    if (!buscarEnLista(solicitudEnViajeConfirmada[i].idViaje, viajesCargados)) {
+      option += `<option value="manifiestoViaje-${solicitudEnViajeConfirmada[i].idViaje}">Viaje nro ${solicitudEnViajeConfirmada[i].idViaje} </option>`;
+      viajesCargados.push(solicitudEnViajeConfirmada[i].idViaje);//guardo en el array para saber que este ya lo cargue
     }
   }
   pSelect.insertAdjacentHTML("beforeend", option);
@@ -517,10 +507,10 @@ function mostrarCargasPeligrosas() {
   document.querySelector("#selListadoPeligroso").innerHTML = "";//limpia las opciones y las carga de nuevo para que no se repitan cada vez que hago click
   let option = `<option value="">Seleccione una opcion</option>`;
   let cargasPeligrosasCargada = new Array();//guardo los que ya cargue en el select
-  for (let i = 0; i < viajesConfirmados.length; i++) {
-    if (!buscarEnLista(viajesConfirmados[i].idViaje, cargasPeligrosasCargada)) {
-      option += `<option value="${viajesConfirmados[i].idViaje}">Viaje nro ${viajesConfirmados[i].idViaje}</option>`;
-      cargasPeligrosasCargada.push(viajesConfirmados[i].idViaje);//guardo en el array para saber que este ya lo cargue
+  for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
+    if (!buscarEnLista(solicitudEnViajeConfirmada[i].idViaje, cargasPeligrosasCargada)) {
+      option += `<option value="${solicitudEnViajeConfirmada[i].idViaje}">Viaje nro ${solicitudEnViajeConfirmada[i].idViaje}</option>`;
+      cargasPeligrosasCargada.push(solicitudEnViajeConfirmada[i].idViaje);//guardo en el array para saber que este ya lo cargue
     }
   }
   pSelect.insertAdjacentHTML("beforeend", option);
@@ -538,10 +528,9 @@ function buscarCargaPeligrosa(pViaje) {
   <th>Cantidad Contenedores</th>
   <th>Nro Empresa</th>
   <th>Importador</th><tr>`;
-  for (let i = 0; i < viajesConfirmados.length; i++) {
-    if (viajesConfirmados[i].idViaje === pViaje) {
-      let idDeCarga = viajesConfirmados[i].idCarga;
-      //[TODO] buscar el nombre del importador, no el user
+  for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
+    if (solicitudEnViajeConfirmada[i].idViaje === pViaje) {
+      let idDeCarga = solicitudEnViajeConfirmada[i].idCarga;
       tabla += `<tr><td>${solicitudesDeCarga[idDeCarga].id}</td>
       <td>${solicitudesDeCarga[idDeCarga].estado}</td>
       <td>${solicitudesDeCarga[idDeCarga].descripcion}</td>
@@ -582,4 +571,22 @@ function habilitarDeshabilitados() {
     }
   }
   document.querySelector("#divTableHablitarImportadores").innerHTML = generarTablaImportadores();
+}
+
+function obteconerCargaActualBuque(pIDViaje) {  //agarro todas las cargas de ese viaje y sumo sus contenedores
+  let contador = 0;
+  for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
+    if (solicitudEnViajeConfirmada[i].idViaje === pIDViaje) {
+      contador += solicitudesDeCarga[solicitudEnViajeConfirmada[i].idCarga].cantidadContenedores;
+    }
+  }
+  return contador;
+}
+
+function encotrarNumero(pCadena) {//recibe una cadena y retorna el primer numero que encunetre 
+  for (let i = 0; i < pCadena.length; i++) {
+    if (!isNaN(Number(pCadena.charAt(i)))){
+      return Number(pCadena.charAt(i));
+    }
+  }
 }
