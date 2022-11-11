@@ -301,22 +301,44 @@ function imporadorDesHabilitado(pUserImportador) {
 }
 
 function cargarDatosViajesProximos(pIDSolicitud) {
-  let opFecha = `<select id="selViajesPendientes"> <option value="">Seleccione </option>`;
   let fechaHoraSistema = new Date();
   fechaHoraSistema.setHours(0);
   fechaHoraSistema.setMinutes(0);
   fechaHoraSistema.setSeconds(0);
+  let tabla = `<table>
+  <tr><th>ID</th>
+  <th>Buque</th>
+  <th>Fecha llegada</th>
+  <th>Accion</th><tr>`;
   for (let i = 0; i < buques.length; i++) {
     if (new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= solicitudesDeCarga[pIDSolicitud].cantidadContenedores) {
       if ((buques[i].cargaTotal + solicitudesDeCarga[pIDSolicitud].cantidadContenedores) <= buques[i].cargaMaxima) {
-        buques[i].cargaTotal += solicitudesDeCarga[pIDSolicitud].cantidadContenedores;
-        opFecha += `<option value="${buques[i].id}">Buque ID ${buques[i].id}</option>`;
+        tabla += `<tr><td>${buques[i].id}</td>
+        <td>${buques[i].nombreBuque}</td>
+        <td>${buques[i].fechaLlegada}</td>
+        <td><input type="button" class="buscarVPend btnForma" data-ViajesPendientes="${buques[i].id}" value="CONFIRMAR"/></td><tr>`;
       }
     }
   }
-  opFecha += "</select>";
-  document.querySelector("#divProximosViajes").innerHTML = opFecha;
+  tabla += `</table>`;
+  document.querySelector("#divProximosViajes").innerHTML = tabla;
+}
 
+function confirmarEstaCarga() {
+  let botonSeleccionado = this;
+  let idsolcitud = document.querySelector("#selCargasPendientes").value;
+  let idBuque = botonSeleccionado.getAttribute("data-ViajesPendientes");
+  if (idsolcitud != "") {
+    idsolcitud = Number(idsolcitud);
+    idBuque = Number(idBuque);
+    confirmarCarga(idsolcitud, idBuque);
+    document.querySelector("#pIDSolicitudConfirmada").innerHTML = `Se confirmo Correctamente`;
+    document.querySelector("#divProximosViajes").innerHTML = "";
+    document.querySelector("#divBuscarProximosViajes").style.display = "none";
+    limpiarCampos("txtInput", "txtCleanSelect");
+  } else {
+    document.querySelector("#pIDSolicitudConfirmada").innerHTML = `Todos los campos son requeridos`;
+  }
 }
 
 function confirmarCarga(pIdsolcitudAprobada, pEnElviaje) {
@@ -351,7 +373,7 @@ function cargarSolicitudes() {
   document.querySelector("#divSelRollover").innerHTML = select;
 }
 
-function cargarSelCancelarCarga(){
+function cargarSelCancelarCarga() {
   let opciones = `<select id="opCancelar"> <option value="">Seleccione para cancelar </OPTION>`;
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     let soli = solicitudesDeCarga[i];
@@ -556,7 +578,7 @@ function habilitarDeshabilitados() {
   usuarios[idImportador].estado = "habilitado";
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     if (solicitudesDeCarga[i].userImportador === usuarios[idImportador].user) {
-      solicitudesDeCarga[i].estado="Ignorada";
+      solicitudesDeCarga[i].estado = "Ignorada";
     }
   }
   document.querySelector("#divTableHablitarImportadores").innerHTML = generarTablaImportadores();
