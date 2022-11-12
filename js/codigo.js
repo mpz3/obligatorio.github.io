@@ -22,8 +22,9 @@ function preCarga() {
   nuevoRegistro("empresa4", "empre.jpg", "userempresa4", "userempreSA4", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "userempresa5", "userempreSA5", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
-  nuevoRegistro("empresa5", "empre.jpg", "2", "2", "importador");
+  nuevoRegistro("empresa5", "8.jpg", "2", "2", "importador");
   /* solicitudes penditentes */
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBWB", 232, 1, "2");
   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 52, 0, "2");
   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 14, 0, "2");
   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
@@ -56,7 +57,7 @@ function buscarUser(pUser, pPass) {
 
 function nuevoRegistro(pNombre, Pfoto, pUsuario, pPass, pTipo) {
   let user = new Usuario();
-  user.id = Usuario.idImportador;
+  user.id = Usuario.id;
   user.nombre = pNombre;
   user.foto = Pfoto;
   user.user = pUsuario;
@@ -64,7 +65,7 @@ function nuevoRegistro(pNombre, Pfoto, pUsuario, pPass, pTipo) {
   user.tipo = pTipo;
   user.estado = "habilitado";
   usuarios.push(user);
-  Usuario.idImportador++;
+  Usuario.id++;
 }
 
 function validarRegistro(pName, pfoto, pUsuario, pPass) {
@@ -287,7 +288,7 @@ function cargarDatosSolicitudesPendientes() {
     }
   }
   opciones += "</select>";
-  document.querySelector("#divCargasPendientes").innerHTML = opciones;
+  return opciones;
 }
 
 function imporadorDesHabilitado(pUserImportador) {
@@ -348,7 +349,7 @@ function confirmarCarga(pIdsolcitudAprobada, pEnElviaje) {
   carga.idCarga = pIdsolcitudAprobada;
   solicitudEnViajeConfirmada.push(carga);
   cambiarEstado(pIdsolcitudAprobada, "CONFIRMADA");
-  cargarDatosSolicitudesPendientes();//para quitarla del select y volver con las pendientes
+  cargarDatosSolicitudesPendientes();//para quitarla del select y recargar las pendientes
   CargaConfirmada.idCargaConfirmada++;
 }
 
@@ -435,14 +436,14 @@ function buscarEnLista(pBuscar, pArray) {//esta funcion busca en un array cualqu
 }
 
 function buscarEnManifiesto(pNroViaje) {
-  let tabla = `<table><tr><th><strong>origen</strong></th><th><strong>Contenedor</strong></th><th><strong>Importador</strong></th><th><strong>Descripción</strong></th><th><strong>Tipo de carga</strong></th></tr>`;
+  let tabla = `<table><tr><th><strong>Origen</strong></th><th><strong>Contenedores</strong></th><th><strong>Importador</strong></th><th><strong>Descripción</strong></th><th><strong>Tipo de carga</strong></th></tr>`;
   pNroViaje = encotrarNumero(pNroViaje);//este es el id del viaje
   for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
     if (solicitudEnViajeConfirmada[i].idViaje === pNroViaje) {
       let idDeCarga = solicitudEnViajeConfirmada[i].idCarga;
       tabla += `<tr><td>${solicitudesDeCarga[idDeCarga].puerto}</td>
       <td>${solicitudesDeCarga[idDeCarga].cantidadContenedores}</td>
-      <td>${solicitudesDeCarga[idDeCarga].userImportador}</td>
+      <td>${getNameUser(solicitudesDeCarga[idDeCarga].userImportador)}</td>
       <td>${solicitudesDeCarga[idDeCarga].descripcion}</td>
       <td>${solicitudesDeCarga[idDeCarga].tipo}</td><tr>`;
     }
@@ -487,6 +488,17 @@ function getIdUser(pUser) {//busco id segun su usuario
   return "";
 }
 
+function getNameUser(pUser) {//busco nombre segun su usuario 
+  let i = 0;
+  let encontrado = false;
+  while (i < usuarios.length || !encontrado) {
+    if (usuarios[i].user === pUser) {
+      return usuarios[i].nombre;
+    }
+    i++;
+  }
+  return "";
+}
 
 function mostrarViajesDeLineaCarga() {
   let pSelect = document.querySelector("#selLineaDeCarga");
@@ -562,6 +574,7 @@ function generarTablaImportadores() {
   tabla += `</table>`;
   return tabla;
 }
+
 function habilitarDeshabilitados() {
   let botonSeleccionado = this;
   let idImportador = botonSeleccionado.getAttribute("data-idUsuario");
@@ -584,7 +597,7 @@ function totalCargaActualBuque(pIDViaje) {  //agarro todas las cargas de ese via
   return contador;
 }
 
-function encotrarNumero(pCadena) {//recibe una cadena y retorna el primer numero que encunetre 
+function encotrarNumero(pCadena) {//recibe una cadena y retorna el primer numero que encuentre 
   for (let i = 0; i < pCadena.length; i++) {
     if (!isNaN(Number(pCadena.charAt(i)))) {
       return Number(pCadena.charAt(i));
@@ -655,7 +668,7 @@ function porcentajeDeSolicitudes() {
       misEmpresasSinIDRepetidos.push(misEmpresas[i]);
 
       for (let a = 0; a < misEmpresas.length; a++) {
-        if (misEmpresas[a] === misEmpresasSinIDRepetidos[i]) cont++;
+        if (misEmpresas[a] === misEmpresas[i]) cont++;
       }
       //ingreso la cantidad que se repite ese id
       cantidadPorRepetidos.push(cont);

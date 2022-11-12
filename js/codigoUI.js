@@ -87,6 +87,7 @@ function loginUI() {
       document.querySelector("#divEmpresa").style.display = "none";
       document.querySelector("#navImportador").style.display = "block";
       document.querySelector("#navEmpresa").style.display = "none";
+      document.querySelector("#imgUsuario").setAttribute("src","img/"+usuarios[getIdUser(userOnline)].foto);
       limpiarCampos("txtInput", "txtCleanSelect");
     } else {
       document.querySelector("#divImportador").style.display = "none";
@@ -122,7 +123,7 @@ function liMostrarConsultarSolictudesUI() {
 
 function liMostrarCancelarSolicitudUI() {
   document.querySelector("#divSolicitudDeCarga").style.display = "none";
-  document.querySelector("#divConsultarPendientes").style.display = "block";
+  document.querySelector("#divConsultarPendientes").style.display = "none";
   document.querySelector("#divCancelarSolicitudDeCarga").style.display = "block";
   document.querySelector("#divInformacionEstadistica").style.display = "none";
   document.querySelector("#divPendientesACancelar").innerHTML = cargarSelCancelarCarga();
@@ -139,7 +140,7 @@ function liCrearViajeUI() {
 }
 function liAsignarBuqueUI() {
   limpiarCampos("txtInput", "txtCleanSelect");
-  cargarDatosSolicitudesPendientes();
+  document.querySelector("#divCargasPendientes").innerHTML = cargarDatosSolicitudesPendientes();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "block";
   document.querySelector("#divRollover").style.display = "none";
@@ -256,7 +257,7 @@ function estadisticaUI() {
   if (isNaN(porcentaje)) porcentaje = 0;
   document.querySelector("#pPorceCancelaciones").innerHTML = `El porcentaje de cancelaciones contra el total de cargas es ${porcentaje.toFixed(2)}%`;
   document.querySelector("#pProxLlegadas").innerHTML = `<b>Calendario de las próximas llegadas: </b><br> ${calendarioProximasLlegadas()}`;
-  document.querySelector("#pPorcentajeSoli").innerHTML = `<b>Porcentaje de las diferentes líneas:</b> ${porcentajeDeSolicitudes()}`;
+  document.querySelector("#pPorcentajeSoli").innerHTML = `<b>Porcentaje de las diferentes líneas:</b> <br>${porcentajeDeSolicitudes()}`;
 
 }
 

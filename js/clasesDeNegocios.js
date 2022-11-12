@@ -1,5 +1,5 @@
 class Usuario {
-    static idImportador = 0;
+    static id = 0;
     constructor() {
         this.id = "";
         this.nombre = "";
