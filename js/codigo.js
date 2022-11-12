@@ -636,22 +636,35 @@ function calendarioProximasLlegadas() {
 function porcentajeDeSolicitudes() {
   let totalDeEsteUsuario = 0;
   let misEmpresas = new Array();
-  for (let i = 0; i < solicitudesDeCarga.length; i++) {//cuento total de solicitudes del usuario
+
+  //cuento total de solicitudes del usuario
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {
     if (solicitudesDeCarga[i].userImportador === userOnline) {
       totalDeEsteUsuario++;//este es el 100%
       misEmpresas.push(solicitudesDeCarga[i].idEmpresa);//aca tengo todos los ids de las empresa a las que destine mis solicitudes
     }
   }
-  const resultado = {}
-  for (const el of misEmpresas) {
-    resultado[el] = resultado[el] + 1 || 1;
+
+  let misEmpresasSinIDRepetidos = new Array();
+  let cantidadPorRepetidos = new Array();
+
+  for (let i = 0; i < misEmpresas.length; i++) {
+    if (buscarEnLista(misEmpresas[i], misEmpresasSinIDRepetidos) === false) {//si no esta en la lista -> lo agrego
+      let cont = 0;
+      //ingreso el id
+      misEmpresasSinIDRepetidos.push(misEmpresas[i]);
+
+      for (let a = 0; a < misEmpresas.length; a++) {
+        if (misEmpresas[a] === misEmpresasSinIDRepetidos[i]) cont++;
+      }
+      //ingreso la cantidad que se repite ese id
+      cantidadPorRepetidos.push(cont);
+    }
   }
 
-  let i = 0;
   let info = "";
-  while (resultado[i] != null) {
-    info += `Para la empresa <b>${i}</b> hay un total de <b>${(resultado[i] * 100) / totalDeEsteUsuario}%</b> de solicitudes<br>`;
-    i++;
+  for (let i = 0; i < misEmpresasSinIDRepetidos.length; i++) {
+    info += `Para la empresa <b>${misEmpresasSinIDRepetidos[i]}</b> hay un total de <b>${(cantidadPorRepetidos[i] * 100) / totalDeEsteUsuario}%</b> de solicitudes<br>`;
   }
   return info;
 }
