@@ -24,16 +24,17 @@ function preCarga() {
   nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
   nuevoRegistro("empresa5", "empre.jpg", "2", "2", "importador");
   /* solicitudes penditentes */
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 52, 0, "2");
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 14, 0, "2");
   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "camila");
-  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1, "miguel");
-  ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3");
-  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 4, "userimportar4");
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 15, 0, "camila");
+  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 11, "miguel");
+  ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 72, "userimportar3");
+  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 94, "userimportar4");
+
   /*Crear buques */
   ingresarBuque("BRA", 5003, "2023-11-15", "userempresa2");
-  ingresarBuque("ORO", 3300, "2024-11-14", "userempresa3");
+  ingresarBuque("ORO", 3300, "2027-11-14", "userempresa3");
   ingresarBuque("PLATA", 1003, "2025-11-17", "userempresa4");
   ingresarBuque("BARCO", 530, "2026-11-16", "userempresa5");
 }
@@ -224,7 +225,7 @@ function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa,
   nuevaSolicitud.tipo = pTipo;
   nuevaSolicitud.puerto = pPuerto;
   nuevaSolicitud.cantidadContenedores = pCantContenedores;
-  nuevaSolicitud.idEmpresa = pIEmpresa;
+  nuevaSolicitud.idEmpresa = Number(pIEmpresa);
   nuevaSolicitud.userImportador = pUsuario;
   solicitudesDeCarga.push(nuevaSolicitud);
   SolicitudCarga.idSolicitudCarga++;
@@ -312,7 +313,7 @@ function cargarDatosViajesProximos(pIDSolicitud) {
   <th>Fecha llegada</th>
   <th>Accion</th><tr>`;
   for (let i = 0; i < buques.length; i++) {
-    if ((new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= obteconerCargaActualBuque(buques[i].id) + solicitudesDeCarga[pIDSolicitud].cantidadContenedores)) {
+    if ((new Date(`"${buques[i].fechaLlegada}`) > fechaHoraSistema && buques[i].cargaMaxima >= totalCargaActualBuque(buques[i].id) + solicitudesDeCarga[pIDSolicitud].cantidadContenedores)) {
       tabla += `<tr><td>${buques[i].id}</td>
         <td>${buques[i].nombreBuque}</td>
         <td>${buques[i].fechaLlegada}</td>
@@ -400,7 +401,7 @@ function buscarViajePorIDDeConfirmacion(pIDCancelar) {
 }
 
 function buscarViajeDisponible(pIDCancelar) {//se usa para buscar viaje prox en el rollover
-  let idConfirmacion =encotrarNumero(pIDCancelar);//este es el id del array carga confirmada
+  let idConfirmacion = encotrarNumero(pIDCancelar);//este es el id del array carga confirmada
   let viaje = buscarViajePorIDDeConfirmacion(idConfirmacion);
   let tabla = `<table>
   <tr><th>ID</th>
@@ -409,7 +410,7 @@ function buscarViajeDisponible(pIDCancelar) {//se usa para buscar viaje prox en 
   <th>Mover</th><tr>`;
   let mostrar = false;
   for (let i = 0; i < buques.length; i++) {
-    if (buques[i].cargaMaxima >= obteconerCargaActualBuque(buques[i].id) + solicitudesDeCarga[idConfirmacion].cantidadContenedores && buques[i].fechaLlegada > buques[viaje[1]].fechaLlegada) {
+    if (buques[i].cargaMaxima >= totalCargaActualBuque(buques[i].id) + solicitudesDeCarga[idConfirmacion].cantidadContenedores && buques[i].fechaLlegada > buques[viaje[1]].fechaLlegada) {
       tabla += `<tr><td>${buques[i].id}</td>
       <td>${buques[i].nombreBuque}</td>
       <td>${buques[i].fechaLlegada}</td>
@@ -422,11 +423,11 @@ function buscarViajeDisponible(pIDCancelar) {//se usa para buscar viaje prox en 
   return mostrar;
 }
 
-function buscarEnLista(pIDViaje, pArrayConfirmados) {//esta funcion busca en un array cualquiera el dato que le pasemos
+function buscarEnLista(pBuscar, pArray) {//esta funcion busca en un array cualquiera el dato que le pasemos y retorna la posicion
   let i = 0;
-  while (i < pArrayConfirmados.length) {
-    if (pIDViaje === pArrayConfirmados[i]) {
-      return true;
+  while (i < pArray.length) {
+    if (pBuscar === pArray[i]) {
+      return i;
     }
     i++;
   }
@@ -567,13 +568,13 @@ function habilitarDeshabilitados() {
   usuarios[idImportador].estado = "habilitado";
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     if (solicitudesDeCarga[i].userImportador === usuarios[idImportador].user) {
-      solicitudesDeCarga[i].estado = "Ignorada";
+      solicitudesDeCarga[i].estado = "IGNORADA";
     }
   }
   document.querySelector("#divTableHablitarImportadores").innerHTML = generarTablaImportadores();
 }
 
-function obteconerCargaActualBuque(pIDViaje) {  //agarro todas las cargas de ese viaje y sumo sus contenedores
+function totalCargaActualBuque(pIDViaje) {  //agarro todas las cargas de ese viaje y sumo sus contenedores
   let contador = 0;
   for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
     if (solicitudEnViajeConfirmada[i].idViaje === pIDViaje) {
@@ -585,8 +586,72 @@ function obteconerCargaActualBuque(pIDViaje) {  //agarro todas las cargas de ese
 
 function encotrarNumero(pCadena) {//recibe una cadena y retorna el primer numero que encunetre 
   for (let i = 0; i < pCadena.length; i++) {
-    if (!isNaN(Number(pCadena.charAt(i)))){
+    if (!isNaN(Number(pCadena.charAt(i)))) {
       return Number(pCadena.charAt(i));
     }
   }
+}
+
+function buscarElementoEnLista(bsucar, pArray) {//busco un elemento dentro de la posicion y retorno la posicion donde se encuentra
+  let i = 0;
+  while (i < pArray.length) {
+    if (pArray[i].idCarga === bsucar) {
+      return i;
+    }
+    i++;
+  }
+  return false;
+}
+
+function criterioOrdenDescFechaVentas(pVen1, pVen2) {
+  return (pVen1.fechaLlegada > pVen2.fechaLlegada) ? -1 : 1;
+}
+function calendarioProximasLlegadas() {
+  //controlar fecha 
+  let listaOrdenada = buques.sort(criterioOrdenDescFechaVentas);
+  let tabla = `<table>
+  <tr><th>ID</th>
+  <th>Estado</th>
+  <th>Cantidad contenedores </th>
+  <th>Fecha llegada</th><tr>`;
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {
+    if (solicitudesDeCarga[i].userImportador === userOnline && solicitudesDeCarga[i].estado === "CONFIRMADA") {
+      let posViaje = buscarElementoEnLista(solicitudesDeCarga[i].id, solicitudEnViajeConfirmada);
+      let fechaHoraSistema = new Date();
+      fechaHoraSistema.setHours(0);
+      fechaHoraSistema.setMinutes(0);
+      fechaHoraSistema.setSeconds(0);
+      if (new Date(`"${listaOrdenada[solicitudEnViajeConfirmada[posViaje].idViaje].fechaLlegada}"`) >= fechaHoraSistema) {
+        tabla += `<tr><td>${solicitudesDeCarga[i].id}</td>
+        <td>${solicitudesDeCarga[i].estado}</td>
+        <td>${solicitudesDeCarga[i].cantidadContenedores}</td>
+        <td>${listaOrdenada[solicitudEnViajeConfirmada[posViaje].idViaje].fechaLlegada}</td><tr>`;
+      }
+    }
+  }
+  tabla += `</table>`;
+  return tabla;
+}
+
+function porcentajeDeSolicitudes() {
+  let totalDeEsteUsuario = 0;
+  let misEmpresas = new Array();
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {//cuento total de solicitudes del usuario
+    if (solicitudesDeCarga[i].userImportador === userOnline) {
+      totalDeEsteUsuario++;//este es el 100%
+      misEmpresas.push(solicitudesDeCarga[i].idEmpresa);//aca tengo todos los ids de las empresa a las que destine mis solicitudes
+    }
+  }
+  const resultado = {}
+  for (const el of misEmpresas) {
+    resultado[el] = resultado[el] + 1 || 1;
+  }
+
+  let i = 0;
+  let info = "";
+  while (resultado[i] != null) {
+    info += `Para la empresa <b>${i}</b> hay un total de <b>${(resultado[i] * 100) / totalDeEsteUsuario}%</b> de solicitudes<br>`;
+    i++;
+  }
+  return info;
 }

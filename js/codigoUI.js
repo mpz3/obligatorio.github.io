@@ -111,8 +111,8 @@ function liMostrarNuevaSolicitudUI() {
 
 
 function liMostrarConsultarSolictudesUI() {
-  solicitudesPendientesUI();
   limpiarCampos("txtInput", "txtCleanSelect");
+  solicitudesPendientesUI();
   document.querySelector("#divSolicitudDeCarga").style.display = "none";
   document.querySelector("#divConsultarPendientes").style.display = "block";
   document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
@@ -235,9 +235,9 @@ function cancelarSolicitudUI() {
   if (idCancelar === "") {
     document.querySelector("#pCancelarSoli").innerHTML = `No se encontraron resultados`;
   } else {
+    limpiarCampos("txtInput", "txtCleanSelect");
     cancelarCargaDeshabilitarImportador(idCancelar);
     document.querySelector("#divPendientesACancelar").innerHTML = cargarSelCancelarCarga();
-    limpiarCampos("txtInput", "txtCleanSelect");
   }
 }
 
@@ -254,9 +254,9 @@ function estadisticaUI() {
   }
   let porcentaje = (cantPendiente * 100) / cantTotal;
   if (isNaN(porcentaje)) porcentaje = 0;
-  document.querySelector("#divPorceCancelaciones").innerHTML = `El porcentaje de cancelaciones contra el total de cargas es ${porcentaje.toFixed(2)}%`;
-  calendario(getIdUser(userOnline));
-  document.querySelector("#divProxLlegadas").innerHTML = ``;
+  document.querySelector("#pPorceCancelaciones").innerHTML = `El porcentaje de cancelaciones contra el total de cargas es ${porcentaje.toFixed(2)}%`;
+  document.querySelector("#pProxLlegadas").innerHTML = `<b>Calendario de las próximas llegadas: </b><br> ${calendarioProximasLlegadas()}`;
+  document.querySelector("#pPorcentajeSoli").innerHTML = `<b>Porcentaje de las diferentes líneas:</b> ${porcentajeDeSolicitudes()}`;
 
 }
 
@@ -348,3 +348,4 @@ function btnBuscarPeligrosaUI() {
     buscarCargaPeligrosa(nroViaje);
   }
 }
+
