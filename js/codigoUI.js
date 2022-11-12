@@ -66,6 +66,7 @@ function registroUI() {
       document.querySelector("#divEmpresa").style.display = "none";
       document.querySelector("#navImportador").style.display = "block";
       document.querySelector("#navEmpresa").style.display = "none";
+      document.querySelector("#imgUsuario").setAttribute("src","img/"+usuarios[getIdUser(userOnline)].foto);
       limpiarCampos("txtInput", "txtCleanSelect");
     } else {
       document.querySelector("#errorPusuario").style.display = "none";
@@ -90,6 +91,7 @@ function loginUI() {
       document.querySelector("#imgUsuario").setAttribute("src","img/"+usuarios[getIdUser(userOnline)].foto);
       limpiarCampos("txtInput", "txtCleanSelect");
     } else {
+      document.querySelector("#imgUsuario").setAttribute("src","");
       document.querySelector("#divImportador").style.display = "none";
       document.querySelector("#divEmpresa").style.display = "block";
       document.querySelector("#navImportador").style.display = "none";
@@ -140,7 +142,7 @@ function liCrearViajeUI() {
 }
 function liAsignarBuqueUI() {
   limpiarCampos("txtInput", "txtCleanSelect");
-  document.querySelector("#divCargasPendientes").innerHTML = cargarDatosSolicitudesPendientes();
+  cargarDatosSolicitudesPendientes();
   document.querySelector("#divNuevoViaje").style.display = "none";
   document.querySelector("#divConfirmarPendientes").style.display = "block";
   document.querySelector("#divRollover").style.display = "none";
@@ -204,7 +206,7 @@ function btnUIMercaderiaUI() {
       document.querySelector("#pIDGeneradoMercaderia").innerHTML = `No se encotro un ID con esa empresa`;
       document.querySelector("#pIDGeneradoMercaderia").style.color = "red";
     } else {
-      let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa, userOnline);
+      let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa, userOnline,"PENDIENTE");
       document.querySelector("#pIDGeneradoMercaderia").style.color = "black";
       document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente <br><strong>El id generado es: ${idNuevaMercaderia}</strong>`;
       limpiarCampos("txtInput", "txtCleanSelect");

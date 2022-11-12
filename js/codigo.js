@@ -10,34 +10,45 @@ function inicio() {
 }
 
 function preCarga() {
-  /* usuarios */
-  nuevoRegistro("camila", "fotoCM.jpg", "camila", "camilaCM123", "importador");
-  nuevoRegistro("miguel", "fotoMP.jpg", "miguel", "miguelMP123", "importador");
-  nuevoRegistro("importador3", "fotoMP.jpg", "userimportar3", "importadoR3", "importador");
-  nuevoRegistro("importador4", "fotoMP.jpg", "userimportar4", "importadoR4", "importador");
-  nuevoRegistro("importador5", "fotoMP.jpg", "userimportar5", "importadoR5", "importador");
-  nuevoRegistro("empresa1", "empre.jpg", "userempresa1", "userempreSA1", "empresa");
-  nuevoRegistro("empresa2", "empre.jpg", "userempresa2", "userempreSA2", "empresa");
-  nuevoRegistro("empresa3", "empre.jpg", "userempresa3", "userempreSA3", "empresa");
-  nuevoRegistro("empresa4", "empre.jpg", "userempresa4", "userempreSA4", "empresa");
-  nuevoRegistro("empresa5", "empre.jpg", "userempresa5", "userempreSA5", "empresa");
+  /* borrar */
   nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
   nuevoRegistro("empresa5", "8.jpg", "2", "2", "importador");
-  /* solicitudes penditentes */
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBWB", 232, 1, "2");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 52, 0, "2");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 14, 0, "2");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 12, 0, "2");
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 15, 0, "camila");
-  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 11, "miguel");
-  ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 72, "userimportar3");
-  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ATE", 42, 94, "userimportar4");
+
+  /* 5 importadores */
+  nuevoRegistro("camila", "importador1.png", "camila", "camilaCM123", "importador");
+  nuevoRegistro("miguel", "importador2.png", "miguel", "miguelMP123", "importador");
+  nuevoRegistro("importador3", "importador3.jppngg", "userimportar3", "importadoR3", "importador");
+  nuevoRegistro("importador4", "importador4.png", "userimportar4", "importadoR4", "importador");
+  nuevoRegistro("importador5", "importador5.png", "userimportar5", "importadoR5", "importador");
+
+  /* 4 líneas de carga */
+  nuevoRegistro("empresa1", "", "userempresa1", "userempreSA1", "empresa");
+  nuevoRegistro("empresa2", "", "userempresa2", "userempreSA2", "empresa");
+  nuevoRegistro("empresa3", "", "userempresa3", "userempreSA3", "empresa");
+  nuevoRegistro("empresa4", "", "userempresa4", "userempreSA4", "empresa");
+
+  /* Solicitudes */
+/*   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 15, 0, "camila", "PENDIENTE");
+  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1, "miguel", "PENDIENTE");
+  ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3", "PENDIENTE");
+  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ALA", 42, 3, "userimportar4", "PENDIENTE");
+
+  ingresarMercaderia("Desc5", "REFRIGERADO", "AAA", 10, 1, "camila", "CONFIRMADA");
+  ingresarMercaderia("Desc6", "CARGA_PELIGROSA", "TDX", 10, 1, "miguel", "CONFIRMADA");
+  ingresarMercaderia("Desc7", "CARGA_GENERAL", "RWD", 64, 2, "miguel", "CONFIRMADA");
+
+  confirmarCarga(4, 1);
+  confirmarCarga(5, 1);
+  confirmarCarga(6, 2);
+
+  ingresarMercaderia("Desc8", "CARGA_GENERAL", "TTT", 10, 1, "userimportar3", "IGNORADA");
+  ingresarMercaderia("Desc9", "REFRIGERADO", "FRE", 64, 2, "userimportar5", "IGNORADA"); */
 
   /*Crear buques */
-  ingresarBuque("BRA", 5003, "2023-11-15", "userempresa2");
-  ingresarBuque("ORO", 3300, "2027-11-14", "userempresa3");
-  ingresarBuque("PLATA", 1003, "2025-11-17", "userempresa4");
-  ingresarBuque("BARCO", 530, "2026-11-16", "userempresa5");
+/*   ingresarBuque("BARCO", 530, "2022-11-26", "userempresa1");
+  ingresarBuque("BRA", 5003, "2022-12-15", "userempresa2");
+  ingresarBuque("ORO", 3300, "2022-11-14", "userempresa3");
+  ingresarBuque("PLATA", 1003, "2023-01-05", "userempresa4"); */
 }
 
 function buscarUser(pUser, pPass) {
@@ -218,10 +229,10 @@ function buscarEmpresa(pID) {
   return false
 }
 
-function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa, pUsuario) {
+function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa, pUsuario, pEstado) {
   let nuevaSolicitud = new SolicitudCarga();
   nuevaSolicitud.id = SolicitudCarga.idSolicitudCarga;
-  nuevaSolicitud.estado = "Pendiente";
+  nuevaSolicitud.estado = pEstado;
   nuevaSolicitud.descripcion = pDesc;
   nuevaSolicitud.tipo = pTipo;
   nuevaSolicitud.puerto = pPuerto;
@@ -283,12 +294,12 @@ function cargarDatosSolicitudesPendientes() {
   let opciones = `<select id="selCargasPendientes"> <option value="">Seleccione </option>`;
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     let soli = solicitudesDeCarga[i];
-    if (soli.estado === "Pendiente" && !imporadorDesHabilitado(soli.userImportador)) {
+    if (soli.estado === "PENDIENTE" && !imporadorDesHabilitado(soli.userImportador)) {
       opciones += `<option value="${soli.id}">Solicitud Nro ${soli.id} de tipo ${soli.tipo}</option>`;
     }
   }
   opciones += "</select>";
-  return opciones;
+  document.querySelector("#divCargasPendientes").innerHTML = opciones;
 }
 
 function imporadorDesHabilitado(pUserImportador) {
@@ -378,7 +389,7 @@ function cargarSelCancelarCarga() {
   let opciones = `<select id="opCancelar"> <option value="">Seleccione para cancelar </OPTION>`;
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     let soli = solicitudesDeCarga[i];
-    if (soli.estado === "Pendiente" && soli.userImportador === userOnline) {
+    if (soli.estado === "PENDIENTE" && soli.userImportador === userOnline) {
       opciones += `<option value="${soli.id}">Cancelar nro ${soli.id} de empresa nro ${soli.idEmpresa} </option>`;
     }
   }
@@ -428,7 +439,7 @@ function buscarEnLista(pBuscar, pArray) {//esta funcion busca en un array cualqu
   let i = 0;
   while (i < pArray.length) {
     if (pBuscar === pArray[i]) {
-      return i;
+      return true;
     }
     i++;
   }
@@ -454,7 +465,7 @@ function buscarEnManifiesto(pNroViaje) {
 
 function cancelarCargaDeshabilitarImportador(pidCancelar) {
   pidCancelar = Number(pidCancelar);
-  if (solicitudesDeCarga[pidCancelar].estado === "Pendiente") {
+  if (solicitudesDeCarga[pidCancelar].estado === "PENDIENTE") {
     solicitudesDeCarga[pidCancelar].estado = "Cancelada";
     if (cambiarEstadoImportador(solicitudesDeCarga[pidCancelar].userImportador)) {//busco el id de ese importador y lo deshabilito
       let idUser = getIdUser(solicitudesDeCarga[pidCancelar].userImportador);
@@ -506,7 +517,7 @@ function mostrarViajesDeLineaCarga() {
   let option = `<option value="">Seleccione una opcion</option>`;
   let viajesCargados = new Array();//guardo los que ya cargue en el select
   for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
-    if (!buscarEnLista(solicitudEnViajeConfirmada[i].idViaje, viajesCargados)) {
+    if (!buscarEnLista(solicitudEnViajeConfirmada[i].idViaje, viajesCargados) && solicitudesDeCarga[solicitudEnViajeConfirmada[i].idCarga].idEmpresa == getIdUser(userOnline)) {
       option += `<option value="manifiestoViaje-${solicitudEnViajeConfirmada[i].idViaje}">Viaje nro ${solicitudEnViajeConfirmada[i].idViaje} </option>`;
       viajesCargados.push(solicitudEnViajeConfirmada[i].idViaje);//guardo en el array para saber que este ya lo cargue
     }
@@ -662,7 +673,7 @@ function porcentajeDeSolicitudes() {
   let cantidadPorRepetidos = new Array();
 
   for (let i = 0; i < misEmpresas.length; i++) {
-    if (buscarEnLista(misEmpresas[i], misEmpresasSinIDRepetidos) === false) {//si no esta en la lista -> lo agrego
+    if (!buscarEnLista(misEmpresas[i], misEmpresasSinIDRepetidos)) {//si no esta en la lista -> lo agrego
       let cont = 0;
       //ingreso el id
       misEmpresasSinIDRepetidos.push(misEmpresas[i]);
