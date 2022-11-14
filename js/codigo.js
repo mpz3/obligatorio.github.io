@@ -28,7 +28,7 @@ function preCarga() {
   nuevoRegistro("empresa4", "", "userempresa4", "userempreSA4", "empresa");
 
   /* Solicitudes */
-/*   ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 15, 0, "camila", "PENDIENTE");
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 15, 0, "camila", "PENDIENTE");
   ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1, "miguel", "PENDIENTE");
   ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3", "PENDIENTE");
   ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ALA", 42, 3, "userimportar4", "PENDIENTE");
@@ -42,13 +42,13 @@ function preCarga() {
   confirmarCarga(6, 2);
 
   ingresarMercaderia("Desc8", "CARGA_GENERAL", "TTT", 10, 1, "userimportar3", "IGNORADA");
-  ingresarMercaderia("Desc9", "REFRIGERADO", "FRE", 64, 2, "userimportar5", "IGNORADA"); */
+  ingresarMercaderia("Desc9", "REFRIGERADO", "FRE", 64, 2, "userimportar5", "IGNORADA");
 
   /*Crear buques */
-/*   ingresarBuque("BARCO", 530, "2022-11-26", "userempresa1");
+  ingresarBuque("BARCO", 530, "2022-11-26", "userempresa1");
   ingresarBuque("BRA", 5003, "2022-12-15", "userempresa2");
   ingresarBuque("ORO", 3300, "2022-11-14", "userempresa3");
-  ingresarBuque("PLATA", 1003, "2023-01-05", "userempresa4"); */
+  ingresarBuque("PLATA", 1003, "2023-01-05", "userempresa4");
 }
 
 function buscarUser(pUser, pPass) {
@@ -210,7 +210,7 @@ function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpr
     if (pCantContenedores === "" || isNaN(pCantContenedores)) document.querySelector("#txtCantContenedores").style.borderColor = "red";
     else document.querySelector("#txtCantContenedores").style.borderColor = "black";
 
-    if (pIEmpresa === "" || isNaN(pIEmpresa)) document.querySelector("#txtIdEmpresa").style.borderColor = "red";
+    if (pIEmpresa === "") document.querySelector("#txtIdEmpresa").style.borderColor = "red";
     else document.querySelector("#txtIdEmpresa").style.borderColor = "black";
 
     return false;
@@ -218,15 +218,15 @@ function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpr
   return true;
 }
 
-function buscarEmpresa(pID) {
-  let i = 0;
-  while (i < usuarios.length) {
-    if (usuarios[i].id === Number(pID)) {
-      return true;
+function cargarSelEmpresas() {
+  let opciones = `<select id="txtIdEmpresa"> <option value="">Seleccione </option>`;
+  for (let i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].tipo === "empresa") {
+      opciones += `<option value="idEmpresaSoli-${usuarios[i].id}">Empresa ${usuarios[i].id}</option>`;
     }
-    i++;
   }
-  return false
+  opciones += "</select>";
+  return opciones;
 }
 
 function ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa, pUsuario, pEstado) {
@@ -532,7 +532,7 @@ function mostrarCargasPeligrosas() {
   let option = `<option value="">Seleccione una opcion</option>`;
   let cargasPeligrosasCargada = new Array();//guardo los que ya cargue en el select
   for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
-    if (!buscarEnLista(solicitudEnViajeConfirmada[i].idViaje, cargasPeligrosasCargada)) {
+    if (!buscarEnLista(solicitudEnViajeConfirmada[i].idViaje, cargasPeligrosasCargada) && solicitudesDeCarga[solicitudEnViajeConfirmada[i].idCarga].idEmpresa == getIdUser(userOnline)) {
       option += `<option value="${solicitudEnViajeConfirmada[i].idViaje}">Viaje nro ${solicitudEnViajeConfirmada[i].idViaje}</option>`;
       cargasPeligrosasCargada.push(solicitudEnViajeConfirmada[i].idViaje);//guardo en el array para saber que este ya lo cargue
     }

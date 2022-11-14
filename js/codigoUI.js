@@ -41,6 +41,7 @@ function cerrarSesion() {
   limpiarCampos("txtInput", "txtCleanSelect");
   document.querySelector("#contenedorLogin").style.display = "block";
   document.querySelector("#contenedor").style.display = "none";
+  muestroLoginUI()
 }
 
 function registroUI() {
@@ -62,11 +63,14 @@ function registroUI() {
       foto = quitarFakePath(foto);
       nuevoRegistro(name, foto, usuario, pass, "importador");
       userOnline = usuario;
+      document.querySelector("#contenedorLogin").style.display = "none";
+      document.querySelector("#contenedor").style.display = "block";
       document.querySelector("#divImportador").style.display = "block";
       document.querySelector("#divEmpresa").style.display = "none";
       document.querySelector("#navImportador").style.display = "block";
       document.querySelector("#navEmpresa").style.display = "none";
-      document.querySelector("#imgUsuario").setAttribute("src","img/"+usuarios[getIdUser(userOnline)].foto);
+      document.querySelector("#imgUsuario").setAttribute("src", "img/" + usuarios[getIdUser(userOnline)].foto);
+      liMostrarNuevaSolicitudUI();
       limpiarCampos("txtInput", "txtCleanSelect");
     } else {
       document.querySelector("#errorPusuario").style.display = "none";
@@ -88,24 +92,28 @@ function loginUI() {
       document.querySelector("#divEmpresa").style.display = "none";
       document.querySelector("#navImportador").style.display = "block";
       document.querySelector("#navEmpresa").style.display = "none";
-      document.querySelector("#imgUsuario").setAttribute("src","img/"+usuarios[getIdUser(userOnline)].foto);
+      document.querySelector("#imgUsuario").setAttribute("src", "img/" + usuarios[getIdUser(userOnline)].foto);
+      liMostrarNuevaSolicitudUI();
       limpiarCampos("txtInput", "txtCleanSelect");
     } else {
-      document.querySelector("#imgUsuario").setAttribute("src","");
+      document.querySelector("#imgUsuario").setAttribute("src", "");
       document.querySelector("#divImportador").style.display = "none";
       document.querySelector("#divEmpresa").style.display = "block";
       document.querySelector("#navImportador").style.display = "none";
       document.querySelector("#navEmpresa").style.display = "block";
+      liCrearViajeUI();
+      limpiarCampos("txtInput", "txtCleanSelect");
     }
   } else {
     document.querySelector("#errorUsuario").style.display = "block";
-    document.querySelector("#errorUsuario").innerHTML = `Datos invalidos`;
+    document.querySelector("#errorUsuario").innerHTML = `Datos no coinciden`;
   }
 }
 
 
 function liMostrarNuevaSolicitudUI() {
   limpiarCampos("txtInput", "txtCleanSelect");
+  document.querySelector("#divEmpresaSolicitud").innerHTML = cargarSelEmpresas();
   document.querySelector("#divSolicitudDeCarga").style.display = "block";
   document.querySelector("#divConsultarPendientes").style.display = "none";
   document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
@@ -200,19 +208,15 @@ function btnUIMercaderiaUI() {
   let tipo = document.querySelector("#txtTipoCarga").value;
   let puerto = document.querySelector("#txtPuerto").value;
   let cantContenedores = document.querySelector("#txtCantContenedores").value;
-  let idEmpresa = document.querySelector("#txtIdEmpresa").value;
+  let idEmpresa = encotrarNumero(document.querySelector("#txtIdEmpresa").value);
   if (validarDatosMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa)) {
-    if (!buscarEmpresa(idEmpresa)) {
-      document.querySelector("#pIDGeneradoMercaderia").innerHTML = `No se encotro un ID con esa empresa`;
-      document.querySelector("#pIDGeneradoMercaderia").style.color = "red";
-    } else {
-      let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa, userOnline,"PENDIENTE");
-      document.querySelector("#pIDGeneradoMercaderia").style.color = "black";
-      document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente <br><strong>El id generado es: ${idNuevaMercaderia}</strong>`;
-      limpiarCampos("txtInput", "txtCleanSelect");
-    }
+    let idNuevaMercaderia = ingresarMercaderia(desc, tipo, puerto, cantContenedores, idEmpresa, userOnline, "PENDIENTE");
+    document.querySelector("#pIDGeneradoMercaderia").style.color = "black";
+    document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Se ingreso correctamente <br><strong>El id generado es: ${idNuevaMercaderia}</strong>`;
+    limpiarCampos("txtInput", "txtCleanSelect");
+    liMostrarNuevaSolicitudUI()
   } else {
-    document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Ingrese datos validos`;
+    document.querySelector("#pIDGeneradoMercaderia").innerHTML = `Los datos ingresados no son validos`;
     document.querySelector("#pIDGeneradoMercaderia").style.color = "red";
   }
 }
@@ -250,12 +254,15 @@ function estadisticaUI() {
   document.querySelector("#divConsultarPendientes").style.display = "none";
   document.querySelector("#divCancelarSolicitudDeCarga").style.display = "none";
   document.querySelector("#divInformacionEstadistica").style.display = "block";
-  let cantPendiente = 0;
-  let cantTotal = solicitudesDeCarga.length;
-  for (let i = 0; i < cantTotal; i++) {
-    if (solicitudesDeCarga[i].estado === "Cancelada") cantPendiente++;
+  let cantCanceladas = 0;
+  let cantTotal = 0;
+  for (let i = 0; i < solicitudesDeCarga.length; i++) {
+    if (solicitudesDeCarga[i].userImportador === userOnline) {
+      cantTotal++;
+      if (solicitudesDeCarga[i].estado === "Cancelada") cantCanceladas++;
+    }
   }
-  let porcentaje = (cantPendiente * 100) / cantTotal;
+  let porcentaje = (cantCanceladas * 100) / cantTotal;
   if (isNaN(porcentaje)) porcentaje = 0;
   document.querySelector("#pPorceCancelaciones").innerHTML = `El porcentaje de cancelaciones contra el total de cargas es ${porcentaje.toFixed(2)}%`;
   document.querySelector("#pProxLlegadas").innerHTML = `<b>Calendario de las próximas llegadas: </b><br> ${calendarioProximasLlegadas()}`;
