@@ -87,16 +87,15 @@ function loginUI() {
     userOnline = user;
     document.querySelector("#contenedorLogin").style.display = "none";
     document.querySelector("#contenedor").style.display = "block";
+    document.querySelector("#imgUsuario").setAttribute("src", "img/" + usuarios[getIdUser(userOnline)].foto);
     if (tipoUserG === "importador") {
       document.querySelector("#divImportador").style.display = "block";
       document.querySelector("#divEmpresa").style.display = "none";
       document.querySelector("#navImportador").style.display = "block";
       document.querySelector("#navEmpresa").style.display = "none";
-      document.querySelector("#imgUsuario").setAttribute("src", "img/" + usuarios[getIdUser(userOnline)].foto);
       liMostrarNuevaSolicitudUI();
       limpiarCampos("txtInput", "txtCleanSelect");
     } else {
-      document.querySelector("#imgUsuario").setAttribute("src", "");
       document.querySelector("#divImportador").style.display = "none";
       document.querySelector("#divEmpresa").style.display = "block";
       document.querySelector("#navImportador").style.display = "none";
@@ -274,16 +273,17 @@ function btnNuevoViajeUI() {
   let nombreB = document.querySelector("#txtNombreBuque").value;
   let cantMax = document.querySelector("#txtCantMax").value;
   let fecha = document.querySelector("#txtFecha").value;
-  if (validarIngresoBuque(nombreB, cantMax, fecha)) {
+  if (validarIngresoBuque(nombreB, cantMax, fecha) === "") {
     ingresarBuque(nombreB, Number(cantMax), fecha, userOnline);
     document.querySelector("#divMostrarAutomatico").innerHTML = `Se ingreso correctamente con el id ${buques[buques.length - 1].id}`;
     limpiarCampos("txtInput", "txtCleanSelect");
   } else {
-    document.querySelector("#divMostrarAutomatico").innerHTML = `Los campos son invalidos`;
+    document.querySelector("#divMostrarAutomatico").innerHTML = validarIngresoBuque(nombreB, cantMax, fecha);
   }
 }
 
 function btnBuscarViajesProxUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   let pIDSolicitud = document.querySelector("#selCargasPendientes").value;
   if (pIDSolicitud != "") {
     document.querySelector("#divBuscarProximosViajes").style.display = "block";
@@ -299,6 +299,7 @@ function btnBuscarViajesProxUI() {
 }
 
 function btnRolloverUI() {
+  limpiarCampos("txtInput", "txtCleanSelect");
   let cancelar = document.querySelector("#selRollover").value;
   if (cancelar != "") {
     let mostrar = buscarViajeDisponible(cancelar);

@@ -10,9 +10,6 @@ function inicio() {
 }
 
 function preCarga() {
-  /* borrar */
-  nuevoRegistro("empresa5", "empre.jpg", "1", "1", "empresa");
-  nuevoRegistro("empresa5", "8.jpg", "2", "2", "importador");
 
   /* 5 importadores */
   nuevoRegistro("camila", "importador1.png", "camila", "camilaCM123", "importador");
@@ -21,25 +18,35 @@ function preCarga() {
   nuevoRegistro("importador4", "importador4.png", "userimportar4", "importadoR4", "importador");
   nuevoRegistro("importador5", "importador5.png", "userimportar5", "importadoR5", "importador");
 
+  /* borrar */
+  nuevoRegistro("empresa5", "8.jpg", "1", "1", "empresa");
+  nuevoRegistro("empresa5", "8.jpg", "2", "2", "importador");
+
   /* 4 líneas de carga */
-  nuevoRegistro("empresa1", "", "userempresa1", "userempreSA1", "empresa");
-  nuevoRegistro("empresa2", "", "userempresa2", "userempreSA2", "empresa");
-  nuevoRegistro("empresa3", "", "userempresa3", "userempreSA3", "empresa");
-  nuevoRegistro("empresa4", "", "userempresa4", "userempreSA4", "empresa");
+  nuevoRegistro("empresa1", "4.jpg", "userempresa1", "userempreSA1", "empresa");
+  nuevoRegistro("empresa2", "8.jpg", "userempresa2", "userempreSA2", "empresa");
+  nuevoRegistro("empresa3", "7.jpg", "userempresa3", "userempreSA3", "empresa");
+  nuevoRegistro("empresa4", "5.jpg", "userempresa4", "userempreSA4", "empresa");
 
   /* Solicitudes */
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 15, 0, "camila", "PENDIENTE");
-  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 32, 1, "miguel", "PENDIENTE");
+  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 22, 0, "camila", "PENDIENTE");
+  ingresarMercaderia("Desc1", "REFRIGERADO", "OBB", 61, 1, "camila", "PENDIENTE");
+  ingresarMercaderia("Desc1", "CARGA_PELIGROSA", "OBB", 24, 2, "camila", "PENDIENTE");
+
+  ingresarMercaderia("Desc2", "CARGA_GENERAL", "CBA", 98, 2, "miguel", "PENDIENTE");
+  ingresarMercaderia("Desc2", "CARGA_GENERAL", "CBA", 16, 0, "miguel", "PENDIENTE");
+  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 65, 3, "miguel", "PENDIENTE");
+
   ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3", "PENDIENTE");
   ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ALA", 42, 3, "userimportar4", "PENDIENTE");
 
-  ingresarMercaderia("Desc5", "REFRIGERADO", "AAA", 10, 1, "camila", "CONFIRMADA");
-  ingresarMercaderia("Desc6", "CARGA_PELIGROSA", "TDX", 10, 1, "miguel", "CONFIRMADA");
-  ingresarMercaderia("Desc7", "CARGA_GENERAL", "RWD", 64, 2, "miguel", "CONFIRMADA");
+  ingresarMercaderia("Desc5", "REFRIGERADO", "AAA", 10, 1, "camila", "CONFIRMADA");//8
+  ingresarMercaderia("Desc6", "CARGA_PELIGROSA", "TDX", 10, 1, "miguel", "CONFIRMADA");//9
+  ingresarMercaderia("Desc7", "CARGA_PELIGROSA", "RWD", 64, 0, "miguel", "CONFIRMADA");//10
 
-  confirmarCarga(4, 1);
-  confirmarCarga(5, 1);
-  confirmarCarga(6, 2);
+  confirmarCarga(8, 1);
+  confirmarCarga(9, 1);
+  confirmarCarga(10, 0);
 
   ingresarMercaderia("Desc8", "CARGA_GENERAL", "TTT", 10, 1, "userimportar3", "IGNORADA");
   ingresarMercaderia("Desc9", "REFRIGERADO", "FRE", 64, 2, "userimportar5", "IGNORADA");
@@ -47,7 +54,7 @@ function preCarga() {
   /*Crear buques */
   ingresarBuque("BARCO", 530, "2022-11-26", "userempresa1");
   ingresarBuque("BRA", 5003, "2022-12-15", "userempresa2");
-  ingresarBuque("ORO", 3300, "2022-11-14", "userempresa3");
+  ingresarBuque("ORO", 3300, "2022-11-28", "userempresa3");
   ingresarBuque("PLATA", 1003, "2023-01-05", "userempresa4");
 }
 
@@ -68,7 +75,7 @@ function buscarUser(pUser, pPass) {
 
 function nuevoRegistro(pNombre, Pfoto, pUsuario, pPass, pTipo) {
   let user = new Usuario();
-  user.id = Usuario.id;
+  user.id = Usuario.idUsuario;
   user.nombre = pNombre;
   user.foto = Pfoto;
   user.user = pUsuario;
@@ -76,7 +83,7 @@ function nuevoRegistro(pNombre, Pfoto, pUsuario, pPass, pTipo) {
   user.tipo = pTipo;
   user.estado = "habilitado";
   usuarios.push(user);
-  Usuario.id++;
+  Usuario.idUsuario++;
 }
 
 function validarRegistro(pName, pfoto, pUsuario, pPass) {
@@ -283,12 +290,14 @@ function validarIngresoBuque(pnombreB, pcantMax, pfecha) {
   fechaHoraSistema.setHours(0);
   fechaHoraSistema.setMinutes(0);
   fechaHoraSistema.setSeconds(0);
-  if (pnombreB != "" && pcantMax != "" && !isNaN(pcantMax) && pfecha != "" && new Date(`"${pfecha}"`) >= fechaHoraSistema) {
-    return true;
+  if (pnombreB != "" && pcantMax != "" && !isNaN(pcantMax) && pfecha != "" && new Date(`"${pfecha}"`) > fechaHoraSistema) {
+    return "";
+  } else if (new Date(`"${pfecha}"`) <= fechaHoraSistema) {
+    return "La fecha es menor al dia de hoy, ingrese una posterior";
+  } else {
+    return "Los campos son invalidos";
   }
-  return false;
 }
-
 
 function cargarDatosSolicitudesPendientes() {
   let opciones = `<select id="selCargasPendientes"> <option value="">Seleccione </option>`;
@@ -553,8 +562,8 @@ function buscarCargaPeligrosa(pViaje) {
   <th>Nro Empresa</th>
   <th>Importador</th><tr>`;
   for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
-    if (solicitudEnViajeConfirmada[i].idViaje === pViaje) {
-      let idDeCarga = solicitudEnViajeConfirmada[i].idCarga;
+    let idDeCarga = solicitudEnViajeConfirmada[i].idCarga;
+    if (solicitudEnViajeConfirmada[i].idViaje === pViaje && solicitudesDeCarga[idDeCarga].tipo === "CARGA_PELIGROSA") {
       tabla += `<tr><td>${solicitudesDeCarga[idDeCarga].id}</td>
       <td>${solicitudesDeCarga[idDeCarga].estado}</td>
       <td>${solicitudesDeCarga[idDeCarga].descripcion}</td>
@@ -645,7 +654,7 @@ function calendarioProximasLlegadas() {
       fechaHoraSistema.setHours(0);
       fechaHoraSistema.setMinutes(0);
       fechaHoraSistema.setSeconds(0);
-      if (new Date(`"${listaOrdenada[solicitudEnViajeConfirmada[posViaje].idViaje].fechaLlegada}"`) >= fechaHoraSistema) {
+      if (new Date(`"${listaOrdenada[solicitudEnViajeConfirmada[posViaje].idViaje].fechaLlegada}"`) > fechaHoraSistema) {
         tabla += `<tr><td>${solicitudesDeCarga[i].id}</td>
         <td>${solicitudesDeCarga[i].estado}</td>
         <td>${solicitudesDeCarga[i].cantidadContenedores}</td>
@@ -688,7 +697,7 @@ function porcentajeDeSolicitudes() {
 
   let info = "";
   for (let i = 0; i < misEmpresasSinIDRepetidos.length; i++) {
-    info += `Para la empresa <b>${misEmpresasSinIDRepetidos[i]}</b> hay un total de <b>${(cantidadPorRepetidos[i] * 100) / totalDeEsteUsuario}%</b> de solicitudes<br>`;
+    info += `Para la empresa <b>${misEmpresasSinIDRepetidos[i]}</b> hay un total de <b>${((cantidadPorRepetidos[i] * 100) / totalDeEsteUsuario).toFixed(2)}%</b> de solicitudes<br>`;
   }
   return info;
 }

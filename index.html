@@ -14,15 +14,15 @@
     <div id="login">
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
-      <p id="errorUsuarioLogin" class="errorObligatorio ">
+      <p id="errorUsuarioLogin" class="errorObligatorio clearP ">
       </p>
       <div class="clear10px"></div>
       <br />
       <input id="txtloginPass" type="password" class="txtInput" placeholder="Ingrese Contraseña" />
-      <p id="errorPassLogin" class="errorObligatorio">
+      <p id="errorPassLogin" class="errorObligatorio clearP">
       </p>
       <br>
-      <p id="errorUsuario" style="text-align: center;" class="errorObligatorio"></p>
+      <p id="errorUsuario" style="text-align: center;" class="errorObligatorio clearP"></p>
       <input id="btnLogin" class="ingresoRegistro" type="button" value="Ingresar" />
       <p class="textos">
         No tienes una cuenta?<br /><strong id="pRegistrateAqui">Registrate aqui</strong>
@@ -31,25 +31,25 @@
     <div id="registro" style="display:none">
       <h2 class="textos">Registro</h2>
       <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre" />
-      <p id="errorPname" class="errorObligatorio">
+      <p id="errorPname" class="errorObligatorio clearP">
 
       </p>
       <div class="clear10px"></div>
       <br />
       <label>Subir foto de perfil </label><input class="txtInput" id="txtFoto" type="file" />
-      <p id="errorPfoto" class="errorObligatorio">
+      <p id="errorPfoto" class="errorObligatorio clearP">
 
       </p>
       <div class="clear10px"></div>
       <br />
       <input class="txtInput" id="txtUser" type="text" placeholder="Ingrese Usuario" />
-      <p id="errorPusuario" class="errorObligatorio">
+      <p id="errorPusuario" class="errorObligatorio clearP">
 
       </p>
       <div class="clear10px"></div>
       <br />
       <input type="password" id="txtPass" class="txtInput" placeholder="Ingrese Contraseña" />
-      <p id="errorPpass" class="errorObligatorio">
+      <p id="errorPpass" class="errorObligatorio clearP">
 
       </p>
       <div class="clear10px"></div>
@@ -65,7 +65,7 @@
 
   <div id="contenedor" style="display:none">
     <div id="cabezal" class="clearfix">
-      <img id="logo" src="img/8.jpg" alt="logo">
+      <img id="logo" src="img/portada.png" alt="logo">
       <ul id="navPrincipal">
         <div id="navImportador" style="display: none;">
           <li id="liNuevaSolicitud">
@@ -102,13 +102,7 @@
           </li>
         </div>
       </ul>
-      <div id="aux"><img src="" id="imgUsuario" style="
-        width: auto;
-        border-radius: 50px;
-        float: right;
-        height: 50px;
-        /* background: red; */
-    "><a>Cerrar Sesion</a></div>
+      <div id="aux"><img src="" id="imgUsuario" style="width: 50px;border-radius: 50px;float: right;height: 50px;"><a>Cerrar Sesion</a></div>
       <!-- FIN AUX -->
     </div>
     <!--cabezal-->
@@ -120,7 +114,7 @@
           placeholder="Ingrese descripcion de mercaderia"></textarea><br><br>
         <label>Seleeciona tipo de carga </label>
         <select id="txtTipoCarga" class="txtCleanSelect">
-          <option value="">Seleccione</option>
+          <option value="-1">Seleccione</option>
           <option value="CARGA_GENERAL">General</option>
           <option value="REFRIGERADO">Refrigerado</option>
           <option value="CARGA_PELIGROSA">Carga peligrosa</option>
@@ -144,7 +138,7 @@
         <div id="divTotalPendientes" class="cleanTable"></div>
         <br><br>
       </div>
-      <div id="divCancelarSolicitudDeCarga" style="display:none;">
+      <div id="divCancelarSolicitudDeCarga" style="width: 400px;display:none;">
         <h2> Cancelar solicitud de carga</h2>
         <label>Ingrese id de la solicitud a cancelar </label>
         <div id="divPendientesACancelar"></div>
@@ -182,7 +176,7 @@
         <br /><br />
         <div id="divBuscarProximosViajes" style="display: none;">
           <label> Viajes proximos: </label>
-          <div id="divProximosViajes"></div>
+          <div id="divProximosViajes" class="cleanTable"></div>
         </div>
         <p id="pIDSolicitudConfirmada" class="clearP"></p>
       </div>
@@ -190,7 +184,7 @@
       <div id="divRollover" style="width: 400px;display:none;">
         <h2>Rollover de carga</h2>
         <label> Solicitudes de cargas confirmadas: </label>
-        <div id="divSelRollover"></div><br /><!-- primer select -->
+        <div id="divSelRollover"></div><br />
         <input type="button" class="btnForma" id="btnRollover" value="Buscar otro viaje" />
 
         <div id="divbuscarNuevoViaje" style="display:none;">
