@@ -249,7 +249,7 @@ function busquedaSolicitudesPendientes(pBusqueda) {
   pBusqueda = pBusqueda.toLowerCase();
   for (let i = 0; i < solicitudesDeCarga.length; i++) {
     let descripcionMinus = solicitudesDeCarga[i].descripcion.toLowerCase();
-    if (solicitudesDeCarga[i].id === Number(pBusqueda) || descripcionMinus === pBusqueda || descripcionMinus.includes(pBusqueda)) {
+    if (solicitudesDeCarga[i].userImportador === userOnline && (solicitudesDeCarga[i].id === Number(pBusqueda) || descripcionMinus === pBusqueda || descripcionMinus.includes(pBusqueda))) {
       tabla += `<tr><td>${solicitudesDeCarga[i].id}</td><td>${solicitudesDeCarga[i].estado}</td><td>${solicitudesDeCarga[i].descripcion}</td><td>${solicitudesDeCarga[i].tipo}</td><td>${solicitudesDeCarga[i].puerto}</td><td>${solicitudesDeCarga[i].cantidadContenedores}</td><td>${solicitudesDeCarga[i].idEmpresa}</td></tr>`;
     }
   }

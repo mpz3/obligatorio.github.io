@@ -73,7 +73,7 @@ function registroUI() {
       liMostrarNuevaSolicitudUI();
       limpiarCampos("txtInput", "txtCleanSelect");
     } else {
-      document.querySelector("#errorPusuario").style.display = "none";
+      document.querySelector("#errorPusuario").style.display = "block";
       document.querySelector("#errorPusuario").innerHTML = `Usuario ya en uso`;
     }
   }
@@ -230,7 +230,7 @@ function solicitudesPendientesUI() {
 function buscarPendientesUI() {
   let buscar = document.querySelector("#txtBuscarPendientes").value;
   if (buscar === "") {
-    document.querySelector("#divBuscarPendientes").innerHTML = `EL id no es valido`;
+    document.querySelector("#divBuscarPendientes").innerHTML = `No deje campos vacios`;
   } else {
     busquedaSolicitudesPendientes(buscar);
   }
