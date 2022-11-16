@@ -1,7 +1,7 @@
 class Usuario {
-    static idImportador = 0;
+    static idUsuario = 0;
     constructor() {
-        this.id = "";
+        this.id = -1;
         this.nombre = "";
         this.foto = "";
         this.user = "";
