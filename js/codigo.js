@@ -12,50 +12,65 @@ function inicio() {
 function preCarga() {
 
   /* 5 importadores */
-  nuevoRegistro("camila", "importador1.png", "camila", "camilaCM123", "importador");
-  nuevoRegistro("miguel", "importador2.png", "miguel", "miguelMP123", "importador");
-  nuevoRegistro("importador3", "importador3.jppngg", "userimportar3", "importadoR3", "importador");
-  nuevoRegistro("importador4", "importador4.png", "userimportar4", "importadoR4", "importador");
-  nuevoRegistro("importador5", "importador5.png", "userimportar5", "importadoR5", "importador");
+  validarNuevoRegistro("camila", "importador1.png", "camila", "camilaCM123", "importador");
+  validarNuevoRegistro("miguel", "importador2.png", "miguel", "miguelMP123", "importador");
+  validarNuevoRegistro("importador3", "importador3.jppngg", "userimportar3", "importadoR3", "importador");
+  validarNuevoRegistro("importador4", "importador4.png", "userimportar4", "importadoR4", "importador");
+  validarNuevoRegistro("importador5", "importador5.png", "userimportar5", "importadoR5", "importador");
 
   /* borrar */
-  nuevoRegistro("empresa5", "8.jpg", "1", "1", "empresa");
-  nuevoRegistro("empresa5", "8.jpg", "2", "2", "importador");
+  validarNuevoRegistro("empresa5", "8.jpg", "1", "1", "empresa");
+  validarNuevoRegistro("empresa5", "8.jpg", "2", "2", "importador");
 
   /* 4 líneas de carga */
-  nuevoRegistro("empresa1", "4.jpg", "userempresa1", "userempreSA1", "empresa");
-  nuevoRegistro("empresa2", "8.jpg", "userempresa2", "userempreSA2", "empresa");
-  nuevoRegistro("empresa3", "7.jpg", "userempresa3", "userempreSA3", "empresa");
-  nuevoRegistro("empresa4", "5.jpg", "userempresa4", "userempreSA4", "empresa");
+  validarNuevoRegistro("empresa1", "4.jpg", "userempresa1", "userempreSA1", "empresa");
+  validarNuevoRegistro("empresa2", "8.jpg", "userempresa2", "userempreSA2", "empresa");
+  validarNuevoRegistro("empresa3", "7.jpg", "userempresa3", "userempreSA3", "empresa");
+  validarNuevoRegistro("empresa4", "5.jpg", "userempresa4", "userempreSA4", "empresa");
 
   /* Solicitudes */
-  ingresarMercaderia("Desc1", "CARGA_GENERAL", "OBB", 22, 0, "camila", "PENDIENTE");
-  ingresarMercaderia("Desc1", "REFRIGERADO", "OBB", 61, 1, "camila", "PENDIENTE");
-  ingresarMercaderia("Desc1", "CARGA_PELIGROSA", "OBB", 24, 2, "camila", "PENDIENTE");
+  validarPreCargaMercaderia("Desc1", "CARGA_GENERAL", "OBB", 22, 0, "camila", "PENDIENTE");
+  validarPreCargaMercaderia("Desc1", "REFRIGERADO", "OBB", 61, 1, "camila", "PENDIENTE");
+  validarPreCargaMercaderia("Desc1", "CARGA_PELIGROSA", "OBB", 24, 2, "camila", "PENDIENTE");
 
-  ingresarMercaderia("Desc2", "CARGA_GENERAL", "CBA", 98, 2, "miguel", "PENDIENTE");
-  ingresarMercaderia("Desc2", "CARGA_GENERAL", "CBA", 16, 0, "miguel", "PENDIENTE");
-  ingresarMercaderia("Desc2", "REFRIGERADO", "CBA", 65, 3, "miguel", "PENDIENTE");
+  validarPreCargaMercaderia("Desc2", "CARGA_GENERAL", "CBA", 98, 2, "miguel", "PENDIENTE");
+  validarPreCargaMercaderia("Desc2", "CARGA_GENERAL", "CBA", 16, 0, "miguel", "PENDIENTE");
+  validarPreCargaMercaderia("Desc2", "REFRIGERADO", "CBA", 65, 3, "miguel", "PENDIENTE");
 
-  ingresarMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3", "PENDIENTE");
-  ingresarMercaderia("Desc4", "CARGA_PELIGROSA", "ALA", 42, 3, "userimportar4", "PENDIENTE");
+  validarPreCargaMercaderia("Desc3", "CARGA_GENERAL", "ULE", 12, 2, "userimportar3", "PENDIENTE");
+  validarPreCargaMercaderia("Desc4", "CARGA_PELIGROSA", "ALA", 42, 3, "userimportar4", "PENDIENTE");
 
-  ingresarMercaderia("Desc5", "REFRIGERADO", "AAA", 10, 1, "camila", "CONFIRMADA");//8
-  ingresarMercaderia("Desc6", "CARGA_PELIGROSA", "TDX", 10, 1, "miguel", "CONFIRMADA");//9
-  ingresarMercaderia("Desc7", "CARGA_PELIGROSA", "RWD", 64, 0, "miguel", "CONFIRMADA");//10
+  validarPreCargaMercaderia("Desc5", "REFRIGERADO", "AAA", 10, 1, "camila", "CONFIRMADA");//8
+  validarPreCargaMercaderia("Desc6", "CARGA_PELIGROSA", "TDX", 10, 1, "miguel", "CONFIRMADA");//9
+  validarPreCargaMercaderia("Desc7", "CARGA_PELIGROSA", "RWD", 64, 0, "miguel", "CONFIRMADA");//10
 
   confirmarCarga(8, 1);
   confirmarCarga(9, 1);
   confirmarCarga(10, 0);
 
-  ingresarMercaderia("Desc8", "CARGA_GENERAL", "TTT", 10, 1, "userimportar3", "IGNORADA");
-  ingresarMercaderia("Desc9", "REFRIGERADO", "FRE", 64, 2, "userimportar5", "IGNORADA");
+  validarPreCargaMercaderia("Desc8", "CARGA_GENERAL", "TTT", 10, 1, "userimportar3", "IGNORADA");
+  validarPreCargaMercaderia("Desc9", "REFRIGERADO", "FRE", 64, 2, "userimportar5", "IGNORADA");
 
   /*Crear buques */
-  ingresarBuque("BARCO", 530, "2022-11-26", "userempresa1");
-  ingresarBuque("BRA", 5003, "2022-12-15", "userempresa2");
-  ingresarBuque("ORO", 3300, "2022-11-28", "userempresa3");
-  ingresarBuque("PLATA", 1003, "2023-01-05", "userempresa4");
+  validarPreCargaIngresarBuque("BARCO", 530, "2022-11-26", "userempresa1");
+  validarPreCargaIngresarBuque("BRA", 5003, "2022-12-15", "userempresa2");
+  validarPreCargaIngresarBuque("ORO", 3300, "2022-11-28", "userempresa3");
+  validarPreCargaIngresarBuque("PLATA", 1003, "2023-01-05", "userempresa4");
+}
+
+function validarNuevoRegistro(pNombre, pfoto, pUsuario, pPass, pTipo) {
+  if (pNombre !== "" && pfoto !== "" && pUsuario !== "" && pPass !== "" && pTipo !== "")
+    nuevoRegistro(pNombre, pfoto, pUsuario, pPass, pTipo)
+}
+
+function validarPreCargaMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa, pUsuario, pEstado) {
+  if (pDesc !== "" && pTipo !== "" && pPuerto !== "" && pCantContenedores !== "" && !isNaN(pCantContenedores) && pIEmpresa !== "" && !isNaN(pIEmpresa) && pUsuario !== "" && pEstado !== "")
+    ingresarMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa, pUsuario, pEstado);
+}
+
+function validarPreCargaIngresarBuque(pNombreB, pCantMax, pFecha, pUser) {
+  if (pNombreB !== "" && pCantMax !== "" && !isNaN(pCantMax) && pFecha !== "" && pUser !== "")
+    ingresarBuque(pNombreB, pCantMax, pFecha, pUser);
 }
 
 function buscarUser(pUser, pPass) {
@@ -73,11 +88,11 @@ function buscarUser(pUser, pPass) {
   return encontrado;
 }
 
-function nuevoRegistro(pNombre, Pfoto, pUsuario, pPass, pTipo) {
+function nuevoRegistro(pNombre, pfoto, pUsuario, pPass, pTipo) {
   let user = new Usuario();
   user.id = Usuario.idUsuario;
   user.nombre = pNombre;
-  user.foto = Pfoto;
+  user.foto = pfoto;
   user.user = pUsuario;
   user.contraseña = pPass;
   user.tipo = pTipo;
@@ -204,7 +219,7 @@ function limpiarCampos(pClass, pClassSelect) {
 }
 
 function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpresa) {
-  if (pDesc === "" || pTipo === "" || pPuerto === "" || pCantContenedores === "" || isNaN(pCantContenedores) || pIEmpresa === "" || isNaN(pIEmpresa)) {
+  if (pDesc === "" || pTipo === "" || pPuerto === "" || pCantContenedores === "" || isNaN(pCantContenedores) || pCantContenedores <= 0 || pIEmpresa === "" || isNaN(pIEmpresa)) {
     if (pDesc === "") document.querySelector("#txtDescrip").style.borderColor = "red";
     else document.querySelector("#txtDescrip").style.borderColor = "black";
 
@@ -214,13 +229,20 @@ function validarDatosMercaderia(pDesc, pTipo, pPuerto, pCantContenedores, pIEmpr
     if (pPuerto === "") document.querySelector("#txtPuerto").style.borderColor = "red";
     else document.querySelector("#txtPuerto").style.borderColor = "black";
 
-    if (pCantContenedores === "" || isNaN(pCantContenedores)) document.querySelector("#txtCantContenedores").style.borderColor = "red";
+    if (pCantContenedores === "" || isNaN(pCantContenedores) || pCantContenedores <= 0) document.querySelector("#txtCantContenedores").style.borderColor = "red";
     else document.querySelector("#txtCantContenedores").style.borderColor = "black";
 
     if (pIEmpresa === "") document.querySelector("#txtIdEmpresa").style.borderColor = "red";
     else document.querySelector("#txtIdEmpresa").style.borderColor = "black";
 
     return false;
+  }
+  let darVidaBoton = document.querySelectorAll('.txtInput');
+  let i = 0;
+  for (let darVidaBotonX of darVidaBoton) {
+    let id = document.querySelectorAll('.txtInput')[i].id;
+    document.querySelector(`#${id}`).style.borderColor = "black";
+    i++;
   }
   return true;
 }
@@ -290,7 +312,7 @@ function validarIngresoBuque(pnombreB, pcantMax, pfecha) {
   fechaHoraSistema.setHours(0);
   fechaHoraSistema.setMinutes(0);
   fechaHoraSistema.setSeconds(0);
-  if (pnombreB != "" && pcantMax != "" && !isNaN(pcantMax) && pfecha != "" && new Date(`"${pfecha}"`) > fechaHoraSistema) {
+  if (pnombreB != "" && pcantMax != "" && !isNaN(pcantMax) && pcantMax > 0 && pfecha != "" && new Date(`"${pfecha}"`) > fechaHoraSistema) {
     return "";
   } else if (new Date(`"${pfecha}"`) <= fechaHoraSistema) {
     return "La fecha es menor al dia de hoy, ingrese una posterior";
@@ -699,5 +721,5 @@ function porcentajeDeSolicitudes() {
   for (let i = 0; i < misEmpresasSinIDRepetidos.length; i++) {
     info += `Para la empresa <b>${misEmpresasSinIDRepetidos[i]}</b> hay un total de <b>${((cantidadPorRepetidos[i] * 100) / totalDeEsteUsuario).toFixed(2)}%</b> de solicitudes<br>`;
   }
-  return info;
+  return info == "" ? "Aún no se le asigno ningun viaje a sus solicitudes" : info;
 }
