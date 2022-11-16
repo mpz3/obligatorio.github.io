@@ -13,7 +13,7 @@ function preCarga() {
   /* 5 importadores */
   validarNuevoRegistro("camila", "importador1.png", "camila", "camilaCM123", "importador");//0
   validarNuevoRegistro("miguel", "importador2.png", "miguel", "miguelMP123", "importador");//1
-  validarNuevoRegistro("importador3", "importador3.jppngg", "userimportar3", "importadoR3", "importador");
+  validarNuevoRegistro("importador3", "importador3.png", "userimportar3", "importadoR3", "importador");
   validarNuevoRegistro("importador4", "importador4.png", "userimportar4", "importadoR4", "importador");
   validarNuevoRegistro("importador5", "importador5.png", "userimportar5", "importadoR5", "importador");
 
@@ -413,7 +413,7 @@ function cambiarEstado(pIDCarga, pEstado) {
 function cargarSolicitudes() {
   let select = `<select id="selRollover"> <option value="">Seleccione</option>`;
   for (let i = 0; i < solicitudEnViajeConfirmada.length; i++) {
-    select += `<option value="idViajeConfir-${solicitudEnViajeConfirmada[i].id}">Rollear viaje ${solicitudEnViajeConfirmada[i].idCarga} de buque ${solicitudEnViajeConfirmada[i].idViaje}</option>`;
+    select += `<option value="idViajeConfir-${solicitudEnViajeConfirmada[i].id}">Rollear carga ${solicitudEnViajeConfirmada[i].idCarga} de buque ${solicitudEnViajeConfirmada[i].idViaje}</option>`;
   }
   select += "</select>";
   document.querySelector("#divSelRollover").innerHTML = select;

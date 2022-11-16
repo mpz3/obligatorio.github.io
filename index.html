@@ -10,8 +10,8 @@
 </head>
 
 <body style="background-color: #9e9e9e26;font-family: arial;">
-  <div id="contenedorLogin">
-    <div id="login">
+  <div id="contenedorLogin"><!--div login/registro-->
+    <div id="login"><!--div login -->
       <h2 class="textos">Iniciar sesion</h2>
       <input id="txtloginUser" class="txtInput" type="text" placeholder="Ingrese Usuario" />
       <p id="errorUsuarioLogin" class="errorObligatorio clearP ">
@@ -27,8 +27,8 @@
       <p class="textos">
         No tienes una cuenta?<br /><strong id="pRegistrateAqui">Registrate aqui</strong>
       </p>
-    </div>
-    <div id="registro" style="display:none">
+    </div> <!-- fin div login -->
+    <div id="registro" style="display:none"><!--div registro -->
       <h2 class="textos">Registro</h2>
       <input class="txtInput" id="txtNombre" type="text" placeholder="Ingrese Nombre" />
       <p id="errorPname" class="errorObligatorio clearP">
@@ -59,11 +59,10 @@
         ¿Ya tienes una cuenta?<br />Ingresa
         <strong id="ingresoDesdeRegistro">aquí</strong>
       </p>
-    </div>
-  </div>
-  <!--contenedor login-->
+    </div><!-- fin div registro -->
+  </div> <!-- div login/registro-->
 
-  <div id="contenedor" style="display:none">
+  <div id="contenedor" style="display:none"><!-- div contenedor-->
     <div id="cabezal" class="clearfix">
       <img id="logo" src="img/portada.png" alt="logo">
       <ul id="navPrincipal">
@@ -107,7 +106,7 @@
     </div>
     <!--cabezal-->
 
-    <div id="divImportador" style="display:none">
+    <div id="divImportador" style="display:none"><!-- div Importador -->
       <div id="divSolicitudDeCarga" style="width: 400px">
         <h2>Crear una nueva solicitud de carga</h2>
         <textarea id="txtDescrip" class="txtInput" style="width: 395px;height: 50px;"
@@ -155,9 +154,8 @@
         <p id="pProxLlegadas" class="clearP"></p><br><br>
         <p id="pPorcentajeSoli" class="clearP"></p>
       </div>
-    </div>
-    <!--divImportador-->
-    <div id="divEmpresa" style="display:none">
+    </div><!--Fin divImportador-->
+    <div id="divEmpresa" style="display:none"><!--divEmpresa-->
       <div id="divNuevoViaje" style="width: 400px;">
         <h2>Nuevo Viaje</h2>
         <label> Nombre del buque </label><input id="txtNombreBuque" class="txtInput" type="text" /> <br />
@@ -220,10 +218,8 @@
         <div id="divTablaListaPeligrosa" class="cleanTable"></div>
         <br />
       </div>
-    </div>
-    <!--divEmpresa-->
-  </div>
-  <!--contenedor-->
+    </div> <!--fin divEmpresa-->
+  </div><!--fin div contenedor-->
 
 
   <script type="text/javascript" src="js/clasesDeNegocios.js"></script>
