@@ -745,7 +745,7 @@ function porcentajeDeSolicitudes() {
   //creo dos arrays uno con los id de las empresas y otro con la cantidad de solicitudes a ese empresa
   //por ende en la MISMA POSICION voy a poder obtener el id de la empresa y la cantidad
   let misEmpresasSinIDRepetidos = new Array();//ejemplo empresas -> [0,4,2,5]
-  let cantidadPorRepetidos = new Array();//ejemplo -> cantidad de solicitudes en esas empresas [5,2,7,2]
+  let cantidadEmpresasRepetidas = new Array();//ejemplo -> cantidad de solicitudes en esas empresas [5,2,7,2]
 
   //Recorro las empresas que tengo las solicitues
   for (let i = 0; i < misEmpresas.length; i++) {
@@ -760,13 +760,13 @@ function porcentajeDeSolicitudes() {
       }
 
       //ingreso la cantidad que se repite ese id
-      cantidadPorRepetidos.push(cont);
+      cantidadEmpresasRepetidas.push(cont);
     }
   }
 
   let info = "";
   for (let i = 0; i < misEmpresasSinIDRepetidos.length; i++) {
-    info += `Para la empresa <b>${misEmpresasSinIDRepetidos[i]}</b> hay un total de <b>${((cantidadPorRepetidos[i] * 100) / totalDeEsteUsuario).toFixed(2)}%</b> de solicitudes<br>`;
+    info += `Para la empresa <b>${misEmpresasSinIDRepetidos[i]}</b> hay un total de <b>${((cantidadEmpresasRepetidas[i] * 100) / totalDeEsteUsuario).toFixed(2)}%</b> de solicitudes<br>`;
   }
   return info == "" ? "Aún no se le asigno ningun viaje a sus solicitudes" : info;
 }
